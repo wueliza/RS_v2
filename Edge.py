@@ -3,6 +3,7 @@ import gym
 import numpy as np
 
 GAMMA = 0.9
+total_edge = 3
 
 
 class Predictor(object):
@@ -10,7 +11,7 @@ class Predictor(object):
         self.sess = sess
         self.lr = lr
         n_features = n_node + 1
-        self.state = tf.placeholder(tf.float32, [1, 3], "Action")
+        self.state = tf.placeholder(tf.float32, [1, total_edge], "Action")
         self.value_ = tf.placeholder(tf.float32, [1, 1], "NextValue")
         self.reward = tf.placeholder(tf.float32, None, "pre_reward")
         self.t = 1
@@ -27,7 +28,7 @@ class Predictor(object):
 
             self.value = tf.layers.dense(
                 inputs=l1,
-                units=1,
+                units=total_edge,
                 activation=None,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
@@ -69,7 +70,7 @@ class Actor(object):
         self.n_nodes = n_nodes
         self.n_actions = 3
         self.n_features = 3  # pStates, qStates, and cStates
-        self.state = tf.placeholder(tf.float32, [1, self.n_features], "state")  # Try different dimensions
+        self.state = tf.placeholder(tf.float32, [1, total_edge], "state")  # Try different dimensions
         self.epsilon = 0.9
         self.action = tf.placeholder(tf.int32, None, "act")
         self.td_error = tf.placeholder(tf.float32, None, "td_error")  # TD_error
@@ -87,7 +88,7 @@ class Actor(object):
 
             self.acts_prob = tf.layers.dense(  # output layer
                 inputs=l1,
-                units=self.n_actions,  # output units
+                units=1,  # output units
                 activation=tf.nn.softmax,  # get action probabilities
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
@@ -115,14 +116,10 @@ class Actor(object):
 
         return exp_v
 
-    def choose_action(self, s, total_task):
-        prob_weight = self.sess.run(self.acts_prob, feed_dict={self.state: s[np.newaxis, :]})
-        action_arr = np.zeros(self.n_actions)
+    def choose_action(self, total_task):
+        price = self.sess.run(self.acts_prob, feed_dict={self.state: total_task[np.newaxis, :]})
 
-        for i in range(int(total_task)):
-            index = np.random.choice(np.arange(self.n_actions), p=prob_weight.ravel())
-            action_arr[index] += 1
-        return action_arr
+        return price
 
     def reset(self):
         tf.reset_default_graph()
@@ -134,7 +131,7 @@ class Critic(object):
         self.lr = lr
         self.t = 1
         n_features = 3
-        self.s = tf.placeholder(tf.float32, [1, n_features], "state")
+        self.s = tf.placeholder(tf.float32, [1, total_edge], "state")
         self.v_ = tf.placeholder(tf.float32, [1, 1], "v_next")
         self.r = tf.placeholder(tf.float32, None, 'r')
 
