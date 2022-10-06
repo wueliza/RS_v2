@@ -49,7 +49,7 @@ class Predictor(object):
         value = self.sess.run(self.value, {self.state: state})
         return value
 
-    def learn(self, state, r, r_):
+    def learn(self, state, r, r_):  # need fix
         reward, reward_ = np.array(r).reshape(1, 1), np.array(r_).reshape(1, 1)
         state = np.array(state)
         state = state[np.newaxis, :]

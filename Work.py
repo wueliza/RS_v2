@@ -7,6 +7,8 @@ import collections
 np.random.seed(int(time.time()))
 COST_TO_CLOUD = 15
 total_edge = 3
+
+
 class MEC_network:
     def __init__(self, task_arrival_rate, num_nodes, Q_SIZE, node_num):
         self.node_num = node_num
@@ -28,14 +30,11 @@ class MEC_network:
         return s, total_work
 
     def step(self, share_action, price):
-        task_arrival_rate = self.task_arrival_rate
-        new_task = np.random.poisson(task_arrival_rate)
-
         q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 
         local_job = 0
         paid = 0
-        for i, j in range(total_edge), range(total_edge+1):
+        for i, j in range(total_edge), range(total_edge + 1):
             if j == self.node_num:
                 local_job += share_action[i][j]
 
@@ -54,4 +53,13 @@ class MEC_network:
 
         avg_delay = (1 / (self.Q_SIZE - self.q_state)) if self.Q_SIZE - self.q_state != 0 else 15
 
-        return s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        return s_, total_work_, reward, d_delay, q_delay, avg_delay
+
+    def distribute_work(self, price):  # not ready
+        work = []
+        price_ = price
+        price_[self.node_num] = 0  # self price = 0
+        task_arrival_rate = self.task_arrival_rate
+        new_task = np.random.poisson(task_arrival_rate)
+
+        return work, new_task
