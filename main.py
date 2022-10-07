@@ -70,6 +70,10 @@ def run(tr):
     s_2, total_work_2 = mec_2.reset()
     edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS)
 
+    user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+
     SESS.run(tf.global_variables_initializer())
 
     q_len += total_work_0 + total_work_1 + total_work_2  # the total work of all edge
@@ -78,35 +82,64 @@ def run(tr):
     shared_ations[1] = [0, total_work_1, 0, 0]
     shared_ations[2] = [0, 0, total_work_2, 0]
 
-    print(f's0 = {s_0}  s1 = {s_1}  s2 = {s_2}')
-
     for i in range(total_time):
         # print("time", i, tr)
 
-        s_0_ = edge_0.local_predictor.choose_action(s_0).flatten()  # predict the other edge's price
-        s_1_ = edge_1.local_predictor.choose_action(s_1).flatten()
-        s_2_ = edge_2.local_predictor.choose_action(s_2).flatten()
-        print(f's0 = {s_0_}  s1 = {s_1_}  s2 = {s_2_}')
+        # predict the other edge's price bace on the work distribution last time
+        PD_other_price_0 = edge_0.local_predictor.choose_action(shared_ations[0]).flatten()
+        PD_other_price_1 = edge_1.local_predictor.choose_action(shared_ations[1]).flatten()
+        PD_other_price_2 = edge_2.local_predictor.choose_action(shared_ations[2]).flatten()
+        print(f'PD_other_price_0 = {PD_other_price_0}  PD_other_price_1 = {PD_other_price_1}  PD_other_price_2 = {PD_other_price_2}')
 
-        a0 = edge_0.local_actor.choose_action(s_0_).flatten()[0]  # actor determine the price of this state
-        a1 = edge_1.local_actor.choose_action(s_1_).flatten()[0]
-        a2 = edge_2.local_actor.choose_action(s_2_).flatten()[0]
-        print(f'a0 = {a0}  a1 = {a1}  a2 = {a2}')
+        # merge the queue state and cpu
+        s_0 = np.hstack((s_0, PD_other_price_0))
+        s_1 = np.hstack((s_1, PD_other_price_1))
+        s_2 = np.hstack((s_2, PD_other_price_2))
+        print(f's0 = {s_0} s1 = {s_1} s2 = {s_2}')
 
-        price = [a0, a1, a2, COST_TO_CLOUD]    # actual price
+        # actor determine the price for user of this state
+        p0 = edge_0.local_actor.choose_action(s_0).flatten()[0]
+        p1 = edge_1.local_actor.choose_action(s_1).flatten()[0]
+        p2 = edge_2.local_actor.choose_action(s_2).flatten()[0]
+        print(f'p0 = {p0}  p1 = {p1}  p2 = {p2}')
 
-        shared_ations[0], new_task_0 = mec_0.distribute_work(price)  # distribute the work
-        shared_ations[1], new_task_1 = mec_1.distribute_work(price)
-        shared_ations[2], new_task_2 = mec_2.distribute_work(price)
+        # user
+        user_0_action = user_0.local_actor.choose_action(p0)
+        user_1_action = user_1.local_actor.choose_action(p1)
+        user_2_action = user_2.local_actor.choose_action(p2)
 
-        a0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0 = mec_0.step(shared_ations, price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        a1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1 = mec_1.step(shared_ations, price)
-        a2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2 = mec_2.step(shared_ations, price)
+        user_0_task, user_0_utility, user_0_action_ = user_0.step(user_0_action, p0)
+        user_1_task, user_1_utility, user_1_action_ = user_0.step(user_1_action, p1)
+        user_2_task, user_2_utility, user_2_action_ = user_0.step(user_2_action, p2)
+
+        user_0.local_critic.learn(user_0_action, user_0_utility, user_0_action_)
+        user_1.local_critic.learn(user_1_action, user_1_utility, user_1_action_)
+        user_2.local_critic.learn(user_2_action, user_2_utility, user_2_action_)
+
+        # user pass the work to edge
+        total_work_0 += user_0_task[1]
+        total_work_1 += user_1_task[1]
+        total_work_2 += user_2_task[1]
+
+        # distribute the work base on the predict price of the other edge
+        shared_ations[0], new_task_0, actual_p0 = mec_0.distribute_work(PD_other_price_0, total_work_0)
+        shared_ations[1], new_task_1, actual_p1 = mec_1.distribute_work(PD_other_price_1, total_work_1)
+        shared_ations[2], new_task_2, actual_p2 = mec_2.distribute_work(PD_other_price_2, total_work_2)
+
+        # collect the actual price of all edge
+        price = [actual_p0, actual_p1, actual_p2]  # actual price
+
+        # calculate real utility
+        s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0 = mec_0.step(shared_ations, price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1 = mec_1.step(shared_ations, price)
+        s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2 = mec_2.step(shared_ations, price)
 
         if r_0 < 0 or r_1 < 0 or r_2 < 0:
             print(r_0, r_1)
             print("stop1")
             exit()
+
+        # edge actual reward
         r_0 = r_0 + shared_ations[0][1] * avg_delay_1 + shared_ations[0][2] * avg_delay_2
         r_1 = r_1 + shared_ations[1][0] * avg_delay_0 + shared_ations[1][2] * avg_delay_2
         r_2 = r_2 + shared_ations[2][0] * avg_delay_0 + shared_ations[2][1] * avg_delay_1
@@ -115,33 +148,24 @@ def run(tr):
             print("stop2")
             exit()
 
-        # c_0_ = avg_delay_0
-        # c_1_ = avg_delay_1
-        # c_2_ = avg_delay_2
-        # s_0_ = np.hstack((s_0_, c_0_))  # next state
-        # s_1_ = np.hstack((s_1_, c_1_))
-        # s_2_ = np.hstack((s_2_, c_2_))
-
         q_len += new_task_0 + new_task_1 + new_task_2  # +sum(new_task_1) +sum(new_task_2)+sum(new_task_3)+sum(new_task_4)+sum(new_task_5)
 
-        td_error_0, v_0, _, v_0_ = edge_0.local_critic.learn(a0, r_0, a0_)  # td_error = the actual price - the predict price
-        td_error_1, v_1, _, v_1_ = edge_1.local_critic.learn(a1, r_1, a1_)
-        td_error_2, v_2, _, v_2_ = edge_1.local_critic.learn(a2, r_2, a2_)
+        td_error_0, v_0, _, v_0_ = edge_0.local_critic.learn(p0, r_0, p0_)  # td_error = the actual price - the predict price
+        td_error_1, v_1, _, v_1_ = edge_1.local_critic.learn(p1, r_1, p1_)
+        td_error_2, v_2, _, v_2_ = edge_1.local_critic.learn(p2, r_2, p2_)
 
-        edge_0.local_actor.learn(s_0_, a0, td_error_0)
-        edge_1.local_actor.learn(s_1_, a1, td_error_1)
-        edge_2.local_actor.learn(s_2_, a2, td_error_2)
+        edge_0.local_actor.learn(s_0, p0, td_error_0)
+        edge_1.local_actor.learn(s_1, p1, td_error_1)
+        edge_2.local_actor.learn(s_2, p2, td_error_2)
 
-        edge_0.local_predictor.learn(s_0, s_0_, avg_delay_0)
-        edge_1.local_predictor.learn(s_1, s_1_, avg_delay_1)
-        edge_2.local_predictor.learn(s_2, s_2_, avg_delay_2)
+        edge_0.local_predictor.learn(PD_other_price_0, price, avg_delay_0)
+        edge_1.local_predictor.learn(PD_other_price_1, price, avg_delay_1)
+        edge_2.local_predictor.learn(PD_other_price_2, price, avg_delay_2)
 
         s_0 = s_0_
         s_1 = s_1_
         s_2 = s_2_
-        # c_0 = c_0_
-        # c_1 = c_1_
-        # c_2 = c_2_
+
 
         ###########################
         edge_0.local_actor.lr = min(1, edge_0.local_actor.lr * math.pow(1.000001, i))  # learning rate
@@ -152,6 +176,15 @@ def run(tr):
 
         edge_2.local_actor.lr = min(1, edge_2.local_actor.lr * math.pow(1.000001, i))
         edge_2.local_critic.lr = min(1, edge_2.local_critic.lr * math.pow(1.000001, i))
+
+        user_0.local_actor.lr = min(1, user_0.local_actor.lr * math.pow(1.000001, i))
+        user_0.local_critic.lr = min(1, user_0.local_critic.lr * math.pow(1.000001, i))
+
+        user_1.local_actor.lr = min(1, user_1.local_actor.lr * math.pow(1.000001, i))
+        user_1.local_critic.lr = min(1, user_1.local_critic.lr * math.pow(1.000001, i))
+
+        user_2.local_actor.lr = min(1, user_2.local_actor.lr * math.pow(1.000001, i))
+        user_2.local_critic.lr = min(1, user_2.local_critic.lr * math.pow(1.000001, i))
         # for i in range(len(edges_g0)):
         #     edges_g0[i].local_actor.lr = min(1, edges_g0[i].local_actor.lr * math.pow(1.000001, i))
         #     edges_g0[i].local_critic.lr = min(1, edges_g0[i].local_critic.lr * math.pow(1.000001, i))

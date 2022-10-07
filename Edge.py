@@ -11,7 +11,7 @@ class Predictor(object):
         self.sess = sess
         self.lr = lr
         n_features = n_node + 1
-        self.state = tf.placeholder(tf.float32, [1, total_edge], "Action")
+        self.state = tf.placeholder(tf.float32, [1, total_edge+1], "Action")
         self.value_ = tf.placeholder(tf.float32, [1, 1], "NextValue")
         self.reward = tf.placeholder(tf.float32, None, "pre_reward")
         self.t = 1

@@ -29,7 +29,7 @@ class MEC_network:
         total_work = self.q_state
         return s, total_work
 
-    def step(self, share_action, price):
+    def step(self, share_action, price):    # not ready
         q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 
         local_job = 0
@@ -55,11 +55,10 @@ class MEC_network:
 
         return s_, total_work_, reward, d_delay, q_delay, avg_delay
 
-    def distribute_work(self, price):  # not ready
+    def distribute_work(self, price , total_work):  # not ready
         work = []
-        price_ = price
-        price_[self.node_num] = 0  # self price = 0
-        task_arrival_rate = self.task_arrival_rate
-        new_task = np.random.poisson(task_arrival_rate)
+        price_ = 0
 
-        return work, new_task
+
+
+        return work, new_task, price_
