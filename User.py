@@ -140,15 +140,25 @@ class User(object):  # contain a local actor, critic, global critic
         self.epsilon = 0.8
         self.a = tf.placeholder(tf.int32, None, "act")
         self.td_error = tf.placeholder(tf.float32, None, "td_error")  # TD_error
+        self.CRV = np.random.choice([4, 4])
         self.q_size = q_size
         self.local_actor = Actor(scope, self.sess, self.edge_num, self.la_r, self.q_size)
         self.local_critic = Critic(scope, self.sess, self.edge_num, self.lc_r)
 
-    def step(self, action , edge_price):     # not ready
-        work = []   # [0] = self work [1] = pass to edge
+    def step(self, action, edge_price):     # not ready
         task_arrival_rate = self.task_arrival_rate
-        new_task = np.random.poisson(task_arrival_rate)
-        utility = 2
+        new_task1 = np.random.poisson(task_arrival_rate)
+        new_task2 = np.random.poisson(task_arrival_rate)
+
+        # random choose to pass task1 or task2 to edge
+        work = []   # [0] = task1 [1] = task2
+        work[0] += new_task1
+        work[1] += new_task2
+
+        transit_task = 1 if np.random.rand() > action else 2
+        transit_work = {transit_task: work[transit_task-1]}
+
+        utility = transit_work[transit_task] * edge_price
         action_ = action
 
-        return work, utility, action_
+        return transit_work, utility, action_

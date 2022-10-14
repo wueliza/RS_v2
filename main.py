@@ -58,29 +58,39 @@ def run(tr):
     SESS = tf.Session()
     # Three edge networks plus a cloud
     # create networks
-    mec_0 = MEC_network(task_arrival_rate=tr, num_nodes=1, Q_SIZE=50, node_num=0)
-    s_0, total_work_0 = mec_0.reset()  # s = the price of all edge   total_work = the amount of it's work
+    mec_0 = MEC_network(num_nodes=1, Q_SIZE=50, node_num=0)
+    s_0 = mec_0.reset()  # s = [q_state, CRV]
     edge_0 = Edge(scope='e' + str(0), lar=0.001, lcr=0.01, q_size=50, sess=SESS)
 
-    mec_1 = MEC_network(task_arrival_rate=tr, num_nodes=2, Q_SIZE=50, node_num=1)
-    s_1, total_work_1 = mec_1.reset()
+    mec_1 = MEC_network(num_nodes=2, Q_SIZE=50, node_num=1)
+    s_1 = mec_1.reset()
     edge_1 = Edge(scope='e' + str(1), lar=0.001, lcr=0.01, q_size=50, sess=SESS)
 
-    mec_2 = MEC_network(task_arrival_rate=tr, num_nodes=3, Q_SIZE=50, node_num=2)
-    s_2, total_work_2 = mec_2.reset()
+    mec_2 = MEC_network(num_nodes=3, Q_SIZE=50, node_num=2)
+    s_2 = mec_2.reset()
     edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS)
 
     user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    user_s_0 = np.hstack((user_0.q_state, user_0.CRV))  # s = [q_state, CRV]
     user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    user_s_1 = np.hstack((user_1.q_state, user_1.CRV))  # s = [q_state, CRV]
     user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    user_s_2 = np.hstack((user_2.q_state, user_2.CRV))  # s = [q_state, CRV]
 
     SESS.run(tf.global_variables_initializer())
 
-    q_len += total_work_0 + total_work_1 + total_work_2  # the total work of all edge
 
-    shared_ations[0] = [total_work_0, 0, 0, 0]  # the action edge take
-    shared_ations[1] = [0, total_work_1, 0, 0]
-    shared_ations[2] = [0, 0, total_work_2, 0]
+
+    # store the distribution of the task to other edge
+    shared_ations[0] = [0, 0, 0, 0]
+    shared_ations[1] = [0, 0, 0, 0]
+    shared_ations[2] = [0, 0, 0, 0]
+
+    local_work_0 = {1: 0, 2: 0}
+    local_work_1 = {1: 0, 2: 0}
+    local_work_2 = {1: 0, 2: 0}
+    # two kinds of task, [amount, cost]
+    total_edge_q_len = {1: [0, 1], 2: [0, 2]}
 
     for i in range(total_time):
         # print("time", i, tr)
@@ -104,27 +114,35 @@ def run(tr):
         print(f'p0 = {p0}  p1 = {p1}  p2 = {p2}')
 
         # user
-        user_0_action = user_0.local_actor.choose_action(p0)
-        user_1_action = user_1.local_actor.choose_action(p1)
-        user_2_action = user_2.local_actor.choose_action(p2)
+        user_s_0 = np.hstack((user_s_0, p0))
+        user_s_1 = np.hstack((user_s_1, p1))
+        user_s_2 = np.hstack((user_s_2, p2))
 
-        user_0_task, user_0_utility, user_0_action_ = user_0.step(user_0_action, p0)
-        user_1_task, user_1_utility, user_1_action_ = user_0.step(user_1_action, p1)
-        user_2_task, user_2_utility, user_2_action_ = user_0.step(user_2_action, p2)
+        user_0_action = user_0.local_actor.choose_action(user_s_0)
+        user_1_action = user_1.local_actor.choose_action(user_s_1)
+        user_2_action = user_2.local_actor.choose_action(user_s_2)
 
-        user_0.local_critic.learn(user_0_action, user_0_utility, user_0_action_)
-        user_1.local_critic.learn(user_1_action, user_1_utility, user_1_action_)
-        user_2.local_critic.learn(user_2_action, user_2_utility, user_2_action_)
+        user_0_task, user_0_utility, user_s_0_ = user_0.step(user_0_action, p0)
+        user_1_task, user_1_utility, user_s_1_ = user_0.step(user_1_action, p1)
+        user_2_task, user_2_utility, user_s_2_ = user_0.step(user_2_action, p2)
+
+        user_td_error_0 = user_0.local_critic.learn(user_0_action, user_0_utility, user_s_0_)
+        user_td_error_1 = user_1.local_critic.learn(user_1_action, user_1_utility, user_s_1_)
+        user_td_error_2 = user_2.local_critic.learn(user_2_action, user_2_utility, user_s_2_)
+
+        user_0.local_actor.learn(user_s_0, user_0_action, user_td_error_0)
+        user_1.local_actor.learn(user_s_1, user_1_action, user_td_error_1)
+        user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
 
         # user pass the work to edge
-        total_work_0 += user_0_task[1]
-        total_work_1 += user_1_task[1]
-        total_work_2 += user_2_task[1]
+        local_work_0[user_0_task.item()[0]] += user_0_task.item()[1]
+        local_work_1[user_1_task.item()[0]] += user_1_task.item()[1]
+        local_work_2[user_2_task.item()[0]] += user_2_task.item()[1]
 
         # distribute the work base on the predict price of the other edge
-        shared_ations[0], new_task_0, actual_p0 = mec_0.distribute_work(PD_other_price_0, total_work_0)
-        shared_ations[1], new_task_1, actual_p1 = mec_1.distribute_work(PD_other_price_1, total_work_1)
-        shared_ations[2], new_task_2, actual_p2 = mec_2.distribute_work(PD_other_price_2, total_work_2)
+        shared_ations[0], new_task_0, actual_p0 = mec_0.distribute_work(PD_other_price_0, local_work_0)
+        shared_ations[1], new_task_1, actual_p1 = mec_1.distribute_work(PD_other_price_1, local_work_1)
+        shared_ations[2], new_task_2, actual_p2 = mec_2.distribute_work(PD_other_price_2, local_work_2)
 
         # collect the actual price of all edge
         price = [actual_p0, actual_p1, actual_p2]  # actual price
@@ -148,7 +166,8 @@ def run(tr):
             print("stop2")
             exit()
 
-        q_len += new_task_0 + new_task_1 + new_task_2  # +sum(new_task_1) +sum(new_task_2)+sum(new_task_3)+sum(new_task_4)+sum(new_task_5)
+        total_edge_q_len[1][0] += local_work_0[1] + local_work_1[1] + local_work_2[1]
+        total_edge_q_len[2][0] += local_work_0[2] + local_work_1[2] + local_work_2[2]
 
         td_error_0, v_0, _, v_0_ = edge_0.local_critic.learn(p0, r_0, p0_)  # td_error = the actual price - the predict price
         td_error_1, v_1, _, v_1_ = edge_1.local_critic.learn(p1, r_1, p1_)

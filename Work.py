@@ -10,12 +10,11 @@ total_edge = 3
 
 
 class MEC_network:
-    def __init__(self, task_arrival_rate, num_nodes, Q_SIZE, node_num):
+    def __init__(self, num_nodes, Q_SIZE, node_num):
         self.node_num = node_num
         self.num_nodes = num_nodes
-        self.p_state = np.random.choice([4, 4])
+        self.CRV = np.random.choice([4, 4])
         self.q_state = np.random.choice(5)
-        self.task_arrival_rate = task_arrival_rate
         self.weight_q = 1
         self.weight_d = COST_TO_CLOUD
         self.weight_s = 1
@@ -23,11 +22,9 @@ class MEC_network:
         self.p_a = 0
 
     def reset(self):
-        self.p_state = np.random.choice([4, 4])
-        s = np.ones(total_edge)
-        s[self.node_num] = self.p_state
-        total_work = self.q_state
-        return s, total_work
+        self.CRV = np.random.choice([4, 4])
+        s = np.hstack((self.q_state, self.CRV))
+        return s
 
     def step(self, share_action, price):    # not ready
         q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
