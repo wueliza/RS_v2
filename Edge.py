@@ -187,7 +187,7 @@ class Critic(object):
 
 
 class Edge(object):  # contain a local actor, critic, global critic
-    def __init__(self, scope, lar=0.001, lcr=0.001, q_size=10, sess=None):
+    def __init__(self, scope, lar=0.001, lcr=0.001, q_size=50, sess=None):
         self.n_nueron_ac = 5
         self.sess = sess
         self.la_r = lar

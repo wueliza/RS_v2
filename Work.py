@@ -52,7 +52,8 @@ class MEC_network:
 
         return s_, total_work_, reward, d_delay, q_delay, avg_delay
 
-    def distribute_work(self, price , total_work):  # not ready
+    def distribute_work(self, price, total_work):  # not ready
+        # price = x utility = y >python np= 0
         work = []
         price_ = 0
 

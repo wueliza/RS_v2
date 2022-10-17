@@ -79,8 +79,6 @@ def run(tr):
 
     SESS.run(tf.global_variables_initializer())
 
-
-
     # store the distribution of the task to other edge
     shared_ations[0] = [0, 0, 0, 0]
     shared_ations[1] = [0, 0, 0, 0]
@@ -126,15 +124,15 @@ def run(tr):
         user_1_task, user_1_utility, user_s_1_ = user_0.step(user_1_action, p1)
         user_2_task, user_2_utility, user_s_2_ = user_0.step(user_2_action, p2)
 
-        user_td_error_0 = user_0.local_critic.learn(user_0_action, user_0_utility, user_s_0_)
-        user_td_error_1 = user_1.local_critic.learn(user_1_action, user_1_utility, user_s_1_)
-        user_td_error_2 = user_2.local_critic.learn(user_2_action, user_2_utility, user_s_2_)
+        user_td_error_0 = user_0.local_critic.learn(user_s_0, user_0_utility, user_s_0_)
+        user_td_error_1 = user_1.local_critic.learn(user_s_1, user_1_utility, user_s_1_)
+        user_td_error_2 = user_2.local_critic.learn(user_s_2, user_2_utility, user_s_2_)
 
         user_0.local_actor.learn(user_s_0, user_0_action, user_td_error_0)
         user_1.local_actor.learn(user_s_1, user_1_action, user_td_error_1)
         user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
 
-        # user pass the work to edge
+        # user pass the work to edge user task {type: amount}
         local_work_0[user_0_task.item()[0]] += user_0_task.item()[1]
         local_work_1[user_1_task.item()[0]] += user_1_task.item()[1]
         local_work_2[user_2_task.item()[0]] += user_2_task.item()[1]
