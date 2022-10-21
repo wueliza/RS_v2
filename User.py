@@ -2,6 +2,8 @@ import tensorflow.compat.v1 as tf
 import gym
 import numpy as np
 
+GAMMA = 0.9
+
 
 class Actor(object):
     def __init__(self, scope, sess, edge_num, lr=0.001, q_size=10):
@@ -11,7 +13,7 @@ class Actor(object):
         self.edge_num = edge_num  # under which edge
         self.n_actions = 2
         self.n_features = 3  # pStates, qStates, and cStates
-        self.state = tf.placeholder(tf.float32, [1, 1], "state")  # the price of edge
+        self.state = tf.placeholder(tf.float32, [1, 3], "state")  # the price of edge
         self.epsilon = 0.9
         self.action = tf.placeholder(tf.int32, None, "act")
         self.td_error = tf.placeholder(tf.float32, None, "td_error")  # TD_error
@@ -73,7 +75,7 @@ class Critic(object):
         self.t = 1
         self.edge_num = edge_num
         n_features = 3
-        self.s = tf.placeholder(tf.float32, [1, 1], "state")
+        self.s = tf.placeholder(tf.float32, [1, 3], "state")
         self.v_ = tf.placeholder(tf.float32, [1, 1], "v_next")
         self.r = tf.placeholder(tf.float32, None, 'r')
 

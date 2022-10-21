@@ -5,6 +5,7 @@ import numpy as np
 import tensorflow.compat.v1 as tf
 from Work import MEC_network
 from Edge import Edge
+from User import User
 import gym
 import time
 import random
@@ -32,9 +33,6 @@ N_S = 5  # Latency State or Latency State + action phi
 
 def run(tr):
     import time
-    GAMMA = 0.9
-
-    COST_TO_CLOUD = 15
 
     # State and Action Space
 
@@ -138,9 +136,9 @@ def run(tr):
         local_work_2[user_2_task.item()[0]] += user_2_task.item()[1]
 
         # distribute the work base on the predict price of the other edge
-        shared_ations[0], new_task_0, actual_p0 = mec_0.distribute_work(PD_other_price_0, local_work_0)
-        shared_ations[1], new_task_1, actual_p1 = mec_1.distribute_work(PD_other_price_1, local_work_1)
-        shared_ations[2], new_task_2, actual_p2 = mec_2.distribute_work(PD_other_price_2, local_work_2)
+        shared_ations[0], new_task_0, actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0)
+        shared_ations[1], new_task_1, actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1)
+        shared_ations[2], new_task_2, actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2)
 
         # collect the actual price of all edge
         price = [actual_p0, actual_p1, actual_p2]  # actual price

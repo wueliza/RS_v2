@@ -70,7 +70,7 @@ class Actor(object):
         self.n_nodes = n_nodes
         self.n_actions = 3
         self.n_features = 3  # pStates, qStates, and cStates
-        self.state = tf.placeholder(tf.float32, [1, total_edge], "state")  # Try different dimensions
+        self.state = tf.placeholder(tf.float32, [1, total_edge+2], "state")  # Try different dimensions
         self.epsilon = 0.9
         self.action = tf.placeholder(tf.int32, None, "act")
         self.td_error = tf.placeholder(tf.float32, None, "td_error")  # TD_error
@@ -131,7 +131,7 @@ class Critic(object):
         self.lr = lr
         self.t = 1
         n_features = 3
-        self.s = tf.placeholder(tf.float32, [1, total_edge], "state")
+        self.s = tf.placeholder(tf.float32, [1, total_edge+2], "state")
         self.v_ = tf.placeholder(tf.float32, [1, 1], "v_next")
         self.r = tf.placeholder(tf.float32, None, 'r')
 
@@ -200,3 +200,14 @@ class Edge(object):  # contain a local actor, critic, global critic
         self.local_actor = Actor(scope, self.sess, 2, self.la_r, self.q_size)
         self.local_critic = Critic(scope, self.sess, 2, self.lc_r)
         self.local_predictor = Predictor(scope, self.sess, 2, self.lc_r)
+
+    def distribute_work(self, price, total_work):  # not ready
+        # price = x utility = y >= 0
+        x = np.mat(price)
+        y = np.mat([0 for i in range(len(price))])
+        index = np.linalg.solve(x, y)
+        print(index)
+
+
+
+        return work, new_task, price_
