@@ -57,23 +57,23 @@ def run(tr):
     # Three edge networks plus a cloud
     # create networks
     mec_0 = MEC_network(num_nodes=1, Q_SIZE=50, node_num=0)
-    s_0 = mec_0.reset()  # s = [q_state, CRV]
-    edge_0 = Edge(scope='e' + str(0), lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    s_0 = mec_0.reset()  # s = [q_state, CRB]
+    edge_0 = Edge(scope='e' + str(0), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=0)
 
     mec_1 = MEC_network(num_nodes=2, Q_SIZE=50, node_num=1)
     s_1 = mec_1.reset()
-    edge_1 = Edge(scope='e' + str(1), lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    edge_1 = Edge(scope='e' + str(1), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=1)
 
     mec_2 = MEC_network(num_nodes=3, Q_SIZE=50, node_num=2)
     s_2 = mec_2.reset()
-    edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
 
     user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_0 = np.hstack((user_0.q_state, user_0.CRV))  # s = [q_state, CRV]
+    user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRV]
     user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_1 = np.hstack((user_1.q_state, user_1.CRV))  # s = [q_state, CRV]
+    user_s_1 = np.hstack((user_1.q_state, user_1.CRB))  # s = [q_state, CRV]
     user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_2 = np.hstack((user_2.q_state, user_2.CRV))  # s = [q_state, CRV]
+    user_s_2 = np.hstack((user_2.q_state, user_2.CRB))  # s = [q_state, CRV]
 
     SESS.run(tf.global_variables_initializer())
 
@@ -114,9 +114,9 @@ def run(tr):
         user_s_1 = np.hstack((user_s_1, p1))
         user_s_2 = np.hstack((user_s_2, p2))
 
-        user_0_action = user_0.local_actor.choose_action(user_s_0)
-        user_1_action = user_1.local_actor.choose_action(user_s_1)
-        user_2_action = user_2.local_actor.choose_action(user_s_2)
+        user_0_action = user_0.local_actor.choose_action(user_s_0).flatten()[0]
+        user_1_action = user_1.local_actor.choose_action(user_s_1).flatten()[0]
+        user_2_action = user_2.local_actor.choose_action(user_s_2).flatten()[0]
 
         user_0_task, user_0_utility, user_s_0_ = user_0.step(user_0_action, p0)
         user_1_task, user_1_utility, user_s_1_ = user_0.step(user_1_action, p1)
@@ -131,14 +131,15 @@ def run(tr):
         user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
 
         # user pass the work to edge user task {type: amount}
-        local_work_0[user_0_task.item()[0]] += user_0_task.item()[1]
-        local_work_1[user_1_task.item()[0]] += user_1_task.item()[1]
-        local_work_2[user_2_task.item()[0]] += user_2_task.item()[1]
+        local_work_0[list(user_0_task.items())[0][0]] += list(user_0_task.items())[0][1]
+        local_work_1[list(user_1_task.items())[0][0]] += list(user_1_task.items())[0][1]
+        local_work_2[list(user_2_task.items())[0][0]] += list(user_2_task.items())[0][1]
 
         # distribute the work base on the predict price of the other edge
-        shared_ations[0], new_task_0, actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0)
-        shared_ations[1], new_task_1, actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1)
-        shared_ations[2], new_task_2, actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2)
+
+        shared_ations[0], actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0, p0)
+        shared_ations[1], actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1, p1)
+        shared_ations[2], actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2, p2)
 
         # collect the actual price of all edge
         price = [actual_p0, actual_p1, actual_p2]  # actual price

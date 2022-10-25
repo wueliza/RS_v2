@@ -142,7 +142,7 @@ class User(object):  # contain a local actor, critic, global critic
         self.epsilon = 0.8
         self.a = tf.placeholder(tf.int32, None, "act")
         self.td_error = tf.placeholder(tf.float32, None, "td_error")  # TD_error
-        self.CRV = np.random.choice(5)  # computing state
+        self.CRB = np.random.choice(5)  # computing state
         self.q_state = np.random.choice(5)  # queueing state
         self.q_size = q_size
         self.local_actor = Actor(scope, self.sess, self.edge_num, self.la_r, self.q_size)
@@ -154,17 +154,19 @@ class User(object):  # contain a local actor, critic, global critic
         new_task2 = np.random.poisson(task_arrival_rate)
 
         # random choose to pass task1 or task2 to edge
-        work = []   # [0] = task1 [1] = task2
+        work = [0, 0]   # [0] = task1 [1] = task2
         work[0] += new_task1
         work[1] += new_task2
 
-        transit_task = 1 if np.random.rand() > action else 2
-        transit_work = {transit_task: work[transit_task-1]}
+        transit_task = 1 if np.random.rand() > 0.5 else 2
+        tw = round(work[transit_task-1]*action)
+        work[transit_task-1] -= tw
+        transit_work = {transit_task: tw}
 
         utility = transit_work[transit_task] * edge_price
 
-        self.CRV = np.random.choice(5)
-        self.q_state = np.random.choice(5)
-        s_ = np.hstack((self.CRV, self.q_state))
+        self.CRB = 2
+        self.q_state = self.q_state + work[0] + work[1]
+        s_ = np.hstack((self.CRB, self.q_state, utility))
 
         return transit_work, utility, s_

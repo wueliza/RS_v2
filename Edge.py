@@ -1,6 +1,7 @@
 import tensorflow.compat.v1 as tf
 import gym
 import numpy as np
+from pulp import*
 
 GAMMA = 0.9
 total_edge = 3
@@ -187,8 +188,9 @@ class Critic(object):
 
 
 class Edge(object):  # contain a local actor, critic, global critic
-    def __init__(self, scope, lar=0.001, lcr=0.001, q_size=50, sess=None):
+    def __init__(self, scope, lar=0.001, lcr=0.001, q_size=50, sess=None, node_num=0):
         self.n_nueron_ac = 5
+        self.node_num = node_num
         self.sess = sess
         self.la_r = lar
         self.lc_r = lcr
@@ -201,13 +203,37 @@ class Edge(object):  # contain a local actor, critic, global critic
         self.local_critic = Critic(scope, self.sess, 2, self.lc_r)
         self.local_predictor = Predictor(scope, self.sess, 2, self.lc_r)
 
-    def distribute_work(self, price, total_work):  # not ready
-        # price = x utility = y >= 0
-        x = np.mat(price)
-        y = np.mat([0 for i in range(len(price))])
-        index = np.linalg.solve(x, y)
-        print(index)
+    def distribute_work(self, price, total_work, p_user):  # not ready
+        price[self.node_num] = 0
 
+        model1 = pulp.LpProblem("value max", sense=LpMaximize)
+        model2 = pulp.LpProblem("value max", sense=LpMaximize)
+        t0 = pulp.LpVariable('t0', lowBound=0, cat='Binary')
+        t1 = pulp.LpVariable('t1', lowBound=0, cat='Binary')
+        t2 = pulp.LpVariable('t2', lowBound=0, cat='Binary')
+        cloud = pulp.LpVariable('cloud', lowBound=0, cat='Binary')
 
+        model1 += t0*price[0]+t1*price[1]+t2*price[2]+cloud*15
 
-        return work, new_task, price_
+        model1 += t0+t1+t2 == total_work[1]
+        model1.solve()
+
+        model2 += 2*(t0 * price[0] + t1 * price[1] + t2 * price[2])+cloud*15
+        model2 += t0 + t1 + t2 == total_work[2]
+        model2.solve()
+
+        print('task 1:')
+        for v, i in model1.variables(), range(4):
+            work[i] = v
+            print(v.name, "=", v.varValue)
+
+        print('obj=', value(model1.objective))
+
+        print('task 2:')
+        for v in model2.variables():
+            print(v.name, "=", v.varValue)
+
+        print('obj=', value(model2.objective))
+
+        ## work memory need to fix b/c two type of task
+        return work, price_
