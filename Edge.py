@@ -224,13 +224,14 @@ class Edge(object):  # contain a local actor, critic, global critic
 
         print('task 1:')
         for v, i in model1.variables(), range(4):
-            work[i] = v
+            work[i][0] = v
             print(v.name, "=", v.varValue)
 
         print('obj=', value(model1.objective))
 
         print('task 2:')
-        for v in model2.variables():
+        for v, i in model2.variables(), range(4):
+            work[i][1] = v
             print(v.name, "=", v.varValue)
 
         print('obj=', value(model2.objective))

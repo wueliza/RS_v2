@@ -78,9 +78,9 @@ def run(tr):
     SESS.run(tf.global_variables_initializer())
 
     # store the distribution of the task to other edge
-    shared_ations[0] = [0, 0, 0, 0]
-    shared_ations[1] = [0, 0, 0, 0]
-    shared_ations[2] = [0, 0, 0, 0]
+    shared_ations = [[[0, 0], [0, 0], [0, 0], [0, 0]],
+                     [[0, 0], [0, 0], [0, 0], [0, 0]],
+                     [[0, 0], [0, 0], [0, 0], [0, 0]]]
 
     local_work_0 = {1: 0, 2: 0}
     local_work_1 = {1: 0, 2: 0}
