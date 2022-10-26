@@ -158,9 +158,9 @@ class User(object):  # contain a local actor, critic, global critic
         work[0] += new_task1
         work[1] += new_task2
 
-        transit_task = 1 if np.random.rand() > 0.5 else 2
-        tw = round(work[transit_task-1]*action)
-        work[transit_task-1] -= tw
+        transit_task = 0 if np.random.rand() > 0.5 else 1
+        tw = round(work[transit_task]*action)
+        work[transit_task] -= tw
         transit_work = {transit_task: tw}
 
         utility = transit_work[transit_task] * edge_price

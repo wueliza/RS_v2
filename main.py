@@ -78,15 +78,21 @@ def run(tr):
     SESS.run(tf.global_variables_initializer())
 
     # store the distribution of the task to other edge
-    shared_ations = [[[0, 0], [0, 0], [0, 0], [0, 0]],
-                     [[0, 0], [0, 0], [0, 0], [0, 0]],
-                     [[0, 0], [0, 0], [0, 0], [0, 0]]]
+    shared_ations[0] = [0, 0, 0, 0]
+    shared_ations[1] = [0, 0, 0, 0]
+    shared_ations[2] = [0, 0, 0, 0]
 
-    local_work_0 = {1: 0, 2: 0}
-    local_work_1 = {1: 0, 2: 0}
-    local_work_2 = {1: 0, 2: 0}
+    local_work_0 = 0
+    local_work_1 = 0
+    local_work_2 = 0
+    local_work_type_0 = 0
+    local_work_type_1 = 0
+    local_work_type_2 = 0
+
+    work_cost = [1, 2]
+
     # two kinds of task, [amount, cost]
-    total_edge_q_len = {1: [0, 1], 2: [0, 2]}
+    total_edge_q_len = {0: [0, 1], 1: [0, 2]}
 
     for i in range(total_time):
         # print("time", i, tr)
@@ -131,15 +137,18 @@ def run(tr):
         user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
 
         # user pass the work to edge user task {type: amount}
-        local_work_0[list(user_0_task.items())[0][0]] += list(user_0_task.items())[0][1]
-        local_work_1[list(user_1_task.items())[0][0]] += list(user_1_task.items())[0][1]
-        local_work_2[list(user_2_task.items())[0][0]] += list(user_2_task.items())[0][1]
+        local_work_type_0 = list(user_0_task.items())[0][0]
+        local_work_type_1 = list(user_1_task.items())[0][0]
+        local_work_type_2 = list(user_2_task.items())[0][0]
+        local_work_0 += list(user_0_task.items())[0][1]
+        local_work_1 += list(user_1_task.items())[0][1]
+        local_work_2 += list(user_2_task.items())[0][1]
 
         # distribute the work base on the predict price of the other edge
 
-        shared_ations[0], actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0, p0)
-        shared_ations[1], actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1, p1)
-        shared_ations[2], actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2, p2)
+        shared_ations[0], actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0, p0, work_cost[local_work_type_0])
+        shared_ations[1], actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1, p1, work_cost[local_work_type_1])
+        shared_ations[2], actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2, p2, work_cost[local_work_type_2])
 
         # collect the actual price of all edge
         price = [actual_p0, actual_p1, actual_p2]  # actual price
@@ -163,8 +172,8 @@ def run(tr):
             print("stop2")
             exit()
 
-        total_edge_q_len[1][0] += local_work_0[1] + local_work_1[1] + local_work_2[1]
-        total_edge_q_len[2][0] += local_work_0[2] + local_work_1[2] + local_work_2[2]
+        # total_edge_q_len[1][0] += local_work_0[1] + local_work_1[1] + local_work_2[1]
+        # total_edge_q_len[2][0] += local_work_0[2] + local_work_1[2] + local_work_2[2]
 
         td_error_0, v_0, _, v_0_ = edge_0.local_critic.learn(p0, r_0, p0_)  # td_error = the actual price - the predict price
         td_error_1, v_1, _, v_1_ = edge_1.local_critic.learn(p1, r_1, p1_)

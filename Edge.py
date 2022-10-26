@@ -203,38 +203,31 @@ class Edge(object):  # contain a local actor, critic, global critic
         self.local_critic = Critic(scope, self.sess, 2, self.lc_r)
         self.local_predictor = Predictor(scope, self.sess, 2, self.lc_r)
 
-    def distribute_work(self, price, total_work, p_user):  # not ready
+    def distribute_work(self, price, total_work, p_user, work_type_u):  # not ready
         price[self.node_num] = 0
+        price = np.append(price, 15)    # add cloud price
 
-        model1 = pulp.LpProblem("value max", sense=LpMaximize)
-        model2 = pulp.LpProblem("value max", sense=LpMaximize)
+        model1 = pulp.LpProblem("value max", sense=LpMinimize)
         t0 = pulp.LpVariable('t0', lowBound=0, cat='Binary')
         t1 = pulp.LpVariable('t1', lowBound=0, cat='Binary')
         t2 = pulp.LpVariable('t2', lowBound=0, cat='Binary')
         cloud = pulp.LpVariable('cloud', lowBound=0, cat='Binary')
 
-        model1 += t0*price[0]+t1*price[1]+t2*price[2]+cloud*15
-
-        model1 += t0+t1+t2 == total_work[1]
+        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * 15
+        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * 15 - p_user * work_type_u >= 0
+        model1 += t0+t1+t2+cloud == total_work
         model1.solve()
 
-        model2 += 2*(t0 * price[0] + t1 * price[1] + t2 * price[2])+cloud*15
-        model2 += t0 + t1 + t2 == total_work[2]
-        model2.solve()
-
-        print('task 1:')
-        for v, i in model1.variables(), range(4):
-            work[i][0] = v
+        work = []
+        utility = 0
+        i = 0
+        for v in model1.variables():
+            work.append(v.varValue)
+            utility += v.varValue * price[i]
+            i += 1
             print(v.name, "=", v.varValue)
 
         print('obj=', value(model1.objective))
 
-        print('task 2:')
-        for v, i in model2.variables(), range(4):
-            work[i][1] = v
-            print(v.name, "=", v.varValue)
-
-        print('obj=', value(model2.objective))
-
-        ## work memory need to fix b/c two type of task
+        price_ = p_user if utility == 0 else p_user + 1
         return work, price_
