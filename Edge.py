@@ -213,8 +213,8 @@ class Edge(object):  # contain a local actor, critic, global critic
         t2 = pulp.LpVariable('t2', lowBound=0, cat='Binary')
         cloud = pulp.LpVariable('cloud', lowBound=0, cat='Binary')
 
-        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * 15
-        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * 15 - p_user * work_type_u >= 0
+        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * price[3]
+        # model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * price[3] - p_user * work_type_u >= 0
         model1 += t0+t1+t2+cloud == total_work
         model1.solve()
 
