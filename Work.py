@@ -26,17 +26,19 @@ class MEC_network:
         s = np.hstack((self.q_state, self.CRB))
         return s
 
-    def step(self, share_action, price):    # not ready
+    def step(self, share_action, price, work_type):    # not ready
         q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 
-        local_job = 0
+        total_job = 0
+        local_job = [0, 0]
+        local_work_type = [0 for i in range(total_edge)]
         paid = 0
         for i in range(total_edge):
-            for j in range(total_edge + 1):
-                if j == self.node_num:
-                    local_job += share_action[i][j]
+            local_job[work_type[i]] += share_action[i][self.node_num]
+            local_work_type[i] = work_type[i]
+            total_job += local_job[work_type[i]]*(local_work_type[i]+1)
 
-        self.q_state = local_job - self.CRB
+        self.q_state = total_job - self.CRB
         self.q_state = self.q_state if self.q_state > 0 else 0
         self.q_state = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 

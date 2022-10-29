@@ -152,11 +152,12 @@ def run(tr):
 
         # collect the actual price of all edge
         price = [actual_p0, actual_p1, actual_p2]  # actual price
+        work_type = [local_work_type_0, local_work_type_1, local_work_type_2]
 
         # calculate real utility
-        s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0 = mec_0.step(shared_ations, price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1 = mec_1.step(shared_ations, price)
-        s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2 = mec_2.step(shared_ations, price)
+        s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0 = mec_0.step(shared_ations, price, work_type)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1 = mec_1.step(shared_ations, price, work_type)
+        s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2 = mec_2.step(shared_ations, price, work_type)
 
         if r_0 < 0 or r_1 < 0 or r_2 < 0:
             print(r_0, r_1)
