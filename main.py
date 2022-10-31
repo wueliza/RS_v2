@@ -155,9 +155,9 @@ def run(tr):
         work_type = [local_work_type_0, local_work_type_1, local_work_type_2]
 
         # calculate real utility
-        s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0 = mec_0.step(shared_ations, price, work_type)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1 = mec_1.step(shared_ations, price, work_type)
-        s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2 = mec_2.step(shared_ations, price, work_type)
+        s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0, paid_0 = mec_0.step(shared_ations, price, work_type)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1, paid_1 = mec_1.step(shared_ations, price, work_type)
+        s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2, paid_2 = mec_2.step(shared_ations, price, work_type)
 
         if r_0 < 0 or r_1 < 0 or r_2 < 0:
             print(r_0, r_1)
@@ -176,17 +176,17 @@ def run(tr):
         # total_edge_q_len[1][0] += local_work_0[1] + local_work_1[1] + local_work_2[1]
         # total_edge_q_len[2][0] += local_work_0[2] + local_work_1[2] + local_work_2[2]
 
-        td_error_0, v_0, _, v_0_ = edge_0.local_critic.learn(p0, r_0, p0_)  # td_error = the actual price - the predict price
-        td_error_1, v_1, _, v_1_ = edge_1.local_critic.learn(p1, r_1, p1_)
-        td_error_2, v_2, _, v_2_ = edge_1.local_critic.learn(p2, r_2, p2_)
+        td_error_0, v_0, _, v_0_ = edge_0.local_critic.learn(p0, r_0, actual_p0)  # td_error = the actual price - the predict price
+        td_error_1, v_1, _, v_1_ = edge_1.local_critic.learn(p1, r_1, actual_p1)
+        td_error_2, v_2, _, v_2_ = edge_1.local_critic.learn(p2, r_2, actual_p2)
 
         edge_0.local_actor.learn(s_0, p0, td_error_0)
         edge_1.local_actor.learn(s_1, p1, td_error_1)
         edge_2.local_actor.learn(s_2, p2, td_error_2)
 
-        edge_0.local_predictor.learn(PD_other_price_0, price, avg_delay_0)
-        edge_1.local_predictor.learn(PD_other_price_1, price, avg_delay_1)
-        edge_2.local_predictor.learn(PD_other_price_2, price, avg_delay_2)
+        edge_0.local_predictor.learn(PD_other_price_0, price, r_0)
+        edge_1.local_predictor.learn(PD_other_price_1, price, r_1)
+        edge_2.local_predictor.learn(PD_other_price_2, price, r_2)
 
         s_0 = s_0_
         s_1 = s_1_

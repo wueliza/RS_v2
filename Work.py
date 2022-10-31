@@ -37,6 +37,8 @@ class MEC_network:
             local_job[work_type[i]] += share_action[i][self.node_num]
             local_work_type[i] = work_type[i]
             total_job += local_job[work_type[i]]*(local_work_type[i]+1)
+            if i != self.node_num:
+                paid += local_job[work_type[i]]*(local_work_type[i]+1)*price[i]
 
         self.q_state = total_job - self.CRB
         self.q_state = self.q_state if self.q_state > 0 else 0
@@ -53,5 +55,5 @@ class MEC_network:
 
         avg_delay = (1 / (self.Q_SIZE - self.CRB)) if self.Q_SIZE - self.q_state != 0 else 15
 
-        return s_, total_work_, reward, d_delay, q_delay, avg_delay
+        return s_, total_work_, reward, d_delay, q_delay, avg_delay, paid
 

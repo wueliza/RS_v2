@@ -166,7 +166,11 @@ class User(object):  # contain a local actor, critic, global critic
         utility = transit_work[transit_task] * edge_price
 
         self.CRB = 2
-        self.q_state = self.q_state + work[0] + work[1]
-        s_ = np.hstack((self.CRB, self.q_state, utility))
+        self.q_state = self.q_state + work[0] + work[1] - self.CRB
+        self.q_state = self.q_state if self.q_state > 0 else 0
+        self.q_state = self.q_state if self.q_state < self.q_size else self.q_size
+        d_delay = self.q_state - self.q_size if self.q_state > self.q_size else 0
+
+        s_ = np.hstack((self.CRB, self.q_state, d_delay))
 
         return transit_work, utility, s_

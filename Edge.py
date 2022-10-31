@@ -132,7 +132,7 @@ class Critic(object):
         self.lr = lr
         self.t = 1
         n_features = 3
-        self.s = tf.placeholder(tf.float32, [1, total_edge+2], "state")
+        self.s = tf.placeholder(tf.float32, [1, 1], "state")
         self.v_ = tf.placeholder(tf.float32, [1, 1], "v_next")
         self.r = tf.placeholder(tf.float32, None, 'r')
 
@@ -174,7 +174,7 @@ class Critic(object):
             # self.train_op = tf.train.MomentumOptimizer(learning_rate=lr, momentum=0.9).minimize(self.loss)
 
     def learn(self, s, r, s_):
-        s, s_ = s[np.newaxis, :], s_[np.newaxis, :]
+        s, s_ = np.reshape(s, (1, 1)), np.reshape(s_, (1, 1))
         v = self.sess.run(self.v, {self.s: s})
         v_ = self.sess.run(self.v, {self.s: s_})
         td_error, loss, _ = self.sess.run([self.td_error, self.loss, self.train_op],
