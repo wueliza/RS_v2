@@ -184,9 +184,9 @@ def run(tr):
         edge_1.local_actor.learn(s_1, p1, td_error_1)
         edge_2.local_actor.learn(s_2, p2, td_error_2)
 
-        edge_0.local_predictor.learn(PD_other_price_0, price, r_0)
-        edge_1.local_predictor.learn(PD_other_price_1, price, r_1)
-        edge_2.local_predictor.learn(PD_other_price_2, price, r_2)
+        edge_0.local_predictor.learn(PD_other_price_0, r_0, price)  # actual price & predict price
+        edge_1.local_predictor.learn(PD_other_price_1, r_1, price)
+        edge_2.local_predictor.learn(PD_other_price_2, r_2, price)
 
         s_0 = s_0_
         s_1 = s_1_

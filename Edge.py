@@ -29,7 +29,7 @@ class Predictor(object):
 
             self.value = tf.layers.dense(
                 inputs=l1,
-                units=total_edge,
+                units=1,
                 activation=None,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
@@ -50,12 +50,11 @@ class Predictor(object):
         value = self.sess.run(self.value, {self.state: state})
         return value
 
-    def learn(self, state, r, r_):  # need fix
-        reward, reward_ = np.array(r).reshape(1, 1), np.array(r_).reshape(1, 1)
-        state = np.array(state)
-        state = state[np.newaxis, :]
+    def learn(self, s, r, s_):  # need fix
+
+        v_ = self.sess.run(self.v, {self.s: s_})
         td_error, loss, _ = self.sess.run([self.td_error, self.loss, self.train_op],
-                                          {self.value: reward_, self.reward: reward, self.state: state})
+                                          {self.s: s, self.v_: v_, self.r: r})
         self.t += 1
         return td_error, loss
 
@@ -203,7 +202,7 @@ class Edge(object):  # contain a local actor, critic, global critic
         self.local_critic = Critic(scope, self.sess, 2, self.lc_r)
         self.local_predictor = Predictor(scope, self.sess, 2, self.lc_r)
 
-    def distribute_work(self, price, total_work, p_user, work_type_u):  # not ready
+    def distribute_work(self, price, total_work, p_user, work_type_u):
         price[self.node_num] = 0
         price = np.append(price, 15)    # add cloud price
 

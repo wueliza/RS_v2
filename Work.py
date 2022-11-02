@@ -26,7 +26,7 @@ class MEC_network:
         s = np.hstack((self.q_state, self.CRB))
         return s
 
-    def step(self, share_action, price, work_type):    # not ready
+    def step(self, share_action, price, work_type):
         q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 
         total_job = 0
