@@ -13,7 +13,7 @@ class Predictor(object):
         self.lr = lr
         n_features = n_node + 1
         self.state = tf.placeholder(tf.float32, [1, total_edge+1], "Action")
-        self.value_ = tf.placeholder(tf.float32, [1, 1], "NextValue")
+        self.value_ = tf.placeholder(tf.float32, [1, total_edge], "NextValue")
         self.reward = tf.placeholder(tf.float32, None, "pre_reward")
         self.t = 1
 
@@ -29,7 +29,7 @@ class Predictor(object):
 
             self.value = tf.layers.dense(
                 inputs=l1,
-                units=1,
+                units=total_edge,
                 activation=None,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
@@ -51,10 +51,10 @@ class Predictor(object):
         return value
 
     def learn(self, s, r, s_):  # need fix
-
-        v_ = self.sess.run(self.v, {self.s: s_})
+        s, s_ = np.reshape(s, (1, 4)), np.reshape(s_, (1, 4))
+        v_ = self.sess.run(self.value, {self.state: s_})
         td_error, loss, _ = self.sess.run([self.td_error, self.loss, self.train_op],
-                                          {self.s: s, self.v_: v_, self.r: r})
+                                          {self.state: s, self.value_: v_, self.reward: r})
         self.t += 1
         return td_error, loss
 
@@ -224,9 +224,9 @@ class Edge(object):  # contain a local actor, critic, global critic
             work.append(v.varValue)
             utility += v.varValue * price[i]
             i += 1
-            print(v.name, "=", v.varValue)
+            # print(v.name, "=", v.varValue)
 
-        print('obj=', value(model1.objective))
+        # print('obj=', value(model1.objective))
 
         price_ = p_user if utility == 0 else p_user + 1
         return work, price_

@@ -69,11 +69,11 @@ def run(tr):
     edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
 
     user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRV]
+    user_s_0 = np.hstack((user_0.CRB, user_0.q_state,  0))  # s = [q_state, CRV]
     user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_1 = np.hstack((user_1.q_state, user_1.CRB))  # s = [q_state, CRV]
+    user_s_1 = np.hstack((user_1.CRB, user_1.q_state,  0))  # s = [q_state, CRV]
     user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_2 = np.hstack((user_2.q_state, user_2.CRB))  # s = [q_state, CRV]
+    user_s_2 = np.hstack((user_2.CRB, user_2.q_state, 0))  # s = [q_state, CRV]
 
     SESS.run(tf.global_variables_initializer())
 
@@ -119,6 +119,7 @@ def run(tr):
         user_s_0 = np.hstack((user_s_0, p0))
         user_s_1 = np.hstack((user_s_1, p1))
         user_s_2 = np.hstack((user_s_2, p2))
+        print(f'user_s0 = {user_s_0}  user_s1 = {user_s_1}  user_s2 = {user_s_2}')
 
         user_0_action = user_0.local_actor.choose_action(user_s_0).flatten()[0]
         user_1_action = user_1.local_actor.choose_action(user_s_1).flatten()[0]
@@ -136,6 +137,9 @@ def run(tr):
         user_1.local_actor.learn(user_s_1, user_1_action, user_td_error_1)
         user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
 
+        user_s_0 = user_s_0_
+        user_s_1 = user_s_1_
+        user_s_2 = user_s_2_
         # user pass the work to edge user task {type: amount}
         local_work_type_0 = list(user_0_task.items())[0][0]
         local_work_type_1 = list(user_1_task.items())[0][0]
@@ -151,7 +155,7 @@ def run(tr):
         shared_ations[2], actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2, p2, work_cost[local_work_type_2])
 
         # collect the actual price of all edge
-        price = [actual_p0, actual_p1, actual_p2]  # actual price
+        price = [actual_p0, actual_p1, actual_p2, COST_TO_CLOUD]  # actual price
         work_type = [local_work_type_0, local_work_type_1, local_work_type_2]
 
         # calculate real utility
@@ -184,6 +188,9 @@ def run(tr):
         edge_1.local_actor.learn(s_1, p1, td_error_1)
         edge_2.local_actor.learn(s_2, p2, td_error_2)
 
+        PD_other_price_0 = np.append(PD_other_price_0, COST_TO_CLOUD)
+        PD_other_price_1 = np.append(PD_other_price_1, COST_TO_CLOUD)
+        PD_other_price_2 = np.append(PD_other_price_2, COST_TO_CLOUD)
         edge_0.local_predictor.learn(PD_other_price_0, r_0, price)  # actual price & predict price
         edge_1.local_predictor.learn(PD_other_price_1, r_1, price)
         edge_2.local_predictor.learn(PD_other_price_2, r_2, price)
@@ -229,7 +236,7 @@ def run(tr):
         # for i in range(len(edges_g3)):
         #     edges_g5[i].local_actor.lr = min(1, edges_g5[i].local_actor.lr * math.pow(1.000001, i))
         #     edges_g5[i].local_critic.lr = min(1, edges_g5[i].local_critic.lr * math.pow(1.000001, i))
-
+        global GAMMA
         GAMMA = GAMMA / pow(1.00005, i)  # 1.00005
         # GAMMA = GAMMA / math.pow(1.000001, i)
         # ALPHA = ALPHA / math.pow(1.000001, i)
