@@ -215,7 +215,7 @@ class Edge(object):  # contain a local actor, critic, global critic
         model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * price[3]
         # model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * price[3] - p_user * work_type_u >= 0
         model1 += t0+t1+t2+cloud == total_work
-        model1.solve()
+        model1.solve(PULP_CBC_CMD(msg=0))
 
         work = []
         utility = 0

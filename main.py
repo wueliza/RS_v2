@@ -69,11 +69,11 @@ def run(tr):
     edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
 
     user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_0 = np.hstack((user_0.CRB, user_0.q_state,  0))  # s = [q_state, CRV]
+    user_s_0 = np.hstack((user_0.CRB, user_0.q_state))  # s = [q_state, CRV]
     user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_1 = np.hstack((user_1.CRB, user_1.q_state,  0))  # s = [q_state, CRV]
+    user_s_1 = np.hstack((user_1.CRB, user_1.q_state))  # s = [q_state, CRV]
     user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_2 = np.hstack((user_2.CRB, user_2.q_state, 0))  # s = [q_state, CRV]
+    user_s_2 = np.hstack((user_2.CRB, user_2.q_state))  # s = [q_state, CRV]
 
     SESS.run(tf.global_variables_initializer())
 
@@ -136,10 +136,10 @@ def run(tr):
         user_0.local_actor.learn(user_s_0, user_0_action, user_td_error_0)
         user_1.local_actor.learn(user_s_1, user_1_action, user_td_error_1)
         user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
-
-        user_s_0 = user_s_0_
-        user_s_1 = user_s_1_
-        user_s_2 = user_s_2_
+        
+        user_s_0 = user_s_0_[:len(user_s_0_)-1]
+        user_s_1 = user_s_1_[:len(user_s_1_)-1]
+        user_s_2 = user_s_2_[:len(user_s_2_)-1]
         # user pass the work to edge user task {type: amount}
         local_work_type_0 = list(user_0_task.items())[0][0]
         local_work_type_1 = list(user_1_task.items())[0][0]
