@@ -72,7 +72,7 @@ class Actor(object):
         self.n_features = 3  # pStates, qStates, and cStates
         self.state = tf.placeholder(tf.float32, [1, total_edge+2], "state")  # Try different dimensions
         self.epsilon = 0.9
-        self.action = tf.placeholder(tf.int32, None, "act")
+        self.action = tf.placeholder(tf.float32, None, "act")
         self.td_error = tf.placeholder(tf.float32, None, "td_error")  # TD_error
         self.q_size = q_size
 
@@ -89,7 +89,7 @@ class Actor(object):
             self.acts_prob = tf.layers.dense(  # output layer
                 inputs=l1,
                 units=1,  # output units
-                activation=tf.nn.softmax,  # get action probabilities
+                activation=tf.nn.tanh,  # get action probabilities
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='acts_prob'

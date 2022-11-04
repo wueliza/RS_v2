@@ -42,7 +42,7 @@ def run(tr):
     total_delay = []
     total_jobs = []
     total_drop = []
-    total_time = 2000
+    total_time = 100
     q_len = 0
     total_r = 0
     u = 0
@@ -91,8 +91,7 @@ def run(tr):
 
     work_cost = [1, 2]
 
-    # two kinds of task, [amount, cost]
-    total_edge_q_len = {0: [0, 1], 1: [0, 2]}
+    q_len += s_0[0] + s_1[0] + s_2[0]
 
     for i in range(total_time):
         # print("time", i, tr)
@@ -136,7 +135,7 @@ def run(tr):
         user_0.local_actor.learn(user_s_0, user_0_action, user_td_error_0)
         user_1.local_actor.learn(user_s_1, user_1_action, user_td_error_1)
         user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
-        
+
         user_s_0 = user_s_0_[:len(user_s_0_)-1]
         user_s_1 = user_s_1_[:len(user_s_1_)-1]
         user_s_2 = user_s_2_[:len(user_s_2_)-1]
@@ -198,7 +197,6 @@ def run(tr):
         s_0 = s_0_
         s_1 = s_1_
         s_2 = s_2_
-
 
         ###########################
         edge_0.local_actor.lr = min(1, edge_0.local_actor.lr * math.pow(1.000001, i))  # learning rate
@@ -326,29 +324,29 @@ if __name__ == "__main__":
     #     os.system("kill -9 "+ str(p.pid))
     #     print(time.time()-s)
 
-import pickle
-#
-# with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_l_v7.txt","wb") as fp:
-#     pickle.dump(la, fp)
-# with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_q_v7.txt","wb") as fp:
-#     pickle.dump(q_delay, fp)
-# with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_d_v7.txt","wb") as fp:
-#     pickle.dump(dr, fp)
-# with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_s_v7.txt","wb") as fp:
-#     pickle.dump(s_delay, fp)
-# with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_u_v7.txt","wb") as fp:
-#     pickle.dump(utility, fp)
+    import pickle
+    #
+    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_l_v7.txt","wb") as fp:
+    #     pickle.dump(la, fp)
+    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_q_v7.txt","wb") as fp:
+    #     pickle.dump(q_delay, fp)
+    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_d_v7.txt","wb") as fp:
+    #     pickle.dump(dr, fp)
+    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_s_v7.txt","wb") as fp:
+    #     pickle.dump(s_delay, fp)
+    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_u_v7.txt","wb") as fp:
+    #     pickle.dump(utility, fp)
 
-import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt
 
-x = range(1, 40)
-plt.plot(x, la, color='#9D2EC5', marker='o', label='Distributed Actor Critic', linewidth=3.0)
-# plt.plot(x, ac_12n_dis_l ,color= '#F5B14C',marker='o',label='Distributed Actor Critic (group = 1)', linewidth=3.0)
-plt.title("add_ActorLearning")
+    x = range(1, 40)
+    plt.plot(x, la, color='#9D2EC5', marker='o', label='Distributed Actor Critic', linewidth=3.0)
+    # plt.plot(x, ac_12n_dis_l ,color= '#F5B14C',marker='o',label='Distributed Actor Critic (group = 1)', linewidth=3.0)
+    plt.title("add_ActorLearning")
 
-# plt.xticks(range(35,60,5))
-plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
-plt.ylabel('Average Service Delay', fontsize=13)
-plt.tick_params(labelsize=11)
-plt.legend(fontsize=9)
-plt.show()
+    # plt.xticks(range(35,60,5))
+    plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
+    plt.ylabel('Average Service Delay', fontsize=13)
+    plt.tick_params(labelsize=11)
+    plt.legend(fontsize=9)
+    plt.show()
