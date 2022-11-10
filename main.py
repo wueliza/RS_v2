@@ -29,7 +29,8 @@ N_mec_edge = 2
 N_A = N_mec_edge + 1
 
 N_S = 5  # Latency State or Latency State + action phi
-
+output = 'output.txt'
+f = open(output, 'w')
 
 def run(tr):
     import time
@@ -43,9 +44,12 @@ def run(tr):
     total_jobs = []
     total_drop = []
     total_time = 100
-    q_len = 0
-    total_r = 0
-    u = 0
+    q_len0 = 0
+    q_len1 = 0
+    q_len2 = 0
+    total_r0 = 0
+    total_r1 = 0
+    total_r2 = 0
     total_q_delay = 0
     total_drop = 0
     total_utility = 0
@@ -69,11 +73,11 @@ def run(tr):
     edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
 
     user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_0 = np.hstack((user_0.CRB, user_0.q_state))  # s = [q_state, CRV]
+    user_s_0 = np.hstack((user_0.CRB, user_0.q_state))  # s = [q_state, CRB]
     user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
     user_s_1 = np.hstack((user_1.CRB, user_1.q_state))  # s = [q_state, CRV]
     user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_2 = np.hstack((user_2.CRB, user_2.q_state))  # s = [q_state, CRV]
+    user_s_2 = np.hstack((user_2.CRB, user_2.q_state))  # s = [q_state, CRB]
 
     SESS.run(tf.global_variables_initializer())
 
@@ -91,34 +95,39 @@ def run(tr):
 
     work_cost = [1, 2]
 
-    q_len += s_0[0] + s_1[0] + s_2[0]
+    q_len0 += s_0[0]
+    q_len1 += s_1[0]
+    q_len2 += s_2[0]
 
     for i in range(total_time):
         # print("time", i, tr)
+        q_len0 += s_0[0]
+        q_len1 += s_1[0]
+        q_len2 += s_2[0]
 
         # predict the other edge's price bace on the work distribution last time
         PD_other_price_0 = edge_0.local_predictor.choose_action(shared_ations[0]).flatten()
         PD_other_price_1 = edge_1.local_predictor.choose_action(shared_ations[1]).flatten()
         PD_other_price_2 = edge_2.local_predictor.choose_action(shared_ations[2]).flatten()
-        print(f'PD_other_price_0 = {PD_other_price_0}  PD_other_price_1 = {PD_other_price_1}  PD_other_price_2 = {PD_other_price_2}')
+        print(f'\nPD_other_price_0 = {PD_other_price_0}  PD_other_price_1 = {PD_other_price_1}  PD_other_price_2 = {PD_other_price_2}', file=f)
 
         # merge the queue state and cpu
         s_0 = np.hstack((s_0, PD_other_price_0))
         s_1 = np.hstack((s_1, PD_other_price_1))
         s_2 = np.hstack((s_2, PD_other_price_2))
-        print(f's0 = {s_0} s1 = {s_1} s2 = {s_2}')
+        print(f's0 = {s_0} s1 = {s_1} s2 = {s_2}', file=f)
 
         # actor determine the price for user of this state
         p0 = edge_0.local_actor.choose_action(s_0).flatten()[0]
         p1 = edge_1.local_actor.choose_action(s_1).flatten()[0]
         p2 = edge_2.local_actor.choose_action(s_2).flatten()[0]
-        print(f'p0 = {p0}  p1 = {p1}  p2 = {p2}')
+        print(f'p0 = {p0}  p1 = {p1}  p2 = {p2}', file=f)
 
         # user
         user_s_0 = np.hstack((user_s_0, p0))
         user_s_1 = np.hstack((user_s_1, p1))
         user_s_2 = np.hstack((user_s_2, p2))
-        print(f'user_s0 = {user_s_0}  user_s1 = {user_s_1}  user_s2 = {user_s_2}')
+        print(f'user_s0 = {user_s_0}  user_s1 = {user_s_1}  user_s2 = {user_s_2}', file=f)
 
         user_0_action = user_0.local_actor.choose_action(user_s_0).flatten()[0]
         user_1_action = user_1.local_actor.choose_action(user_s_1).flatten()[0]
@@ -252,20 +261,16 @@ def run(tr):
         #                  # +math.exp(-((r_4 - 15 * d_4) + 20 * (d_4 * 15)))+math.exp(-((r_4 - 15 * d_4) + 20 * (d_4 * 15)))
         #
         # # GAMMA = GAMMA / pow(1.0005, i_episode)
-        total_r += r_0 + r_1 + r_2  # + r_1+r_2+r_3+r_4+r_5
+        total_r0 += r_0
+        total_r1 += r_1
+        total_r2 += r_2
 
-    # print("GAMMA", GAMMA)
-    print("task", q_len)
-    # print(total_jobs)
-    # print("drop", total_drop/total_time)
-    # print(total_delay)
-    # try:
-    #     latency[tr] = sum(total_delay)/total_jobs
-    # except:
-    #     print(tr)
     tf.summary.FileWriter("logs/", SESS.graph)
     tf.reset_default_graph()
-    return total_r / q_len, total_drop / total_time, total_q_delay, total_utility, total_s_delay
+    print(f"total_r0 = {total_r0} q_len0 = {q_len0} la0 = {total_r0/q_len0}", file=f)
+    print(f"total_r1 = {total_r1} q_len1 = {q_len1} la1 = {total_r1/q_len1}", file=f)
+    print(f"total_r2 = {total_r2} q_len2 = {q_len2} la2 = {total_r2/q_len2}", file=f)
+    return total_r0/q_len0, total_r1/q_len1, total_r2/q_len2
     # return sum(total_delay)/total_jobs, sum(total_drop)
 
 
@@ -275,36 +280,41 @@ if __name__ == "__main__":
     q_delay = []
     utility = []
     s_delay = []
-    la = []
+    la0 = []
+    la1 = []
+    la2 = []
     dr = []
 
     for j in range(5):
-        latency = []
-        drop = []
-        q_delay = []
-        utility = []
-        s_delay = []
-        for i in range(1, 40):  # task arrival rate
-            print(j, i)
+        latency0 = []
+        latency1 = []
+        latency2 = []
+
+        for i in range(1, 40, 5):  # task arrival rate
+            print('\n', j, i)
+            print('\n', j, i, file=f)
             # i,r =pool.apply_async(func=run, args=(i,))
             # print((i,r))
-            l, d, l_q, u, l_s = run(i)
-            # ans.append(l)
-            # drop.append(d)
-            # p.start()
-            # pros.append(p)
-            latency.append(l)
-            print(latency)
-            drop.append(d)
-            q_delay.append(l_q)
-            utility.append(u)
-            s_delay.append(l_s)
-        la.append(latency)
-        dr.append(drop)
-    print(la)
-    la = np.mean(np.array(la), axis=0)
-    dr = np.mean(np.array(dr), axis=0)
-    print(la)
+            l0, l1, l2 = run(i)
+
+            latency0.append(l0)
+            latency1.append(l1)
+            latency2.append(l2)
+
+        la0.append(latency0)
+        la1.append(latency1)
+        la2.append(latency2)
+
+    la0 = np.mean(np.array(la0), axis=0)
+    la1 = np.mean(np.array(la1), axis=0)
+    la2 = np.mean(np.array(la2), axis=0)
+    print('la0 = ', end='', file=f)
+    print(la0, file=f)
+    print('la1 = ', end='', file=f)
+    print(la1, file=f)
+    print('la2 = ', end='', file=f)
+    print(la2, file=f)
+
     # la = np.mean(a, axis=0)
 
     ############### Measure performance only#############
@@ -339,10 +349,10 @@ if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
 
-    x = range(1, 40)
-    plt.plot(x, la, color='#9D2EC5', marker='o', label='Distributed Actor Critic', linewidth=3.0)
-    # plt.plot(x, ac_12n_dis_l ,color= '#F5B14C',marker='o',label='Distributed Actor Critic (group = 1)', linewidth=3.0)
-    plt.title("add_ActorLearning")
+    x = range(1, 40, 5)
+    plt.plot(x, la0, color='#ff0000', marker='o', label='edge 0', linewidth=3.0)
+    plt.plot(x, la1, color='#00ff00', marker='o', label='edge 1', linewidth=3.0)
+    plt.plot(x, la2, color='#0000ff', marker='o', label='edge 2', linewidth=3.0)
 
     # plt.xticks(range(35,60,5))
     plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
@@ -350,3 +360,4 @@ if __name__ == "__main__":
     plt.tick_params(labelsize=11)
     plt.legend(fontsize=9)
     plt.show()
+    f.close()

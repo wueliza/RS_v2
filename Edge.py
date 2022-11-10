@@ -119,7 +119,7 @@ class Actor(object):
     def choose_action(self, total_task):
         price = self.sess.run(self.acts_prob, feed_dict={self.state: total_task[np.newaxis, :]})
 
-        return price
+        return abs(price)
 
     def reset(self):
         tf.reset_default_graph()
