@@ -27,8 +27,6 @@ class MEC_network:
         return s
 
     def step(self, share_action, price, work_type):
-        q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
-
         total_job = 0
         local_job = [0, 0]
         local_work_type = [0 for i in range(total_edge)]
@@ -39,21 +37,21 @@ class MEC_network:
             total_job += local_job[work_type[i]]*(local_work_type[i]+1)
             if i != self.node_num:
                 paid += local_job[work_type[i]]*(local_work_type[i]+1)*price[i]
+        print(self.node_num, local_job)
 
-        self.q_state = total_job - self.CRB
-        self.q_state = self.q_state if self.q_state > 0 else 0
+        self.q_state = total_job + self.q_state
         self.q_state = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 
         d_delay = self.q_state - self.Q_SIZE if self.q_state > self.Q_SIZE else 0
-
-        reward = float(q_delay + self.weight_d * d_delay)
+        q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
+        utility = q_delay + d_delay + paid
 
         self.CRB = 5
 
-        s_ = np.hstack((self.CRB, self.q_state))
+        s_ = np.hstack((self.q_state, self.CRB, d_delay))
         total_work_ = self.q_state
 
         avg_delay = (1 / (self.Q_SIZE - self.CRB)) if self.Q_SIZE - self.q_state != 0 else 15
 
-        return s_, total_work_, reward, d_delay, q_delay, avg_delay, paid
+        return s_, total_work_, utility, d_delay, q_delay, avg_delay, paid
 

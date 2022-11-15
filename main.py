@@ -73,11 +73,11 @@ def run(tr):
     edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
 
     user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_0 = np.hstack((user_0.CRB, user_0.q_state))  # s = [q_state, CRB]
+    user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRB]
     user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_1 = np.hstack((user_1.CRB, user_1.q_state))  # s = [q_state, CRV]
+    user_s_1 = np.hstack((user_1.q_state, user_1.CRB))  # s = [q_state, CRB]
     user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
-    user_s_2 = np.hstack((user_2.CRB, user_2.q_state))  # s = [q_state, CRB]
+    user_s_2 = np.hstack((user_2.q_state, user_2.CRB))  # s = [q_state, CRB]
 
     SESS.run(tf.global_variables_initializer())
 
@@ -98,12 +98,14 @@ def run(tr):
     q_len0 += s_0[0]
     q_len1 += s_1[0]
     q_len2 += s_2[0]
+    print(f'\nq0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
 
     for i in range(total_time):
         # print("time", i, tr)
-        q_len0 += s_0[0]
-        q_len1 += s_1[0]
-        q_len2 += s_2[0]
+        # q_len0 += s_0[0]
+        # q_len1 += s_1[0]
+        # q_len2 += s_2[0]
+        # print(f'\nq0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
 
         # predict the other edge's price bace on the work distribution last time
         PD_other_price_0 = edge_0.local_predictor.choose_action(shared_ations[0]).flatten()
@@ -132,10 +134,14 @@ def run(tr):
         user_0_action = user_0.local_actor.choose_action(user_s_0).flatten()[0]
         user_1_action = user_1.local_actor.choose_action(user_s_1).flatten()[0]
         user_2_action = user_2.local_actor.choose_action(user_s_2).flatten()[0]
+        print(f'user0 action = {user_0_action}  user1 action = {user_1_action}  user2 action = {user_2_action}', file=f)
 
         user_0_task, user_0_utility, user_s_0_ = user_0.step(user_0_action, p0)
         user_1_task, user_1_utility, user_s_1_ = user_0.step(user_1_action, p1)
         user_2_task, user_2_utility, user_s_2_ = user_0.step(user_2_action, p2)
+        print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}', file=f)
+        print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}', file=f)
+        print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}', file=f)
 
         user_td_error_0 = user_0.local_critic.learn(user_s_0, user_0_utility, user_s_0_)
         user_td_error_1 = user_1.local_critic.learn(user_s_1, user_1_utility, user_s_1_)
@@ -155,21 +161,28 @@ def run(tr):
         local_work_0 += list(user_0_task.items())[0][1]
         local_work_1 += list(user_1_task.items())[0][1]
         local_work_2 += list(user_2_task.items())[0][1]
+        print(f'local work 0 = {local_work_0}  local work 1 = {local_work_1}  local work 2 = {local_work_2}', file=f)
 
         # distribute the work base on the predict price of the other edge
 
         shared_ations[0], actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0, p0, work_cost[local_work_type_0])
         shared_ations[1], actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1, p1, work_cost[local_work_type_1])
         shared_ations[2], actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2, p2, work_cost[local_work_type_2])
+        print(f'actual price p0 = {actual_p0}  p1 = {actual_p1}  p2 = {actual_p2} \nshared action: ',file=f)
+        print(shared_ations, file=f)
 
         # collect the actual price of all edge
         price = [actual_p0, actual_p1, actual_p2, COST_TO_CLOUD]  # actual price
         work_type = [local_work_type_0, local_work_type_1, local_work_type_2]
 
         # calculate real utility
+
         s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0, paid_0 = mec_0.step(shared_ations, price, work_type)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
         s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1, paid_1 = mec_1.step(shared_ations, price, work_type)
         s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2, paid_2 = mec_2.step(shared_ations, price, work_type)
+        print(f'edge0: s = {s_0_} work = {total_work_0} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0}', file=f)
+        print(f'edge1: s = {s_1_} work = {total_work_1} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1}', file=f)
+        print(f'edge2: s = {s_2_} work = {total_work_2} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2}', file=f)
 
         if r_0 < 0 or r_1 < 0 or r_2 < 0:
             print(r_0, r_1)
@@ -177,10 +190,10 @@ def run(tr):
             exit()
 
         # edge actual reward
-        r_0 = r_0 + shared_ations[0][1] * avg_delay_1 + shared_ations[0][2] * avg_delay_2
-        r_1 = r_1 + shared_ations[1][0] * avg_delay_0 + shared_ations[1][2] * avg_delay_2
-        r_2 = r_2 + shared_ations[2][0] * avg_delay_0 + shared_ations[2][1] * avg_delay_1
-
+        r_0 = r_0 - user_0_utility
+        r_1 = r_1 - user_1_utility
+        r_2 = r_2 - user_2_utility
+        print(f'r0 = {r_0}  r1 = {r_1}  r2 = {r_2}', file=f)
         if r_0 < 0 or r_1 < 0 or r_2 < 0:
             print("stop2")
             exit()
@@ -291,7 +304,7 @@ if __name__ == "__main__":
         latency2 = []
 
         for i in range(1, 40, 5):  # task arrival rate
-            print('\n', j, i)
+            print(j, i)
             print('\n', j, i, file=f)
             # i,r =pool.apply_async(func=run, args=(i,))
             # print((i,r))

@@ -101,8 +101,7 @@ class Actor(object):
                 tf.math.reduce_sum(tf.math.multiply(log_prob, self.td_error)))  # advantage (TD_error) guided loss
 
         with tf.variable_scope(scope + 'train'):
-            self.train_op = tf.train.AdamOptimizer(self.lr).minimize(
-                -self.exp_v * .5)  # -.2  # minimize(-exp_v) = maximize(exp_v) #10.5
+            self.train_op = tf.train.AdamOptimizer(self.lr).minimize(-self.exp_v * .5)  # -.2  # minimize(-exp_v) = maximize(exp_v) #10.5
             # Adam optimization algorithm (for stochastic optimization)
             # self.train_op = tf.train.GradientDescentOptimizer(lr).minimize(-self.exp_v*0.00005)
             # self.train_op = tf.train.MomentumOptimizer(learning_rate=lr, momentum=0.9).minimize(-self.exp_v*0.005)
