@@ -34,10 +34,13 @@ class MEC_network:
         for i in range(total_edge):
             local_job[work_type[i]] += share_action[i][self.node_num]
             local_work_type[i] = work_type[i]
-            total_job += local_job[work_type[i]]*(local_work_type[i]+1)
             if i != self.node_num:
                 paid += local_job[work_type[i]]*(local_work_type[i]+1)*price[i]
-        print(self.node_num, local_job)
+
+        for i in range(2):
+            total_job += local_job[i]*(i+1)
+
+        print(self.node_num, local_job, total_job)
 
         self.q_state = total_job + self.q_state
         self.q_state = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
@@ -48,7 +51,7 @@ class MEC_network:
 
         self.CRB = 5
 
-        s_ = np.hstack((self.q_state, self.CRB, d_delay))
+        s_ = np.hstack((self.q_state, self.CRB))
         total_work_ = self.q_state
 
         avg_delay = (1 / (self.Q_SIZE - self.CRB)) if self.Q_SIZE - self.q_state != 0 else 15

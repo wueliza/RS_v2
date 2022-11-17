@@ -184,19 +184,19 @@ def run(tr):
         print(f'edge1: s = {s_1_} work = {total_work_1} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1}', file=f)
         print(f'edge2: s = {s_2_} work = {total_work_2} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2}', file=f)
 
-        if r_0 < 0 or r_1 < 0 or r_2 < 0:
-            print(r_0, r_1)
-            print("stop1")
-            exit()
+        # if r_0 < 0 or r_1 < 0 or r_2 < 0:
+        #     print(r_0, r_1)
+        #     print("stop1")
+        #     exit()
 
         # edge actual reward
         r_0 = r_0 - user_0_utility
         r_1 = r_1 - user_1_utility
         r_2 = r_2 - user_2_utility
         print(f'r0 = {r_0}  r1 = {r_1}  r2 = {r_2}', file=f)
-        if r_0 < 0 or r_1 < 0 or r_2 < 0:
-            print("stop2")
-            exit()
+        # if r_0 < 0 or r_1 < 0 or r_2 < 0:
+        #     print("stop2")
+        #     exit()
 
         # total_edge_q_len[1][0] += local_work_0[1] + local_work_1[1] + local_work_2[1]
         # total_edge_q_len[2][0] += local_work_0[2] + local_work_1[2] + local_work_2[2]
@@ -317,6 +317,12 @@ if __name__ == "__main__":
         la0.append(latency0)
         la1.append(latency1)
         la2.append(latency2)
+        print('la0 = ', end='', file=f)
+        print(la0, file=f)
+        print('la1 = ', end='', file=f)
+        print(la1, file=f)
+        print('la2 = ', end='', file=f)
+        print(la2, file=f)
 
     la0 = np.mean(np.array(la0), axis=0)
     la1 = np.mean(np.array(la1), axis=0)
