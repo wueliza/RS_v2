@@ -101,7 +101,7 @@ class Actor(object):
                 tf.math.reduce_sum(tf.math.multiply(log_prob, self.td_error)))  # advantage (TD_error) guided loss
 
         with tf.variable_scope(scope + 'train'):
-            self.train_op = tf.train.AdamOptimizer(self.lr).minimize(-self.exp_v * .5)  # -.2  # minimize(-exp_v) = maximize(exp_v) #10.5
+            self.train_op = tf.train.AdamOptimizer(self.lr).minimize(self.exp_v * .5)  # -.2  # minimize(-exp_v) = maximize(exp_v) #10.5
             # Adam optimization algorithm (for stochastic optimization)
             # self.train_op = tf.train.GradientDescentOptimizer(lr).minimize(-self.exp_v*0.00005)
             # self.train_op = tf.train.MomentumOptimizer(learning_rate=lr, momentum=0.9).minimize(-self.exp_v*0.005)
@@ -164,7 +164,7 @@ class Critic(object):
             self.td_error = self.r + GAMMA * self.v_ - self.v
             self.loss = tf.square(self.td_error)  # TD_error = (r+gamma*V_next) - V_eval
         with tf.variable_scope(scope + 'train'):
-            self.train_op = tf.train.RMSPropOptimizer(lr).minimize(-self.loss * .5)  # for under 10 nodes .01
+            self.train_op = tf.train.RMSPropOptimizer(lr).minimize(self.loss * .5)  # for under 10 nodes .01
 
             # self.train_op = tf.train.AdamOptimizer(self.lr).minimize(-self.loss*.05) #.5
             # self.train_op = tf.train.AdamOptimizer(self.lr).minimize(-self.exp_v * 10.5)  # minimize(-exp_v) = maximize(exp_v)
@@ -205,15 +205,15 @@ class Edge(object):  # contain a local actor, critic, global critic
         price[self.node_num] = 0
         price = np.append(price, 15)    # add cloud price
 
-        model1 = pulp.LpProblem("value max", sense=LpMinimize)
-        t0 = pulp.LpVariable('t0', lowBound=0, cat='Binary')
-        t1 = pulp.LpVariable('t1', lowBound=0, cat='Binary')
-        t2 = pulp.LpVariable('t2', lowBound=0, cat='Binary')
-        cloud = pulp.LpVariable('cloud', lowBound=0, cat='Binary')
+        model1 = pulp.LpProblem("value min", sense=LpMinimize)
+        t0 = pulp.LpVariable('t0', lowBound=0, cat='Integer')
+        t1 = pulp.LpVariable('t1', lowBound=0, cat='Integer')
+        t2 = pulp.LpVariable('t2', lowBound=0, cat='Integer')
+        tcloud = pulp.LpVariable('tcloud', lowBound=0, cat='Integer')
 
-        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * price[3]
-        # model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + cloud * price[3] - p_user * work_type_u >= 0
-        model1 += t0+t1+t2+cloud == total_work
+        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + tcloud * price[3]
+        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + tcloud * price[3] >= 0
+        model1 += t0+t1+t2+tcloud == total_work
         model1.solve(PULP_CBC_CMD(msg=0))
 
         work = []
