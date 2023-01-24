@@ -40,21 +40,19 @@ class MEC_network:
         for i in range(2):
             total_job += local_job[i]*(i+1)
 
-        print(self.node_num, local_job, total_job)
-
         self.q_state = total_job + self.q_state
         self.q_state = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 
+        self.CRB = 5
+        local_overflow = total_job - self.CRB if total_job > self.CRB else 0
         d_delay = self.q_state - self.Q_SIZE if self.q_state > self.Q_SIZE else 0
         q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
-        utility = q_delay + d_delay + paid
-
-        self.CRB = 5
+        utility = local_overflow + d_delay + paid
 
         s_ = np.hstack((self.q_state, self.CRB))
         total_work_ = self.q_state
 
         avg_delay = (1 / (self.Q_SIZE - self.CRB)) if self.Q_SIZE - self.q_state != 0 else 15
 
-        return s_, total_work_, utility, d_delay, q_delay, avg_delay, paid
+        return s_, total_work_, utility, d_delay, q_delay, avg_delay, paid, local_job, total_job, local_overflow
 

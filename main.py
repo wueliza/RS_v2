@@ -104,7 +104,7 @@ def run(tr):
     # print(f'\nq0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
 
     for i in range(total_time):
-        # print("time", i, tr)
+        print("\ntime = ", i, file=f)
         # q_len0 += s_0[0]
         # q_len1 += s_1[0]
         # q_len2 += s_2[0]
@@ -114,7 +114,7 @@ def run(tr):
         PD_other_price_0 = edge_0.local_predictor.choose_action(shared_ations[0]).flatten()
         PD_other_price_1 = edge_1.local_predictor.choose_action(shared_ations[1]).flatten()
         PD_other_price_2 = edge_2.local_predictor.choose_action(shared_ations[2]).flatten()
-        print(f'\nPD_other_price_0 = {PD_other_price_0}  PD_other_price_1 = {PD_other_price_1}  PD_other_price_2 = {PD_other_price_2}', file=f)
+        print(f'PD_other_price_0 = {PD_other_price_0}  PD_other_price_1 = {PD_other_price_1}  PD_other_price_2 = {PD_other_price_2}', file=f)
 
         # merge the queue state and cpu
         s_0 = np.hstack((s_0, PD_other_price_0))
@@ -139,12 +139,12 @@ def run(tr):
         user_2_action = user_2.local_actor.choose_action(user_s_2).flatten()[0]
         print(f'user0 action = {user_0_action}  user1 action = {user_1_action}  user2 action = {user_2_action}', file=f)
 
-        user_0_task, user_0_utility, user_s_0_ = user_0.step(user_0_action, p0)
-        user_1_task, user_1_utility, user_s_1_ = user_0.step(user_1_action, p1)
-        user_2_task, user_2_utility, user_s_2_ = user_0.step(user_2_action, p2)
-        print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}', file=f)
-        print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}', file=f)
-        print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}', file=f)
+        user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay = user_0.step(user_0_action, p0)
+        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay = user_0.step(user_1_action, p1)
+        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay = user_0.step(user_2_action, p2)
+        print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}', file=f)
+        print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}', file=f)
+        print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}', file=f)
 
         user_td_error_0 = user_0.local_critic.learn(user_s_0, user_0_utility, user_s_0_)
         user_td_error_1 = user_1.local_critic.learn(user_s_1, user_1_utility, user_s_1_)
@@ -180,20 +180,20 @@ def run(tr):
         ap1.append(actual_p1)
         ap2.append(actual_p2)
         work_type = [local_work_type_0, local_work_type_1, local_work_type_2]
-
+        print(f'work type = {work_type}', file=f)
         # calculate real utility
 
-        s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0, paid_0 = mec_0.step(shared_ations, price, work_type)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1, paid_1 = mec_1.step(shared_ations, price, work_type)
-        s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2, paid_2 = mec_2.step(shared_ations, price, work_type)
+        s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0, paid_0, lj0, tj0, overflow0 = mec_0.step(shared_ations, price, work_type)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1, paid_1, lj1, tj1, overflow1 = mec_1.step(shared_ations, price, work_type)
+        s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2, paid_2, lj2, tj2, overflow2 = mec_2.step(shared_ations, price, work_type)
 
         q_len0 += total_work_0
         q_len1 += total_work_1
         q_len2 += total_work_2
         print(f'q0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
-        print(f'edge0: s = {s_0_} work = {total_work_0} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0}', file=f)
-        print(f'edge1: s = {s_1_} work = {total_work_1} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1}', file=f)
-        print(f'edge2: s = {s_2_} work = {total_work_2} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2}', file=f)
+        print(f'edge0: s = {s_0_} work = {total_work_0} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0} local_job = {lj0} total_job = {tj0} overflow = {overflow0}', file=f)
+        print(f'edge1: s = {s_1_} work = {total_work_1} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1} local_job = {lj1} total_job = {tj1} overflow = {overflow1}', file=f)
+        print(f'edge2: s = {s_2_} work = {total_work_2} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2} local_job = {lj2} total_job = {tj2} overflow = {overflow2}', file=f)
 
         # if r_0 < 0 or r_1 < 0 or r_2 < 0:
         #     print(r_0, r_1)

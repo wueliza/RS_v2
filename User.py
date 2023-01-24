@@ -1,7 +1,6 @@
 import tensorflow.compat.v1 as tf
 import gym
 import numpy as np
-
 GAMMA = 0.9
 
 
@@ -163,12 +162,15 @@ class User(object):  # contain a local actor, critic, global critic
         work[transit_task] -= tw
         transit_work = {transit_task: tw}
 
+        # local
         self.CRB = 2
+        local_overflow = work[1-transit_task] - self.CRB if work[1-transit_task] > self.CRB else 0
         self.q_state = self.q_state + work[1-transit_task]
         self.q_state = self.q_state if self.q_state < self.q_size else self.q_size
         d_delay = self.q_state - self.q_size if self.q_state > self.q_size else 0
+        q_delay = self.q_state if self.q_state < self.q_size else self.q_size
 
-        utility = transit_work[transit_task] * edge_price + d_delay
+        utility = transit_work[transit_task] * edge_price + d_delay + local_overflow
         s_ = np.hstack((self.q_state, self.CRB, d_delay))
 
-        return transit_work, utility, s_
+        return transit_work, utility, s_, task_arrival_rate, work, local_overflow, q_delay
