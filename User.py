@@ -22,7 +22,7 @@ class Actor(object):
             l1 = tf.layers.dense(
                 inputs=self.state,
                 units=10,
-                activation=tf.nn.tanh,
+                activation=tf.nn.sigmoid,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='l1'
@@ -31,7 +31,7 @@ class Actor(object):
             self.acts_prob = tf.layers.dense(  # output layer
                 inputs=l1,
                 units=1,  # output units
-                activation=tf.nn.softmax,  # get action probabilities
+                activation=tf.nn.sigmoid,  # get action probabilities
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='acts_prob'
@@ -146,31 +146,42 @@ class User(object):  # contain a local actor, critic, global critic
         self.q_size = q_size
         self.local_actor = Actor(scope, self.sess, self.edge_num, self.la_r, self.q_size)
         self.local_critic = Critic(scope, self.sess, self.edge_num, self.lc_r)
-
+        self.work = [0, 0]  # [0] = task1 [1] = task2
     def step(self, action, edge_price):
         task_arrival_rate = self.task_arrival_rate
         new_task1 = np.random.poisson(task_arrival_rate)
         new_task2 = np.random.poisson(task_arrival_rate)
 
         # random choose to pass task1 or task2 to edge
-        work = [0, 0]   # [0] = task1 [1] = task2
-        work[0] += new_task1
-        work[1] += new_task2
+        self.work[0] += new_task1
+        self.work[1] += new_task2
 
         transit_task = 0 if np.random.rand() > 0.5 else 1
-        tw = round(work[transit_task]*action)
-        work[transit_task] -= tw
+        tw = round(self.work[transit_task]*action)
+        self.work[transit_task] -= tw
         transit_work = {transit_task: tw}
 
         # local
         self.CRB = 2
-        local_overflow = work[1-transit_task] - self.CRB if work[1-transit_task] > self.CRB else 0
-        self.q_state = self.q_state + work[1-transit_task]
+        local_total_work = 0
+        for i in range(len(self.work)):
+            local_total_work += self.work[i]*(i+1)
+        self.q_state = local_total_work - self.CRB
+        self.q_state = self.q_state if self.q_state > 0 else 0
         self.q_state = self.q_state if self.q_state < self.q_size else self.q_size
-        d_delay = self.q_state - self.q_size if self.q_state > self.q_size else 0
-        q_delay = self.q_state if self.q_state < self.q_size else self.q_size
+        for i in range(self.CRB):
+            if self.work[0] > 0:
+                self.work[0] -= 1
+            elif self.work[1] > 0:
+                self.work[1] -= 1
+            else:
+                break
 
-        utility = transit_work[transit_task] * edge_price + d_delay + local_overflow
+        local_overflow = local_total_work - self.q_size if local_total_work > self.CRB else 0
+        q_delay = self.q_state - self.CRB if self.q_state > self.CRB else 0
+        d_delay = local_overflow + q_delay
+
+        utility = transit_work[transit_task] * edge_price + d_delay
         s_ = np.hstack((self.q_state, self.CRB, d_delay))
 
-        return transit_work, utility, s_, task_arrival_rate, work, local_overflow, q_delay
+        return transit_work, utility, s_, task_arrival_rate, self.work, local_overflow, q_delay

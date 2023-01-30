@@ -50,6 +50,14 @@ def run(tr):
     total_r0 = 0
     total_r1 = 0
     total_r2 = 0
+
+    user_q_len0 = 0
+    user_q_len1 = 0
+    user_q_len2 = 0
+    user_total_r0 = 0
+    user_total_r1 = 0
+    user_total_r2 = 0
+
     total_q_delay = 0
     total_drop = 0
     total_utility = 0
@@ -140,11 +148,18 @@ def run(tr):
         print(f'user0 action = {user_0_action}  user1 action = {user_1_action}  user2 action = {user_2_action}', file=f)
 
         user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay = user_0.step(user_0_action, p0)
-        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay = user_0.step(user_1_action, p1)
-        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay = user_0.step(user_2_action, p2)
+        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay = user_1.step(user_1_action, p1)
+        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay = user_2.step(user_2_action, p2)
         print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}', file=f)
         print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}', file=f)
         print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}', file=f)
+
+        user_total_r0 += u0_q_delay
+        user_total_r1 += u1_q_delay
+        user_total_r2 += u2_q_delay
+        user_q_len0 += user_0.q_state
+        user_q_len1 += user_1.q_state
+        user_q_len2 += user_2.q_state
 
         user_td_error_0 = user_0.local_critic.learn(user_s_0, user_0_utility, user_s_0_)
         user_td_error_1 = user_1.local_critic.learn(user_s_1, user_1_utility, user_s_1_)
@@ -201,9 +216,12 @@ def run(tr):
         #     exit()
 
         # edge actual reward
-        r_0 = r_0 - user_0_utility
-        r_1 = r_1 - user_1_utility
-        r_2 = r_2 - user_2_utility
+        # r_0 = r_0 - user_0_utility
+        # r_1 = r_1 - user_1_utility
+        # r_2 = r_2 - user_2_utility
+        r_0 = q_d_0
+        r_1 = q_d_1
+        r_2 = q_d_2
         print(f'r0 = {r_0}  r1 = {r_1}  r2 = {r_2}', file=f)
         # if r_0 < 0 or r_1 < 0 or r_2 < 0:
         #     print("stop2")
@@ -294,7 +312,7 @@ def run(tr):
     print(f"total_r0 = {total_r0} q_len0 = {q_len0} la0 = {total_r0/q_len0}", file=f)
     print(f"total_r1 = {total_r1} q_len1 = {q_len1} la1 = {total_r1/q_len1}", file=f)
     print(f"total_r2 = {total_r2} q_len2 = {q_len2} la2 = {total_r2/q_len2}", file=f)
-    return total_r0/q_len0, total_r1/q_len1, total_r2/q_len2, ap0, ap1, ap2
+    return total_r0/q_len0, total_r1/q_len1, total_r2/q_len2, ap0, ap1, ap2, user_total_r0/user_q_len0, user_total_r1/user_q_len1, user_total_r2/user_q_len2
     # return sum(total_delay)/total_jobs, sum(total_drop)
 
 
@@ -307,6 +325,9 @@ if __name__ == "__main__":
     la0 = []
     la1 = []
     la2 = []
+    ula0 = []
+    ula1 = []
+    ula2 = []
     dr = []
     p0 = []
     p1 = []
@@ -316,6 +337,9 @@ if __name__ == "__main__":
         latency0 = []
         latency1 = []
         latency2 = []
+        user_la_0 = []
+        user_la_1 = []
+        user_la_2 = []
         pp0 = []
         pp1 = []
         pp2 = []
@@ -325,7 +349,7 @@ if __name__ == "__main__":
             print('\n', j, i, file=f)
             # i,r =pool.apply_async(func=run, args=(i,))
             # print((i,r))
-            l0, l1, l2, ap0, ap1, ap2 = run(i)
+            l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(i)
 
             latency0.append(l0)
             latency1.append(l1)
@@ -333,10 +357,16 @@ if __name__ == "__main__":
             pp0.append(np.mean(np.array(ap0), axis=0))
             pp1.append(np.mean(np.array(ap1), axis=0))
             pp2.append(np.mean(np.array(ap2), axis=0))
+            user_la_0.append(u0)
+            user_la_1.append(u1)
+            user_la_2.append(u2)
 
         la0.append(latency0)
         la1.append(latency1)
         la2.append(latency2)
+        ula0.append(user_la_0)
+        ula1.append(user_la_1)
+        ula2.append(user_la_2)
         p0.append(pp0)
         p1.append(pp1)
         p2.append(pp2)
@@ -350,6 +380,9 @@ if __name__ == "__main__":
     la0 = np.mean(np.array(la0), axis=0)
     la1 = np.mean(np.array(la1), axis=0)
     la2 = np.mean(np.array(la2), axis=0)
+    ula0 = np.mean(np.array(ula0), axis=0)
+    ula1 = np.mean(np.array(ula1), axis=0)
+    ula2 = np.mean(np.array(ula2), axis=0)
     p0 = np.mean(np.array(p0), axis=0)
     p1 = np.mean(np.array(p1), axis=0)
     p2 = np.mean(np.array(p2), axis=0)
@@ -400,6 +433,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     x = range(1, 40, 5)
+    plt.figure(1)
     plt.plot(x, la0, color='#ff0000', marker='o', label='edge 0', linewidth=3.0)
     plt.plot(x, la1, color='#00ff00', marker='o', label='edge 1', linewidth=3.0)
     plt.plot(x, la2, color='#0000ff', marker='o', label='edge 2', linewidth=3.0)
@@ -408,8 +442,20 @@ if __name__ == "__main__":
     plt.plot(x, p2, color='#9999FF', marker='o', label='p2', linewidth=3.0)
     # plt.xticks(range(35,60,5))
     plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
-    plt.ylabel('Average Reward/Price', fontsize=13)
+    plt.ylabel('Average Queuing Delay', fontsize=13)
     plt.tick_params(labelsize=11)
     plt.legend(fontsize=9)
+    plt.savefig('edge.jpg')
+
+    plt.figure(2)
+    plt.plot(x, ula0, color='#ff0000', marker='o', label='user 0', linewidth=3.0)
+    plt.plot(x, ula1, color='#00ff00', marker='o', label='user 1', linewidth=3.0)
+    plt.plot(x, ula2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
+    plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
+    plt.ylabel('Average Queuing Delay', fontsize=13)
+    plt.tick_params(labelsize=11)
+    plt.legend(fontsize=9)
+    plt.savefig('user.jpg')
+
     plt.show()
     f.close()
