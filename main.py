@@ -11,6 +11,7 @@ import time
 import random
 import math
 import collections
+import matplotlib.pyplot as plt
 
 tf.disable_eager_execution()  # 禁用默認的即時執行模式(tensorflow 1轉2 需要)
 GAMMA = 0.9
@@ -111,7 +112,17 @@ def run(tr):
     # q_len2 += s_2[0]
     # print(f'\nq0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
 
+    latency0 = []
+    latency1 = []
+    latency2 = []
+    user_la_0 = []
+    user_la_1 = []
+    user_la_2 = []
+    pp0 = []
+    pp1 = []
+    pp2 = []
     for i in range(total_time):
+        print("\ntime = ", i)
         print("\ntime = ", i, file=f)
         # q_len0 += s_0[0]
         # q_len1 += s_1[0]
@@ -140,19 +151,19 @@ def run(tr):
         user_s_0 = np.hstack((user_s_0, p0))
         user_s_1 = np.hstack((user_s_1, p1))
         user_s_2 = np.hstack((user_s_2, p2))
-        print(f'user_s0 = {user_s_0}  user_s1 = {user_s_1}  user_s2 = {user_s_2}', file=f)
+        print(f'\nuser_s0 = {user_s_0}  user_s1 = {user_s_1}  user_s2 = {user_s_2}', file=f)
 
         user_0_action = user_0.local_actor.choose_action(user_s_0).flatten()[0]
         user_1_action = user_1.local_actor.choose_action(user_s_1).flatten()[0]
         user_2_action = user_2.local_actor.choose_action(user_s_2).flatten()[0]
         print(f'user0 action = {user_0_action}  user1 action = {user_1_action}  user2 action = {user_2_action}', file=f)
 
-        user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay = user_0.step(user_0_action, p0)
-        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay = user_1.step(user_1_action, p1)
-        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay = user_2.step(user_2_action, p2)
-        print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}', file=f)
-        print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}', file=f)
-        print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}', file=f)
+        user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay, u0_nt1, u0_nt2 = user_0.step(user_0_action, p0)
+        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay, u1_nt1, u1_nt2 = user_1.step(user_1_action, p1)
+        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay, u2_nt1, u2_nt2 = user_2.step(user_2_action, p2)
+        print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}  new task 1 = {u0_nt1} new task 2 = {u0_nt2}', file=f)
+        print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}  new task 1 = {u1_nt1} new task 2 = {u1_nt2}', file=f)
+        print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}  new task 1 = {u2_nt1} new task 2 = {u2_nt2}', file=f)
 
         user_total_r0 += u0_q_delay
         user_total_r1 += u1_q_delay
@@ -179,7 +190,7 @@ def run(tr):
         local_work_0 += list(user_0_task.items())[0][1]
         local_work_1 += list(user_1_task.items())[0][1]
         local_work_2 += list(user_2_task.items())[0][1]
-        print(f'local work 0 = {local_work_0}  local work 1 = {local_work_1}  local work 2 = {local_work_2}', file=f)
+        print(f'\nlocal work 0 = {local_work_0}  local work 1 = {local_work_1}  local work 2 = {local_work_2}', file=f)
 
         # distribute the work base on the predict price of the other edge
 
@@ -307,11 +318,49 @@ def run(tr):
         total_r1 += r_1
         total_r2 += r_2
 
+        latency0.append(r_0)
+        latency1.append(r_1)
+        latency2.append(r_2)
+        pp0.append(actual_p0)
+        pp1.append(actual_p1)
+        pp2.append(actual_p2)
+        user_la_0.append(user_0_utility)
+        user_la_1.append(user_1_utility)
+        user_la_2.append(user_2_utility)
+
     tf.summary.FileWriter("logs/", SESS.graph)
     tf.reset_default_graph()
     print(f"total_r0 = {total_r0} q_len0 = {q_len0} la0 = {total_r0/q_len0}", file=f)
     print(f"total_r1 = {total_r1} q_len1 = {q_len1} la1 = {total_r1/q_len1}", file=f)
     print(f"total_r2 = {total_r2} q_len2 = {q_len2} la2 = {total_r2/q_len2}", file=f)
+
+
+
+    x = range(0, 100)
+    plt.figure(1)
+    plt.title('edge')
+    plt.plot(x, latency0, color='#ff0000', marker='o', label='edge 0', linewidth=3.0)
+    plt.plot(x, latency1, color='#00ff00', marker='o', label='edge 1', linewidth=3.0)
+    plt.plot(x, latency2, color='#0000ff', marker='o', label='edge 2', linewidth=3.0)
+    plt.xlabel('time', fontsize=13)
+    plt.ylabel('q_delay', fontsize=13)
+
+    plt.figure(2)
+    plt.title('edge price')
+    plt.plot(x, pp0, color='#FF9999', marker='o', label='p0', linewidth=3.0)
+    plt.plot(x, pp1, color='#99FF99', marker='o', label='p1', linewidth=3.0)
+    plt.plot(x, pp2, color='#9999FF', marker='o', label='p2', linewidth=3.0)
+    plt.xlabel('time', fontsize=13)
+    plt.ylabel('price', fontsize=13)
+
+    plt.figure(3)
+    plt.title('user')
+    plt.xlabel('time', fontsize=13)
+    plt.ylabel('q_delay', fontsize=13)
+    plt.plot(x, user_la_0, color='#ff0000', marker='o', label='user 0', linewidth=3.0)
+    plt.plot(x, user_la_1, color='#00ff00', marker='o', label='user 1', linewidth=3.0)
+    plt.plot(x, user_la_2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
+
     return total_r0/q_len0, total_r1/q_len1, total_r2/q_len2, ap0, ap1, ap2, user_total_r0/user_q_len0, user_total_r1/user_q_len1, user_total_r2/user_q_len2
     # return sum(total_delay)/total_jobs, sum(total_drop)
 
@@ -333,129 +382,34 @@ if __name__ == "__main__":
     p1 = []
     p2 = []
 
-    for j in range(5):
-        latency0 = []
-        latency1 = []
-        latency2 = []
-        user_la_0 = []
-        user_la_1 = []
-        user_la_2 = []
-        pp0 = []
-        pp1 = []
-        pp2 = []
+    l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(10)
 
-        for i in range(1, 40, 5):  # task arrival rate
-            print(j, i)
-            print('\n', j, i, file=f)
-            # i,r =pool.apply_async(func=run, args=(i,))
-            # print((i,r))
-            l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(i)
+    print(f'avg l0 = {l0}  l1 = {l1}  l2 = {l2}  u0 = {u0}  u1 = {u1}  u2 = {u2}', file=f)
 
-            latency0.append(l0)
-            latency1.append(l1)
-            latency2.append(l2)
-            pp0.append(np.mean(np.array(ap0), axis=0))
-            pp1.append(np.mean(np.array(ap1), axis=0))
-            pp2.append(np.mean(np.array(ap2), axis=0))
-            user_la_0.append(u0)
-            user_la_1.append(u1)
-            user_la_2.append(u2)
-
-        la0.append(latency0)
-        la1.append(latency1)
-        la2.append(latency2)
-        ula0.append(user_la_0)
-        ula1.append(user_la_1)
-        ula2.append(user_la_2)
-        p0.append(pp0)
-        p1.append(pp1)
-        p2.append(pp2)
-        print('la0 = ', end='', file=f)
-        print(la0, file=f)
-        print('la1 = ', end='', file=f)
-        print(la1, file=f)
-        print('la2 = ', end='', file=f)
-        print(la2, file=f)
-
-    la0 = np.mean(np.array(la0), axis=0)
-    la1 = np.mean(np.array(la1), axis=0)
-    la2 = np.mean(np.array(la2), axis=0)
-    ula0 = np.mean(np.array(ula0), axis=0)
-    ula1 = np.mean(np.array(ula1), axis=0)
-    ula2 = np.mean(np.array(ula2), axis=0)
-    p0 = np.mean(np.array(p0), axis=0)
-    p1 = np.mean(np.array(p1), axis=0)
-    p2 = np.mean(np.array(p2), axis=0)
-    print('la0 = ', end='', file=f)
-    print(la0, file=f)
-    print('la1 = ', end='', file=f)
-    print(la1, file=f)
-    print('la2 = ', end='', file=f)
-    print(la2, file=f)
-    print('p0 = ', end='', file=f)
-    print(p0, file=f)
-    print('p1 = ', end='', file=f)
-    print(p1, file=f)
-    print('p2 = ', end='', file=f)
-    print(p2, file=f)
-    # la = np.mean(a, axis=0)
-
-    ############### Measure performance only#############
-    # import multiprocessing  as mp
-    # import os
-    # for rate in range(5,85,5):
-    #     s = time.time()
-    #     p = mp.Process(target=run, args=(rate,))
-    #     p.start()
-    #     print(p.pid)
-    #     file = "ac_"+str(N_mec_edge)+"n_r"+str(rate)+"_activity_dis.txt"
-    #     print(file)
-    #     command = "psrecord "+str(p.pid)+ " --log /Users/hsiehli-tse/Desktop/Reseearch_2020_3/MEC_performance/"+ file+\
-    #               " --duration 150 --interval 1 --include-children"
-    #     print(command)
-    #     os.system(command)
-    #     os.system("kill -9 "+ str(p.pid))
-    #     print(time.time()-s)
-
-    import pickle
+    # x = range(1, 40, 5)
+    # plt.figure(1)
+    # plt.plot(x, la0, color='#ff0000', marker='o', label='edge 0', linewidth=3.0)
+    # plt.plot(x, la1, color='#00ff00', marker='o', label='edge 1', linewidth=3.0)
+    # plt.plot(x, la2, color='#0000ff', marker='o', label='edge 2', linewidth=3.0)
+    # plt.plot(x, p0, color='#FF9999', marker='o', label='p0', linewidth=3.0)
+    # plt.plot(x, p1, color='#99FF99', marker='o', label='p1', linewidth=3.0)
+    # plt.plot(x, p2, color='#9999FF', marker='o', label='p2', linewidth=3.0)
+    # # plt.xticks(range(35,60,5))
+    # plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
+    # plt.ylabel('Average Queuing Delay', fontsize=13)
+    # plt.tick_params(labelsize=11)
+    # plt.legend(fontsize=9)
+    # plt.savefig('edge.jpg')
     #
-    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_l_v7.txt","wb") as fp:
-    #     pickle.dump(la, fp)
-    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_q_v7.txt","wb") as fp:
-    #     pickle.dump(q_delay, fp)
-    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_d_v7.txt","wb") as fp:
-    #     pickle.dump(dr, fp)
-    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_s_v7.txt","wb") as fp:
-    #     pickle.dump(s_delay, fp)
-    # with open(r"/Users/hsiehli-tse/Downloads/Reinforcement-learning-with-tensorflow-master/contents/8_Actor_Critic_Advantage/ac_dis_2n_u_v7.txt","wb") as fp:
-    #     pickle.dump(utility, fp)
-
-    import matplotlib.pyplot as plt
-
-    x = range(1, 40, 5)
-    plt.figure(1)
-    plt.plot(x, la0, color='#ff0000', marker='o', label='edge 0', linewidth=3.0)
-    plt.plot(x, la1, color='#00ff00', marker='o', label='edge 1', linewidth=3.0)
-    plt.plot(x, la2, color='#0000ff', marker='o', label='edge 2', linewidth=3.0)
-    plt.plot(x, p0, color='#FF9999', marker='o', label='p0', linewidth=3.0)
-    plt.plot(x, p1, color='#99FF99', marker='o', label='p1', linewidth=3.0)
-    plt.plot(x, p2, color='#9999FF', marker='o', label='p2', linewidth=3.0)
-    # plt.xticks(range(35,60,5))
-    plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
-    plt.ylabel('Average Queuing Delay', fontsize=13)
-    plt.tick_params(labelsize=11)
-    plt.legend(fontsize=9)
-    plt.savefig('edge.jpg')
-
-    plt.figure(2)
-    plt.plot(x, ula0, color='#ff0000', marker='o', label='user 0', linewidth=3.0)
-    plt.plot(x, ula1, color='#00ff00', marker='o', label='user 1', linewidth=3.0)
-    plt.plot(x, ula2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
-    plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
-    plt.ylabel('Average Queuing Delay', fontsize=13)
-    plt.tick_params(labelsize=11)
-    plt.legend(fontsize=9)
-    plt.savefig('user.jpg')
+    # plt.figure(2)
+    # plt.plot(x, ula0, color='#ff0000', marker='o', label='user 0', linewidth=3.0)
+    # plt.plot(x, ula1, color='#00ff00', marker='o', label='user 1', linewidth=3.0)
+    # plt.plot(x, ula2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
+    # plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
+    # plt.ylabel('Average Queuing Delay', fontsize=13)
+    # plt.tick_params(labelsize=11)
+    # plt.legend(fontsize=9)
+    # plt.savefig('user.jpg')
 
     plt.show()
     f.close()

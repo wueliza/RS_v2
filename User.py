@@ -1,6 +1,7 @@
 import tensorflow.compat.v1 as tf
 import gym
 import numpy as np
+
 GAMMA = 0.9
 
 
@@ -147,7 +148,11 @@ class User(object):  # contain a local actor, critic, global critic
         self.local_actor = Actor(scope, self.sess, self.edge_num, self.la_r, self.q_size)
         self.local_critic = Critic(scope, self.sess, self.edge_num, self.lc_r)
         self.work = [0, 0]  # [0] = task1 [1] = task2
+
     def step(self, action, edge_price):
+
+        q_delay = self.q_state if self.q_state < self.q_size else self.q_size
+
         task_arrival_rate = self.task_arrival_rate
         new_task1 = np.random.poisson(task_arrival_rate)
         new_task2 = np.random.poisson(task_arrival_rate)
@@ -157,7 +162,7 @@ class User(object):  # contain a local actor, critic, global critic
         self.work[1] += new_task2
 
         transit_task = 0 if np.random.rand() > 0.5 else 1
-        tw = round(self.work[transit_task]*action)
+        tw = round(self.work[transit_task] * action)
         self.work[transit_task] -= tw
         transit_work = {transit_task: tw}
 
@@ -165,7 +170,7 @@ class User(object):  # contain a local actor, critic, global critic
         self.CRB = 2
         local_total_work = 0
         for i in range(len(self.work)):
-            local_total_work += self.work[i]*(i+1)
+            local_total_work += self.work[i] * (i + 1)
         self.q_state = local_total_work - self.CRB
         self.q_state = self.q_state if self.q_state > 0 else 0
         self.q_state = self.q_state if self.q_state < self.q_size else self.q_size
@@ -177,11 +182,11 @@ class User(object):  # contain a local actor, critic, global critic
             else:
                 break
 
-        local_overflow = local_total_work - self.q_size if local_total_work > self.CRB else 0
-        q_delay = self.q_state - self.CRB if self.q_state > self.CRB else 0
+        local_overflow = local_total_work - self.q_size if local_total_work > self.q_size else 0
+
         d_delay = local_overflow + q_delay
 
         utility = transit_work[transit_task] * edge_price + d_delay
         s_ = np.hstack((self.q_state, self.CRB, d_delay))
 
-        return transit_work, utility, s_, task_arrival_rate, self.work, local_overflow, q_delay
+        return transit_work, utility, s_, task_arrival_rate, self.work, local_overflow, q_delay, new_task1, new_task2
