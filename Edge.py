@@ -44,13 +44,20 @@ class Predictor(object):
             self.train_op = tf.train.RMSPropOptimizer(lr).minimize(self.loss)  # for under 10 nodes .01
 
     def choose_action(self, state):
-        state = np.array(state)
-        state = state[np.newaxis, :]
+        # state = np.array(state)
+        # state = state[np.newaxis, :]
 
-        value = self.sess.run(self.value, {self.state: state})
+        work = np.zeros((1, total_edge+1))
+        for i in range(len(state)):
+            count = 0
+            for j in range(2):
+                count += state[i][j] * (j+1)
+            work[0][i] = count
+
+        value = self.sess.run(self.value, {self.state: work})
         return value
 
-    def learn(self, s, r, s_):  # need fix
+    def learn(self, s, r, s_):
         s, s_ = np.reshape(s, (1, 4)), np.reshape(s_, (1, 4))
         v_ = self.sess.run(self.value, {self.state: s_})
         td_error, loss, _ = self.sess.run([self.td_error, self.loss, self.train_op],
@@ -201,31 +208,30 @@ class Edge(object):  # contain a local actor, critic, global critic
         self.local_critic = Critic(scope, self.sess, 2, self.lc_r)
         self.local_predictor = Predictor(scope, self.sess, 2, self.lc_r)
 
-    def distribute_work(self, price, total_work, p_user, work_type_u):
+    def distribute_work(self, price, total_work, p_user):
         price[self.node_num] = 0
         price = np.append(price, 15)    # add cloud price
 
-        model1 = pulp.LpProblem("value min", sense=LpMinimize)
-        t0 = pulp.LpVariable('t0', lowBound=0, cat='Integer')
-        t1 = pulp.LpVariable('t1', lowBound=0, cat='Integer')
-        t2 = pulp.LpVariable('t2', lowBound=0, cat='Integer')
-        tcloud = pulp.LpVariable('tcloud', lowBound=0, cat='Integer')
-
-        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + tcloud * price[3]
-        model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + tcloud * price[3] >= 0
-        model1 += t0+t1+t2+tcloud == total_work
-        model1.solve(PULP_CBC_CMD(msg=0))
-
-        work = []
+        work = [[0, 0] for k in range(4)]
         utility = 0
-        i = 0
-        for v in model1.variables():
-            work.append(v.varValue)
-            utility += v.varValue * price[i]
-            i += 1
-            # print(v.name, "=", v.varValue)
 
-        # print('obj=', value(model1.objective))
+        for i in range(len(total_work)):
+            model1 = pulp.LpProblem("value min", sense=LpMinimize)
+            t0 = pulp.LpVariable('t0', lowBound=0, cat='Integer')
+            t1 = pulp.LpVariable('t1', lowBound=0, cat='Integer')
+            t2 = pulp.LpVariable('t2', lowBound=0, cat='Integer')
+            tcloud = pulp.LpVariable('tcloud', lowBound=0, cat='Integer')
 
-        price_ = p_user if utility == 0 else p_user + 1
+            model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + tcloud * price[3]
+            model1 += t0 * price[0] + t1 * price[1] + t2 * price[2] + tcloud * price[3] >= 0
+            model1 += t0+t1+t2+tcloud == total_work[i]
+            model1.solve(PULP_CBC_CMD(msg=0))
+
+            j = 0
+            for v in model1.variables():
+                work[j][i] = v.varValue
+                utility += v.varValue * price[j]
+                j += 1
+
+        price_ = p_user if utility <= 0 else p_user * 1.5
         return work, price_

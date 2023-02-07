@@ -64,7 +64,6 @@ def run(tr):
     total_utility = 0
     total_state_value = 0
     total_s_delay = 0
-    shared_ations = np.zeros((N_mec_edge, N_mec_edge + 1))
 
     SESS = tf.Session()
     # Three edge networks plus a cloud
@@ -91,16 +90,11 @@ def run(tr):
     SESS.run(tf.global_variables_initializer())
 
     # store the distribution of the task to other edge
-    shared_ations[0] = [0, 0, 0, 0]
-    shared_ations[1] = [0, 0, 0, 0]
-    shared_ations[2] = [0, 0, 0, 0]
+    shared_ations = np.zeros((N_mec_edge, N_mec_edge+1, 2))
 
-    local_work_0 = 0
-    local_work_1 = 0
-    local_work_2 = 0
-    local_work_type_0 = 0
-    local_work_type_1 = 0
-    local_work_type_2 = 0
+    local_work_0 = [0, 0]
+    local_work_1 = [0, 0]
+    local_work_2 = [0, 0]
 
     work_cost = [1, 2]
     ap0 = []
@@ -183,21 +177,19 @@ def run(tr):
         user_s_0 = user_s_0_[:len(user_s_0_)-1]
         user_s_1 = user_s_1_[:len(user_s_1_)-1]
         user_s_2 = user_s_2_[:len(user_s_2_)-1]
+
         # user pass the work to edge user task {type: amount}
-        local_work_type_0 = list(user_0_task.items())[0][0]
-        local_work_type_1 = list(user_1_task.items())[0][0]
-        local_work_type_2 = list(user_2_task.items())[0][0]
-        local_work_0 += list(user_0_task.items())[0][1]
-        local_work_1 += list(user_1_task.items())[0][1]
-        local_work_2 += list(user_2_task.items())[0][1]
+        local_work_0[list(user_0_task.items())[0][0]] += list(user_0_task.items())[0][1]
+        local_work_1[list(user_1_task.items())[0][0]] += list(user_1_task.items())[0][1]
+        local_work_2[list(user_2_task.items())[0][0]] += list(user_2_task.items())[0][1]
         print(f'\nlocal work 0 = {local_work_0}  local work 1 = {local_work_1}  local work 2 = {local_work_2}', file=f)
 
         # distribute the work base on the predict price of the other edge
 
-        shared_ations[0], actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0, p0, work_cost[local_work_type_0])
-        shared_ations[1], actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1, p1, work_cost[local_work_type_1])
-        shared_ations[2], actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2, p2, work_cost[local_work_type_2])
-        print(f'actual price p0 = {actual_p0}  p1 = {actual_p1}  p2 = {actual_p2} \nshared action: ',file=f)
+        shared_ations[0], actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0, p0)
+        shared_ations[1], actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1, p1)
+        shared_ations[2], actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2, p2)
+        print(f'actual price p0 = {actual_p0}  p1 = {actual_p1}  p2 = {actual_p2} \nshared action: ', file=f)
         print(shared_ations, file=f)
 
         # collect the actual price of all edge
@@ -205,21 +197,19 @@ def run(tr):
         ap0.append(actual_p0)
         ap1.append(actual_p1)
         ap2.append(actual_p2)
-        work_type = [local_work_type_0, local_work_type_1, local_work_type_2]
-        print(f'work type = {work_type}', file=f)
+
         # calculate real utility
+        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, lj0, tj0, overflow0, income_0 = mec_0.step(shared_ations, price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, lj1, tj1, overflow1, income_1 = mec_1.step(shared_ations, price)
+        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, lj2, tj2, overflow2, income_2 = mec_2.step(shared_ations, price)
 
-        s_0_, total_work_0, r_0, d_0, q_d_0, avg_delay_0, paid_0, lj0, tj0, overflow0 = mec_0.step(shared_ations, price, work_type)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        s_1_, total_work_1, r_1, d_1, q_d_1, avg_delay_1, paid_1, lj1, tj1, overflow1 = mec_1.step(shared_ations, price, work_type)
-        s_2_, total_work_2, r_2, d_2, q_d_2, avg_delay_2, paid_2, lj2, tj2, overflow2 = mec_2.step(shared_ations, price, work_type)
-
-        q_len0 += total_work_0
-        q_len1 += total_work_1
-        q_len2 += total_work_2
+        q_len0 += total_work_0_
+        q_len1 += total_work_1_
+        q_len2 += total_work_2_
         print(f'q0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
-        print(f'edge0: s = {s_0_} work = {total_work_0} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0} local_job = {lj0} total_job = {tj0} overflow = {overflow0}', file=f)
-        print(f'edge1: s = {s_1_} work = {total_work_1} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1} local_job = {lj1} total_job = {tj1} overflow = {overflow1}', file=f)
-        print(f'edge2: s = {s_2_} work = {total_work_2} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2} local_job = {lj2} total_job = {tj2} overflow = {overflow2}', file=f)
+        print(f'edge0: s_ = {s_0_} work_ = {total_work_0_} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0} local_job = {lj0} total_job = {tj0} overflow = {overflow0} income = {income_0}', file=f)
+        print(f'edge1: s_ = {s_1_} work_ = {total_work_1_} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1} local_job = {lj1} total_job = {tj1} overflow = {overflow1} income = {income_1}', file=f)
+        print(f'edge2: s_ = {s_2_} work_ = {total_work_2_} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2} local_job = {lj2} total_job = {tj2} overflow = {overflow2} income = {income_2}', file=f)
 
         # if r_0 < 0 or r_1 < 0 or r_2 < 0:
         #     print(r_0, r_1)
@@ -324,9 +314,9 @@ def run(tr):
         pp0.append(actual_p0)
         pp1.append(actual_p1)
         pp2.append(actual_p2)
-        user_la_0.append(user_0_utility)
-        user_la_1.append(user_1_utility)
-        user_la_2.append(user_2_utility)
+        user_la_0.append(u0_q_delay)
+        user_la_1.append(u1_q_delay)
+        user_la_2.append(u2_q_delay)
 
     tf.summary.FileWriter("logs/", SESS.graph)
     tf.reset_default_graph()
