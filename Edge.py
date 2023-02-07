@@ -21,7 +21,7 @@ class Predictor(object):
             l1 = tf.layers.dense(
                 inputs=self.state,
                 units=10,
-                activation=tf.nn.tanh,
+                activation=tf.nn.sigmoid,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='l1'
@@ -30,7 +30,7 @@ class Predictor(object):
             self.value = tf.layers.dense(
                 inputs=l1,
                 units=total_edge,
-                activation=None,  ###############
+                activation=tf.nn.sigmoid,  ###############
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='Value'
@@ -87,7 +87,7 @@ class Actor(object):
             l1 = tf.layers.dense(
                 inputs=self.state,
                 units=10,
-                activation=tf.nn.tanh,
+                activation=tf.nn.sigmoid,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='l1'
@@ -146,7 +146,7 @@ class Critic(object):
                 inputs=self.s,
                 units=20,  # number of hidden units #50
                 # activation=tf.nn.relu,  # None
-                activation=tf.nn.tanh,
+                activation=tf.nn.sigmoid,
                 # tf.nn.tanh
                 # tf.nn.selu
                 # tf.nn.softplus
@@ -161,7 +161,7 @@ class Critic(object):
             self.v = tf.layers.dense(
                 inputs=l1,
                 units=1,  # output units
-                activation=None,
+                activation=tf.nn.sigmoid,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='V'
