@@ -30,7 +30,7 @@ class Predictor(object):
             self.value = tf.layers.dense(
                 inputs=l1,
                 units=total_edge,
-                activation=None,
+                activation=None,  ###############
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='Value'
@@ -96,7 +96,7 @@ class Actor(object):
             self.acts_prob = tf.layers.dense(  # output layer
                 inputs=l1,
                 units=1,  # output units
-                activation=tf.nn.tanh,  # get action probabilities
+                activation=tf.nn.sigmoid,  ###############
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='acts_prob'

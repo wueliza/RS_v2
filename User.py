@@ -178,7 +178,7 @@ class User(object):  # contain a local actor, critic, global critic
             if self.work[0] > 0:
                 self.work[0] -= 1
             elif self.work[1] > 0:
-                self.work[1] -= 1
+                self.work[1] -= 0.5
             else:
                 break
 

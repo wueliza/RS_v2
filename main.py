@@ -199,17 +199,17 @@ def run(tr):
         ap2.append(actual_p2)
 
         # calculate real utility
-        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, lj0, tj0, overflow0, income_0 = mec_0.step(shared_ations, price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, lj1, tj1, overflow1, income_1 = mec_1.step(shared_ations, price)
-        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, lj2, tj2, overflow2, income_2 = mec_2.step(shared_ations, price)
+        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, local_work_0, tj0, overflow0, income_0 = mec_0.step(shared_ations, price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, local_work_1, tj1, overflow1, income_1 = mec_1.step(shared_ations, price)
+        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, local_work_2, tj2, overflow2, income_2 = mec_2.step(shared_ations, price)
 
         q_len0 += total_work_0_
         q_len1 += total_work_1_
         q_len2 += total_work_2_
         print(f'q0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
-        print(f'edge0: s_ = {s_0_} work_ = {total_work_0_} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0} local_job = {lj0} total_job = {tj0} overflow = {overflow0} income = {income_0}', file=f)
-        print(f'edge1: s_ = {s_1_} work_ = {total_work_1_} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1} local_job = {lj1} total_job = {tj1} overflow = {overflow1} income = {income_1}', file=f)
-        print(f'edge2: s_ = {s_2_} work_ = {total_work_2_} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2} local_job = {lj2} total_job = {tj2} overflow = {overflow2} income = {income_2}', file=f)
+        print(f'edge0: s_ = {s_0_} work_ = {total_work_0_} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0} local_job_ = {local_work_0} total_job = {tj0} overflow = {overflow0} income = {income_0}', file=f)
+        print(f'edge1: s_ = {s_1_} work_ = {total_work_1_} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1} local_job_ = {local_work_1} total_job = {tj1} overflow = {overflow1} income = {income_1}', file=f)
+        print(f'edge2: s_ = {s_2_} work_ = {total_work_2_} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2} local_job_ = {local_work_2} total_job = {tj2} overflow = {overflow2} income = {income_2}', file=f)
 
         # if r_0 < 0 or r_1 < 0 or r_2 < 0:
         #     print(r_0, r_1)
@@ -372,7 +372,7 @@ if __name__ == "__main__":
     p1 = []
     p2 = []
 
-    l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(10)
+    l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(3)
 
     print(f'avg l0 = {l0}  l1 = {l1}  l2 = {l2}  u0 = {u0}  u1 = {u1}  u2 = {u2}', file=f)
 
