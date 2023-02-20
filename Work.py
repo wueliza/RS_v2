@@ -3,17 +3,20 @@ import gym
 import numpy as np
 import time
 import collections
+import pandas as pd
 
 np.random.seed(int(time.time()))
 COST_TO_CLOUD = 15
 total_edge = 3
+bins = list(np.arange(0, 1, 1/COST_TO_CLOUD))
+bins[len(bins)-1] = 1
 
 
 class MEC_network:
     def __init__(self, num_nodes, Q_SIZE, node_num):
         self.node_num = node_num
         self.num_nodes = num_nodes
-        self.CRB = 5
+        self.CRB = 10
         self.q_state = np.random.choice(5)
         self.weight_q = 1
         self.weight_d = COST_TO_CLOUD
@@ -22,7 +25,7 @@ class MEC_network:
         self.p_a = 0
 
     def reset(self):
-        self.CRB = 5
+        self.CRB = 10
         s = np.hstack((self.q_state, self.CRB))
         return s
 
@@ -54,13 +57,13 @@ class MEC_network:
         for i in range(self.CRB):
             if local_job[0] > 0:
                 local_job[0] -= 1
-            elif local_job[1] > 0:
-                local_job[1] -= 0.5
+            elif local_job[1] > 1:
+                local_job[1] -= 1
             else:
                 break
 
         local_overflow = total_job - self.Q_SIZE if total_job > self.Q_SIZE else 0
-        d_delay = local_overflow + q_delay
+        d_delay = local_overflow * COST_TO_CLOUD + q_delay
         utility = d_delay + paid - income
 
         s_ = np.hstack((self.q_state, self.CRB))

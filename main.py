@@ -203,9 +203,9 @@ def run(tr):
         s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, local_work_1, tj1, overflow1, income_1 = mec_1.step(shared_ations, price)
         s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, local_work_2, tj2, overflow2, income_2 = mec_2.step(shared_ations, price)
 
-        q_len0 += total_work_0_
-        q_len1 += total_work_1_
-        q_len2 += total_work_2_
+        q_len0 += tj0
+        q_len1 += tj1
+        q_len2 += tj2
         print(f'q0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
         print(f'edge0: s_ = {s_0_} work_ = {total_work_0_} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0} local_job_ = {local_work_0} total_job = {tj0} overflow = {overflow0} income = {income_0}', file=f)
         print(f'edge1: s_ = {s_1_} work_ = {total_work_1_} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1} local_job_ = {local_work_1} total_job = {tj1} overflow = {overflow1} income = {income_1}', file=f)
@@ -220,9 +220,9 @@ def run(tr):
         # r_0 = r_0 - user_0_utility
         # r_1 = r_1 - user_1_utility
         # r_2 = r_2 - user_2_utility
-        r_0 = q_d_0
-        r_1 = q_d_1
-        r_2 = q_d_2
+        r_0 = r_0
+        r_1 = r_1
+        r_2 = r_2
         print(f'r0 = {r_0}  r1 = {r_1}  r2 = {r_2}', file=f)
         # if r_0 < 0 or r_1 < 0 or r_2 < 0:
         #     print("stop2")
@@ -368,9 +368,9 @@ if __name__ == "__main__":
     ula1 = []
     ula2 = []
     dr = []
-    p0 = []
-    p1 = []
-    p2 = []
+    # p0 = []
+    # p1 = []
+    # p2 = []
 
     l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(3)
 

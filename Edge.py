@@ -2,9 +2,13 @@ import tensorflow.compat.v1 as tf
 import gym
 import numpy as np
 from pulp import*
+import pandas as pd
 
 GAMMA = 0.9
 total_edge = 3
+COST_TO_CLOUD = 15
+bins = list(np.arange(0, 1, 1/COST_TO_CLOUD))
+bins[len(bins)-1] = 1
 
 
 class Predictor(object):
@@ -21,7 +25,7 @@ class Predictor(object):
             l1 = tf.layers.dense(
                 inputs=self.state,
                 units=10,
-                activation=tf.nn.sigmoid,
+                activation=tf.nn.tanh,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='l1'
@@ -30,7 +34,7 @@ class Predictor(object):
             self.value = tf.layers.dense(
                 inputs=l1,
                 units=total_edge,
-                activation=tf.nn.sigmoid,  ###############
+                activation=tf.nn.sigmoid,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='Value'
@@ -55,7 +59,8 @@ class Predictor(object):
             work[0][i] = count
 
         value = self.sess.run(self.value, {self.state: work})
-        return value
+        price = pd.cut(value.flatten(), bins, labels=False)
+        return price
 
     def learn(self, s, r, s_):
         s, s_ = np.reshape(s, (1, 4)), np.reshape(s_, (1, 4))
@@ -87,7 +92,7 @@ class Actor(object):
             l1 = tf.layers.dense(
                 inputs=self.state,
                 units=10,
-                activation=tf.nn.sigmoid,
+                activation=tf.nn.tanh,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='l1'
@@ -123,8 +128,8 @@ class Actor(object):
         return exp_v
 
     def choose_action(self, total_task):
-        price = self.sess.run(self.acts_prob, feed_dict={self.state: total_task[np.newaxis, :]})
-
+        value = self.sess.run(self.acts_prob, feed_dict={self.state: total_task[np.newaxis, :]})
+        price = pd.cut(value.flatten(), bins, labels=False)
         return price
 
     def reset(self):
@@ -146,7 +151,7 @@ class Critic(object):
                 inputs=self.s,
                 units=20,  # number of hidden units #50
                 # activation=tf.nn.relu,  # None
-                activation=tf.nn.sigmoid,
+                activation=tf.nn.tanh,
                 # tf.nn.tanh
                 # tf.nn.selu
                 # tf.nn.softplus
@@ -216,7 +221,7 @@ class Edge(object):  # contain a local actor, critic, global critic
         utility = 0
 
         for i in range(len(total_work)):
-            model1 = pulp.LpProblem("value min", sense=LpMinimize)
+            model1 = pulp.LpProblem("value min", sense=LpMaximize)
             t0 = pulp.LpVariable('t0', lowBound=0, cat='Integer')
             t1 = pulp.LpVariable('t1', lowBound=0, cat='Integer')
             t2 = pulp.LpVariable('t2', lowBound=0, cat='Integer')

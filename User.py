@@ -1,8 +1,12 @@
 import tensorflow.compat.v1 as tf
 import gym
 import numpy as np
+import pandas as pd
 
 GAMMA = 0.9
+COST_TO_CLOUD = 15
+bins = list(np.arange(0, 1, 1/COST_TO_CLOUD))
+bins[len(bins)-1] = 1
 
 
 class Actor(object):
@@ -23,7 +27,7 @@ class Actor(object):
             l1 = tf.layers.dense(
                 inputs=self.state,
                 units=10,
-                activation=tf.nn.sigmoid,
+                activation=tf.nn.tanh,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='l1'
@@ -60,8 +64,8 @@ class Actor(object):
         return exp_v
 
     def choose_action(self, s):
-        price = self.sess.run(self.acts_prob, feed_dict={self.state: s[np.newaxis, :]})
-
+        value = self.sess.run(self.acts_prob, feed_dict={self.state: s[np.newaxis, :]})
+        price = pd.cut(value.flatten(), bins, labels=False)
         return price
 
     def reset(self):
@@ -84,7 +88,7 @@ class Critic(object):
                 inputs=self.s,
                 units=20,  # number of hidden units #50
                 # activation=tf.nn.relu,  # None
-                activation=tf.nn.sigmoid,
+                activation=tf.nn.tanh,
                 # tf.nn.tanh
                 # tf.nn.selu
                 # tf.nn.softplus
@@ -142,7 +146,7 @@ class User(object):  # contain a local actor, critic, global critic
         self.epsilon = 0.8
         self.a = tf.placeholder(tf.int32, None, "act")
         self.td_error = tf.placeholder(tf.float32, None, "td_error")  # TD_error
-        self.CRB = np.random.choice(5)  # computing state
+        self.CRB = 2  # computing state
         self.q_state = np.random.choice(5)  # queueing state
         self.q_size = q_size
         self.local_actor = Actor(scope, self.sess, self.edge_num, self.la_r, self.q_size)
@@ -157,36 +161,58 @@ class User(object):  # contain a local actor, critic, global critic
         new_task1 = np.random.poisson(task_arrival_rate)
         new_task2 = np.random.poisson(task_arrival_rate)
 
-        # random choose to pass task1 or task2 to edge
-        self.work[0] += new_task1
-        self.work[1] += new_task2
+        # user does it self
+        do_self_utility = q_delay
 
-        transit_task = 0 if np.random.rand() > 0.5 else 1
-        tw = round(self.work[transit_task] * action)
-        self.work[transit_task] -= tw
-        transit_work = {transit_task: tw}
+        # transfer one type of work
+        task1_utility = q_delay + new_task1 * action
+        task2_utility = q_delay + new_task2 * 2 * action
 
-        # local
+        # allocate work
+        # transit_task = 0 if np.random.rand() > 0.5 else 1
+        # tw = round(self.work[transit_task] * action)
+        # self.work[transit_task] -= tw
+        transit_work = {}
+        max_utility = max(do_self_utility, task1_utility, task2_utility)
+        if max_utility == do_self_utility:
+            transit_work = {0: 0}
+            self.work[0] += new_task1
+            self.work[1] += new_task2
+        elif max_utility == task1_utility:
+            transit_work = {0: new_task1}
+            self.work[1] += new_task2
+        elif max_utility == task2_utility:
+            transit_work = {1: new_task2}
+            self.work[0] += new_task1
+
         self.CRB = 2
         local_total_work = 0
         for i in range(len(self.work)):
             local_total_work += self.work[i] * (i + 1)
+
+        # local
         self.q_state = local_total_work - self.CRB
         self.q_state = self.q_state if self.q_state > 0 else 0
         self.q_state = self.q_state if self.q_state < self.q_size else self.q_size
         for i in range(self.CRB):
             if self.work[0] > 0:
                 self.work[0] -= 1
-            elif self.work[1] > 0:
-                self.work[1] -= 0.5
+            elif self.work[1] > 1:
+                self.work[1] -= 1
             else:
                 break
 
         local_overflow = local_total_work - self.q_size if local_total_work > self.q_size else 0
 
-        d_delay = local_overflow + q_delay
+        d_delay = local_overflow * COST_TO_CLOUD + q_delay
 
-        utility = transit_work[transit_task] * edge_price + d_delay
+        utility = max_utility + local_overflow * COST_TO_CLOUD
         s_ = np.hstack((self.q_state, self.CRB, d_delay))
 
         return transit_work, utility, s_, task_arrival_rate, self.work, local_overflow, q_delay, new_task1, new_task2
+
+
+
+
+
+
