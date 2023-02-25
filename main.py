@@ -12,6 +12,7 @@ import random
 import math
 import collections
 import matplotlib.pyplot as plt
+from collections import Counter
 
 tf.disable_eager_execution()  # 禁用默認的即時執行模式(tensorflow 1轉2 需要)
 GAMMA = 0.9
@@ -90,13 +91,25 @@ def run(tr):
     SESS.run(tf.global_variables_initializer())
 
     # store the distribution of the task to other edge
-    shared_ations = np.zeros((N_mec_edge, N_mec_edge+1, 2))
+    # shared_ations = np.zeros((N_mec_edge, N_mec_edge+1, 2))
 
-    local_work_0 = [0, 0]
-    local_work_1 = [0, 0]
-    local_work_2 = [0, 0]
+    shared_action = {}
+    for k in range(N_mec_edge):
+        shared_action[f'edge{k}'] = {}
+        shared_action[f'edge{k}']['self'] = 0
+        for j in range(N_mec_edge):
+            if j == k:
+                continue
+            else:
+                shared_action[f'edge{k}'][f'edge{j}'] = 0
+        shared_action[f'edge{k}']['cloud'] = 0
+    # local_work_0 = [0, 0]
+    # local_work_1 = [0, 0]
+    # local_work_2 = [0, 0]
+    work = {}
+    for k in range(N_mec_edge):
+        work[f'edge{k}'] = {0: 1, 1: 0}
 
-    work_cost = [1, 2]
     ap0 = []
     ap1 = []
     ap2 = []
@@ -116,7 +129,7 @@ def run(tr):
     pp1 = []
     pp2 = []
     for i in range(total_time):
-        print("\ntime = ", i)
+        print("time = ", i)
         print("\ntime = ", i, file=f)
         # q_len0 += s_0[0]
         # q_len1 += s_1[0]
@@ -124,9 +137,9 @@ def run(tr):
         # print(f'\nq0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
 
         # predict the other edge's price bace on the work distribution last time
-        PD_other_price_0 = edge_0.local_predictor.choose_action(shared_ations[0]).flatten()
-        PD_other_price_1 = edge_1.local_predictor.choose_action(shared_ations[1]).flatten()
-        PD_other_price_2 = edge_2.local_predictor.choose_action(shared_ations[2]).flatten()
+        PD_other_price_0 = edge_0.local_predictor.choose_action(shared_action['edge0']).flatten()
+        PD_other_price_1 = edge_1.local_predictor.choose_action(shared_action['edge1']).flatten()
+        PD_other_price_2 = edge_2.local_predictor.choose_action(shared_action['edge2']).flatten()
         print(f'PD_other_price_0 = {PD_other_price_0}  PD_other_price_1 = {PD_other_price_1}  PD_other_price_2 = {PD_other_price_2}', file=f)
 
         # merge the queue state and cpu
@@ -152,12 +165,12 @@ def run(tr):
         user_2_action = user_2.local_actor.choose_action(user_s_2).flatten()[0]
         print(f'user0 action = {user_0_action}  user1 action = {user_1_action}  user2 action = {user_2_action}', file=f)
 
-        user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay, u0_nt1, u0_nt2 = user_0.step(user_0_action, p0)
-        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay, u1_nt1, u1_nt2 = user_1.step(user_1_action, p1)
-        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay, u2_nt1, u2_nt2 = user_2.step(user_2_action, p2)
-        print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}  new task 1 = {u0_nt1} new task 2 = {u0_nt2}', file=f)
-        print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}  new task 1 = {u1_nt1} new task 2 = {u1_nt2}', file=f)
-        print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}  new task 1 = {u2_nt1} new task 2 = {u2_nt2}', file=f)
+        user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay, u0_nt, u0_nt1, u0_nt2 = user_0.step(user_0_action, p0)
+        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay, u1_nt, u1_nt1, u1_nt2 = user_1.step(user_1_action, p1)
+        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay, u2_nt, u2_nt1, u2_nt2 = user_2.step(user_2_action, p2)
+        print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}  new task  = {u0_nt}  new task 1 = {u0_nt1} new task 2 = {u0_nt2}', file=f)
+        print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}  new task  = {u1_nt}  new task 1 = {u1_nt1} new task 2 = {u1_nt2}', file=f)
+        print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}  new task  = {u2_nt}  new task 1 = {u2_nt1} new task 2 = {u2_nt2}', file=f)
 
         user_total_r0 += u0_q_delay
         user_total_r1 += u1_q_delay
@@ -179,29 +192,38 @@ def run(tr):
         user_s_2 = user_s_2_[:len(user_s_2_)-1]
 
         # user pass the work to edge user task {type: amount}
-        local_work_0[list(user_0_task.items())[0][0]] += list(user_0_task.items())[0][1]
-        local_work_1[list(user_1_task.items())[0][0]] += list(user_1_task.items())[0][1]
-        local_work_2[list(user_2_task.items())[0][0]] += list(user_2_task.items())[0][1]
-        print(f'\nlocal work 0 = {local_work_0}  local work 1 = {local_work_1}  local work 2 = {local_work_2}', file=f)
+        # local_work_0[list(user_0_task.items())[0][0]] += list(user_0_task.items())[0][1]
+        # local_work_1[list(user_1_task.items())[0][0]] += list(user_1_task.items())[0][1]
+        # local_work_2[list(user_2_task.items())[0][0]] += list(user_2_task.items())[0][1]
+        # print(f'\nlocal work 0 = {local_work_0}  local work 1 = {local_work_1}  local work 2 = {local_work_2}', file=f)
 
         # distribute the work base on the predict price of the other edge
-
-        shared_ations[0], actual_p0 = edge_0.distribute_work(PD_other_price_0, local_work_0, p0)
-        shared_ations[1], actual_p1 = edge_1.distribute_work(PD_other_price_1, local_work_1, p1)
-        shared_ations[2], actual_p2 = edge_2.distribute_work(PD_other_price_2, local_work_2, p2)
+        PD_other_price_0[0] = mec_0.q_state if mec_0.q_state < mec_0.Q_SIZE else mec_0.Q_SIZE
+        PD_other_price_1[1] = mec_1.q_state if mec_1.q_state < mec_1.Q_SIZE else mec_1.Q_SIZE
+        PD_other_price_2[2] = mec_2.q_state if mec_2.q_state < mec_2.Q_SIZE else mec_2.Q_SIZE
+        shared_action['edge0'], actual_p0, shared_0, paid_0 = edge_0.distribute_work(PD_other_price_0, user_0_task, p0)
+        shared_action['edge1'], actual_p1, shared_1, paid_1 = edge_1.distribute_work(PD_other_price_1, user_1_task, p1)
+        shared_action['edge2'], actual_p2, shared_2, paid_2 = edge_2.distribute_work(PD_other_price_2, user_2_task, p2)
         print(f'actual price p0 = {actual_p0}  p1 = {actual_p1}  p2 = {actual_p2} \nshared action: ', file=f)
-        print(shared_ations, file=f)
+        print(shared_action, file=f)
+        print(f'transfer task: \nedge0: {shared_0}\nedge1: {shared_1} \nedge2: {shared_2}', file=f)
+
+        # transfer task to other edges
+        work['edge0'].update(Counter(shared_1['edge0']) + Counter(shared_2['edge0']))
+        work['edge1'].update(Counter(shared_0['edge1']) + Counter(shared_2['edge1']))
+        work['edge2'].update(Counter(shared_1['edge2']) + Counter(shared_0['edge2']))
+        print(f'work:\n{work}', file=f)
 
         # collect the actual price of all edge
         price = [actual_p0, actual_p1, actual_p2, COST_TO_CLOUD]  # actual price
         ap0.append(actual_p0)
         ap1.append(actual_p1)
         ap2.append(actual_p2)
-
+        # 要給其他人的價錢問題要改
         # calculate real utility
-        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, local_work_0, tj0, overflow0, income_0 = mec_0.step(shared_ations, price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, local_work_1, tj1, overflow1, income_1 = mec_1.step(shared_ations, price)
-        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, local_work_2, tj2, overflow2, income_2 = mec_2.step(shared_ations, price)
+        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, local_work_0, tj0, overflow0 = mec_0.step(shared_action['edge0'], work['edge0'], price, paid_0)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, local_work_1, tj1, overflow1 = mec_1.step(shared_action['edge1'], work['edge1'], price, paid_1)
+        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, local_work_2, tj2, overflow2 = mec_2.step(shared_action['edge2'], work['edge2'], price, paid_2)
 
         q_len0 += tj0
         q_len1 += tj1

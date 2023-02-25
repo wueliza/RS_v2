@@ -2,6 +2,7 @@ import tensorflow.compat.v1 as tf
 import gym
 import numpy as np
 import pandas as pd
+import random
 
 GAMMA = 0.9
 COST_TO_CLOUD = 15
@@ -158,8 +159,9 @@ class User(object):  # contain a local actor, critic, global critic
         q_delay = self.q_state if self.q_state < self.q_size else self.q_size
 
         task_arrival_rate = self.task_arrival_rate
-        new_task1 = np.random.poisson(task_arrival_rate)
-        new_task2 = np.random.poisson(task_arrival_rate)
+        new_task = np.random.poisson(task_arrival_rate)
+        new_task1 = round(new_task * random.random())
+        new_task2 = new_task - new_task1
 
         # user does it self
         do_self_utility = q_delay
@@ -209,7 +211,7 @@ class User(object):  # contain a local actor, critic, global critic
         utility = max_utility + local_overflow * COST_TO_CLOUD
         s_ = np.hstack((self.q_state, self.CRB, d_delay))
 
-        return transit_work, utility, s_, task_arrival_rate, self.work, local_overflow, q_delay, new_task1, new_task2
+        return transit_work, utility, s_, task_arrival_rate, self.work, local_overflow, q_delay, new_task, new_task1, new_task2
 
 
 
