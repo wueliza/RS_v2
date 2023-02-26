@@ -35,18 +35,21 @@ class MEC_network:
 
         total_job = 0
         income = 0
+        local_overflow = 0
         for n, v in work.items():
-            income += v * price[self.node_num]
-            total_job += v * (n + 1)    # 如果最後一個是task2 要怎麼記 感覺好像要一個一個算
+            income += v * price[f'edge{self.node_num}']
+            if self.Q_SIZE - total_job - self.CRB < v * (n+1):
+                local_overflow += v
+            else:
+                total_job += v * (n+1)
 
         paid = 0
-        for n, v in share_action.items():
-            if n != 'self':
+        for n, v in share_action[f'edge{self.node_num}'].items():
+            if n != 'self' and n != 'cloud':
                 paid += v * price[n]
             elif n == 'cloud':
                 paid += v * COST_TO_CLOUD
 
-        self.CRB = 10
         self.q_state = total_job - self.CRB
         self.q_state = self.q_state if self.q_state > 0 else 0
         self.q_state = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
@@ -60,5 +63,5 @@ class MEC_network:
 
         avg_delay = (1 / (self.Q_SIZE - self.CRB)) if self.Q_SIZE - self.q_state != 0 else 15
 
-        return s_, total_work_, utility, d_delay, q_delay, avg_delay, paid, local_job, total_job, local_overflow, income
+        return s_, total_work_, utility, d_delay, q_delay, avg_delay, paid, total_job, local_overflow, income
 

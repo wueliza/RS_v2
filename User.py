@@ -136,14 +136,13 @@ class Critic(object):
 
 
 class User(object):  # contain a local actor, critic, global critic
-    def __init__(self, scope, task_arrival_rate, edge_num, lar=0.001, lcr=0.001, q_size=10, sess=None):
+    def __init__(self, scope, task_arrival_rate, edge_num, lar=0.001, lcr=0.001, q_size=0, sess=None):
         self.n_nueron_ac = 5
         self.sess = sess
         self.edge_num = edge_num
         self.task_arrival_rate = task_arrival_rate
         self.la_r = lar
         self.lc_r = lcr
-        # self.la_s = tf.placeholder(tf.float32, 1, [None, N_S], 'la_s')
         self.epsilon = 0.8
         self.a = tf.placeholder(tf.int32, None, "act")
         self.td_error = tf.placeholder(tf.float32, None, "td_error")  # TD_error
@@ -171,9 +170,6 @@ class User(object):  # contain a local actor, critic, global critic
         task2_utility = q_delay + new_task2 * 2 * action
 
         # allocate work
-        # transit_task = 0 if np.random.rand() > 0.5 else 1
-        # tw = round(self.work[transit_task] * action)
-        # self.work[transit_task] -= tw
         transit_work = {}
         max_utility = max(do_self_utility, task1_utility, task2_utility)
         if max_utility == do_self_utility:

@@ -81,11 +81,11 @@ def run(tr):
     s_2 = mec_2.reset()
     edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
 
-    user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
     user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRB]
-    user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
     user_s_1 = np.hstack((user_1.q_state, user_1.CRB))  # s = [q_state, CRB]
-    user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=50, sess=SESS)
+    user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
     user_s_2 = np.hstack((user_2.q_state, user_2.CRB))  # s = [q_state, CRB]
 
     SESS.run(tf.global_variables_initializer())
@@ -221,17 +221,17 @@ def run(tr):
         ap2.append(actual_p2)
 
         # calculate real utility
-        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, local_work_0, tj0, overflow0 = mec_0.step(shared_action['edge0'], work['edge0'], price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, local_work_1, tj1, overflow1 = mec_1.step(shared_action['edge1'], work['edge1'], price)
-        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, local_work_2, tj2, overflow2 = mec_2.step(shared_action['edge2'], work['edge2'], price)
+        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, tj0, overflow0, income_0 = mec_0.step(shared_action['edge0'], work['edge0'], price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, tj1, overflow1, income_1 = mec_1.step(shared_action['edge1'], work['edge1'], price)
+        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, tj2, overflow2, income_2 = mec_2.step(shared_action['edge2'], work['edge2'], price)
 
         q_len0 += tj0
         q_len1 += tj1
         q_len2 += tj2
         print(f'q0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
-        print(f'edge0: s_ = {s_0_} work_ = {total_work_0_} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0} local_job_ = {local_work_0} total_job = {tj0} overflow = {overflow0} income = {income_0}', file=f)
-        print(f'edge1: s_ = {s_1_} work_ = {total_work_1_} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1} local_job_ = {local_work_1} total_job = {tj1} overflow = {overflow1} income = {income_1}', file=f)
-        print(f'edge2: s_ = {s_2_} work_ = {total_work_2_} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2} local_job_ = {local_work_2} total_job = {tj2} overflow = {overflow2} income = {income_2}', file=f)
+        print(f'edge0: s_ = {s_0_} work_ = {total_work_0_} r = {r_0} d = {d_0} qd = {q_d_0} ad = {avg_delay_0} paid = {paid_0} total_job = {tj0} overflow = {overflow0} income = {income_0}', file=f)
+        print(f'edge1: s_ = {s_1_} work_ = {total_work_1_} r = {r_1} d = {d_1} qd = {q_d_1} ad = {avg_delay_1} paid = {paid_1} total_job = {tj1} overflow = {overflow1} income = {income_1}', file=f)
+        print(f'edge2: s_ = {s_2_} work_ = {total_work_2_} r = {r_2} d = {d_2} qd = {q_d_2} ad = {avg_delay_2} paid = {paid_2} total_job = {tj2} overflow = {overflow2} income = {income_2}', file=f)
 
         # if r_0 < 0 or r_1 < 0 or r_2 < 0:
         #     print(r_0, r_1)
@@ -265,7 +265,7 @@ def run(tr):
         PD_other_price_1 = np.append(PD_other_price_1, COST_TO_CLOUD)
         PD_other_price_2 = np.append(PD_other_price_2, COST_TO_CLOUD)
         edge_0.local_predictor.learn(PD_other_price_0, r_0, price)  # actual price & predict price
-        edge_1.local_predictor.learn(PD_other_price_1, r_1, price)
+        edge_1.local_predictor.learn(PD_other_price_1, r_1, price)  # price -> dict PD -> list 要改
         edge_2.local_predictor.learn(PD_other_price_2, r_2, price)
 
         s_0 = s_0_
