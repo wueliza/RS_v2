@@ -33,34 +33,23 @@ class MEC_network:
 
         q_delay = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 
-        # total_job = 0
-        # local_job = [0, 0]
-        # paid = 0
-        # income = 0
+        total_job = 0
+        income = 0
+        for n, v in work.items():
+            income += v * price[self.node_num]
+            total_job += v * (n + 1)    # 如果最後一個是task2 要怎麼記 感覺好像要一個一個算
 
-        # for i in range(total_edge+1):
-        #     if i != self.node_num:
-        #         for k in range(2):
-        #             paid += share_action[self.node_num][i][k] * (k+1) * price[i]
-        # for i in range(total_edge):
-        #     for k in range(2):
-        #         if i != self.node_num:
-        #             income += share_action[i][self.node_num][k] * (k+1) * price[i]
-        #         local_job[k] += share_action[i][self.node_num][k]
-        #         total_job += share_action[i][self.node_num][k] * (k+1)
+        paid = 0
+        for n, v in share_action.items():
+            if n != 'self':
+                paid += v * price[n]
+            elif n == 'cloud':
+                paid += v * COST_TO_CLOUD
 
         self.CRB = 10
         self.q_state = total_job - self.CRB
         self.q_state = self.q_state if self.q_state > 0 else 0
         self.q_state = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
-
-        # for i in range(self.CRB):
-        #     if local_job[0] > 0:
-        #         local_job[0] -= 1
-        #     elif local_job[1] > 1:
-        #         local_job[1] -= 1
-        #     else:
-        #         break
 
         local_overflow = total_job - self.Q_SIZE if total_job > self.Q_SIZE else 0
         d_delay = local_overflow * COST_TO_CLOUD + q_delay

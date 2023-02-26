@@ -215,15 +215,15 @@ def run(tr):
         print(f'work:\n{work}', file=f)
 
         # collect the actual price of all edge
-        price = [actual_p0, actual_p1, actual_p2, COST_TO_CLOUD]  # actual price
+        price = {'edge0': actual_p0, 'edge1': actual_p1, 'edge2': actual_p2}  # actual price
         ap0.append(actual_p0)
         ap1.append(actual_p1)
         ap2.append(actual_p2)
-        # 要給其他人的價錢問題要改
+
         # calculate real utility
-        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, local_work_0, tj0, overflow0 = mec_0.step(shared_action['edge0'], work['edge0'], price, paid_0)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
-        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, local_work_1, tj1, overflow1 = mec_1.step(shared_action['edge1'], work['edge1'], price, paid_1)
-        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, local_work_2, tj2, overflow2 = mec_2.step(shared_action['edge2'], work['edge2'], price, paid_2)
+        s_0_, total_work_0_, r_0, d_0, q_d_0, avg_delay_0, paid_0, local_work_0, tj0, overflow0 = mec_0.step(shared_action['edge0'], work['edge0'], price)  # s_, total_work_, reward, d_delay, q_delay, new_task, avg_delay
+        s_1_, total_work_1_, r_1, d_1, q_d_1, avg_delay_1, paid_1, local_work_1, tj1, overflow1 = mec_1.step(shared_action['edge1'], work['edge1'], price)
+        s_2_, total_work_2_, r_2, d_2, q_d_2, avg_delay_2, paid_2, local_work_2, tj2, overflow2 = mec_2.step(shared_action['edge2'], work['edge2'], price)
 
         q_len0 += tj0
         q_len1 += tj1
