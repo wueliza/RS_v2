@@ -48,15 +48,14 @@ class Predictor(object):
             self.train_op = tf.train.RMSPropOptimizer(lr).minimize(self.loss)  # for under 10 nodes .01
 
     def choose_action(self, state):
-        state = list(state.values())
-        state = np.reshape(state, (1, 4))
+        state = np.reshape(state, (1, total_edge+1))
         value = self.sess.run(self.value, {self.state: state})
 
         price = pd.cut(value.flatten(), bins, labels=False)
         return price
 
     def learn(self, s, r, s_):
-        s, s_ = np.reshape(s, (1, 4)), np.reshape(s_, (1, 4))
+        s, s_ = np.reshape(s, (1, total_edge+1)), np.reshape(s_, (1, total_edge+1))
         v_ = self.sess.run(self.value, {self.state: s_})
         td_error, loss, _ = self.sess.run([self.td_error, self.loss, self.train_op],
                                           {self.state: s, self.value_: v_, self.reward: r})
@@ -226,15 +225,15 @@ class Edge(object):  # contain a local actor, critic, global critic
         model1 += t0+t1+t2+tcloud == new_task
         model1.solve(PULP_CBC_CMD(msg=0))
 
-        shared_r = {f'edge{self.node_num}': {}}
+        shared_r = {}
         shared = {}
         for v, j in zip(model1.variables(), range(total_edge+1)):
             if j == self.node_num:
-                shared_r[f'edge{self.node_num}']['self'] = v.varValue
+                shared_r['self'] = v.varValue
             elif j == total_edge:
-                shared_r[f'edge{self.node_num}']['cloud'] = v.varValue
+                shared_r['cloud'] = v.varValue
             else:
-                shared_r[f'edge{self.node_num}'][f'edge{j}'] = v.varValue
+                shared_r[f'edge{j}'] = v.varValue
                 shared[f'edge{j}'] = {new_task_type: v.varValue}
             trans_utility += v.varValue * price[j]
 

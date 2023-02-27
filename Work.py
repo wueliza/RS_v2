@@ -44,7 +44,7 @@ class MEC_network:
                 total_job += v * (n+1)
 
         paid = 0
-        for n, v in share_action[f'edge{self.node_num}'].items():
+        for n, v in share_action.items():
             if n != 'self' and n != 'cloud':
                 paid += v * price[n]
             elif n == 'cloud':
@@ -57,6 +57,7 @@ class MEC_network:
         # local_overflow = total_job - self.Q_SIZE if total_job > self.Q_SIZE else 0
         d_delay = local_overflow * COST_TO_CLOUD + q_delay
         utility = d_delay + paid - income
+        utility = utility if utility >= 0 else 0
 
         s_ = np.hstack((self.q_state, self.CRB))
         total_work_ = self.q_state

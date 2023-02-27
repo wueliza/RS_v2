@@ -42,7 +42,7 @@ class User(object):  # contain a local actor, critic, global critic
         model1 += (t0 * (self.work_type + 1) - self.CRB)*COST_TO_CLOUD + t1 * edge_price + tcloud * COST_TO_CLOUD >= 0
         model1 += t0 + t1 + tcloud == new_task
         model1.solve(PULP_CBC_CMD(msg=0))
-        allo_utility = model1.objective
+        allo_utility = pulp.value(model1.objective)
 
         trans_work = 0
         utility = max(do_self_utility, trans_utility, allo_utility)
@@ -53,10 +53,4 @@ class User(object):  # contain a local actor, critic, global critic
         elif utility == allo_utility:
             trans_work = value(t1)
 
-        return utility, overflow, new_task, trans_work
-
-
-
-
-
-
+        return utility, overflow, new_task, {self.work_type: trans_work}

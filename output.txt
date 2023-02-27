@@ -1,25 +1,2203 @@
 
 time =  0
 PD_other_price_0 = [7 7 8]  PD_other_price_1 = [7 7 7]  PD_other_price_2 = [7 7 7]
-s0 = [ 0 10  7  7  8] s1 = [ 0 10  7  7  7] s2 = [ 3 10  7  7  7]
-p0 = 7  p1 = 7  p2 = 7
-
-user_s0 = [0 2 7]  user_s1 = [1 2 7]  user_s2 = [1 2 7]
-user0 action = 8  user1 action = 7  user2 action = 7
-user0 trans task = {1: 1}  utility = 31  user_s_ = [ 0  2 15]  tr = 3  work = [0, 0]  overflow = 1  q_delay = 0  new task  = 2  new task 1 = 1 new task 2 = 1
-user1 trans task = {1: 3}  utility = 102  user_s_ = [ 0  2 60]  tr = 3  work = [2, 0]  overflow = 4  q_delay = 0  new task  = 7  new task 1 = 4 new task 2 = 3
-user2 trans task = {1: 3}  utility = 42  user_s_ = [0 2 0]  tr = 3  work = [0, 0]  overflow = 0  q_delay = 0  new task  = 3  new task 1 = 0 new task 2 = 3
-actual price p0 = 10.5  p1 = 10.5  p2 = 10.5 
+s0 = [ 1 10  7  7  8] s1 = [ 1 10  7  7  7] s2 = [ 4 10  7  7  7]
+p0 = 8  p1 = 8  p2 = 8
+user0 utility = 24  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 24  overflow = 1  new task = 3  transfer task = {0: 3}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 12.0  p1 = 12.0  p2 = 8 
 shared action: 
-{'edge0': {'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}}, 'edge1': {'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}}, 'edge2': {'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}}
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
 transfer task: 
-edge0: {'edge1': {1: 0.0}, 'edge2': {1: 0.0}}
-edge1: {'edge0': {1: 0.0}, 'edge2': {1: 0.0}} 
-edge2: {'edge0': {1: 0.0}, 'edge1': {1: 0.0}}
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
 work:
 {'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
 q0 = 1  q1 = 1  q2 = 1
-edge0: s_ = [ 0 10] work_ = 0 r = 4.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 10.5
+edge0: s_ = [ 0 10] work_ = 0 r = 34.0 d = 1 qd = 1 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 12.0
+edge1: s_ = [ 0 10] work_ = 0 r = 34.0 d = 1 qd = 1 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 12.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 4 qd = 4 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 8
+r0 = 34.0  r1 = 34.0  r2 = 0
+
+time =  1
+PD_other_price_0 = [7 8 8]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [7 7 7]
+s0 = [ 0 10  7  8  8] s1 = [ 0 10  8  8  8] s2 = [ 0 10  7  7  7]
+p0 = 8  p1 = 7  p2 = 8
+user0 utility = 32  overflow = 2  new task = 4  transfer task = {0: 4}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 12.0  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 4.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 2  q1 = 2  q2 = 2
+edge0: s_ = [ 0 10] work_ = 0 r = 48.0 d = 0 qd = 0 ad = 0.025 paid = 60.0 total_job = 1 overflow = 0 income = 12.0
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 48.0  r1 = 19.5  r2 = 0
+
+time =  2
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [7 7 7]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  8  8  8] s2 = [ 0 10  7  7  7]
+p0 = 8  p1 = 7  p2 = 8
+user0 utility = 90  overflow = 6  new task = 8  transfer task = {0: 0}
+user1 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user2 utility = 16  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 12.0  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 3  q1 = 3  q2 = 3
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 12.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 18.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 0  r1 = 0  r2 = 18.0
+
+time =  3
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [8 8 7]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  8  8  8] s2 = [ 0 10  8  8  7]
+p0 = 8  p1 = 7  p2 = 8
+user0 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 16  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 12.0  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 4  q1 = 4  q2 = 4
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 12.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 18.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 0  r1 = 0  r2 = 18.0
+
+time =  4
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  8  8  8] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 16  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 5  q1 = 5  q2 = 5
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 18.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 0  r1 = 19.5  r2 = 18.0
+
+time =  5
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  8  8  8] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 7  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 24  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 6  q1 = 6  q2 = 6
+edge0: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 4.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 33.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 34.5  r1 = 4.5  r2 = 33.0
+
+time =  6
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [9 9 8]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  8  8  8] s2 = [ 0 10  9  9  8]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user1 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 7  q1 = 7  q2 = 7
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
 edge1: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
-edge2: s_ = [ 0 10] work_ = 0 r = 37.5 d = 3 qd = 3 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
-r0 = 4.5  r1 = 34.5  r2 = 37.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 0  r1 = 34.5  r2 = 0
+
+time =  7
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [8 9 9]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  8  9  9] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 24  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 8  q1 = 8  q2 = 8
+edge0: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 33.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 34.5  r1 = 19.5  r2 = 33.0
+
+time =  8
+PD_other_price_0 = [8 9 9]  PD_other_price_1 = [8 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  8  9  9] s1 = [ 0 10  8  9  9] s2 = [ 0 10  9  9  9]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 8  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 9  q1 = 9  q2 = 9
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 3.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 0  r1 = 0  r2 = 3.0
+
+time =  9
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [9 8 8]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  8  8  8] s2 = [ 0 10  9  8  8]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 24  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 10  q1 = 10  q2 = 10
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 33.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 0  r1 = 19.5  r2 = 33.0
+
+time =  10
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [10  9  9]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  9  9  9] s2 = [ 0 10 10  9  9]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 7  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 32  overflow = 2  new task = 4  transfer task = {0: 4}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 4.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 11  q1 = 11  q2 = 11
+edge0: s_ = [ 0 10] work_ = 0 r = 4.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 48.0 d = 0 qd = 0 ad = 0.025 paid = 60.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 4.5  r1 = 19.5  r2 = 48.0
+
+time =  11
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  9  9  9] s2 = [ 0 10 10 10 10]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 24  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 12  q1 = 12  q2 = 12
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 33.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 0  r1 = 19.5  r2 = 33.0
+
+time =  12
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  9  9  9] s2 = [ 0 10 10 10 10]
+p0 = 7  p1 = 7  p2 = 8
+user0 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 16  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 10.5  p1 = 10.5  p2 = 12.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 13  q1 = 13  q2 = 13
+edge0: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 18.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 12.0
+r0 = 34.5  r1 = 0  r2 = 18.0
+
+time =  13
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [10 10  9]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  8  8  8] s2 = [ 0 10 10 10  9]
+p0 = 7  p1 = 7  p2 = 7
+user0 utility = 7  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 10.5  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 14  q1 = 14  q2 = 14
+edge0: s_ = [ 0 10] work_ = 0 r = 4.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 4.5  r1 = 19.5  r2 = 0
+
+time =  14
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  9  9  9] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 7  p2 = 7
+user0 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 10.5  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 15  q1 = 15  q2 = 15
+edge0: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 34.5  r1 = 19.5  r2 = 0
+
+time =  15
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 7  p2 = 7
+user0 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 10.5  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 16  q1 = 16  q2 = 16
+edge0: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 34.5  r1 = 0  r2 = 0
+
+time =  16
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [8 8 8]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  8  8  8] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 7  p2 = 7
+user0 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 10.5  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 17  q1 = 17  q2 = 17
+edge0: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 19.5  r1 = 19.5  r2 = 0
+
+time =  17
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [ 9 10  9]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9 10  9] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 7  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 18  q1 = 18  q2 = 18
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 4.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 0  r1 = 6.0  r2 = 4.5
+
+time =  18
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user1 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 19  q1 = 19  q2 = 19
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 0  r1 = 6.0  r2 = 0
+
+time =  19
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  9  9  9] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 20  q1 = 20  q2 = 20
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 0  r1 = 6.0  r2 = 0
+
+time =  20
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  9  9  9] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user1 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+user2 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 21  q1 = 21  q2 = 21
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 0  r1 = 36.0  r2 = 34.5
+
+time =  21
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [11 10 10]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10 10 10 10] s2 = [ 0 10 11 10 10]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+user2 utility = 75  overflow = 5  new task = 7  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 22  q1 = 22  q2 = 22
+edge0: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 19.5  r1 = 36.0  r2 = 0
+
+time =  22
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10 11 10]  PD_other_price_2 = [8 8 8]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10 11 10] s2 = [ 0 10  8  8  8]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user2 utility = 7  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 23  q1 = 23  q2 = 23
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 4.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 0  r1 = 0  r2 = 4.5
+
+time =  23
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+user2 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 24  q1 = 24  q2 = 24
+edge0: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 19.5  r1 = 36.0  r2 = 34.5
+
+time =  24
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10 11 11]  PD_other_price_2 = [11 11 10]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10 11 11] s2 = [ 0 10 11 11 10]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 25  q1 = 25  q2 = 25
+edge0: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 19.5  r1 = 0  r2 = 34.5
+
+time =  25
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [11 11 10]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10 11 11 10]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 14  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 26  q1 = 26  q2 = 26
+edge0: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 19.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 34.5  r1 = 21.0  r2 = 19.5
+
+time =  26
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 27  q1 = 27  q2 = 27
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 0  r1 = 21.0  r2 = 34.5
+
+time =  27
+PD_other_price_0 = [8 8 8]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  8  8  8] s1 = [ 0 10 10 10 10] s2 = [ 0 10 11 11 11]
+p0 = 7  p1 = 6  p2 = 7
+user0 utility = 21  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+actual price p0 = 10.5  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 28  q1 = 28  q2 = 28
+edge0: s_ = [ 0 10] work_ = 0 r = 34.5 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 10.5
+edge1: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 34.5  r1 = 6.0  r2 = 0
+
+time =  28
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 6  p2 = 7
+user0 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+user2 utility = 75  overflow = 5  new task = 7  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 29  q1 = 29  q2 = 29
+edge0: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 36.0  r1 = 36.0  r2 = 0
+
+time =  29
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 11 11 11] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 6  p2 = 7
+user0 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user2 utility = 7  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 9.0  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 30  q1 = 30  q2 = 30
+edge0: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 4.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 21.0  r1 = 0  r2 = 4.5
+
+time =  30
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10  9  9  9] s2 = [ 0 10 10 10 10]
+p0 = 6  p1 = 6  p2 = 7
+user0 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 7  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 9.0  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 31  q1 = 31  q2 = 31
+edge0: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 4.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 21.0  r1 = 21.0  r2 = 4.5
+
+time =  31
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [10 11 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 10 11 10] s2 = [ 0 10 10 10 10]
+p0 = 6  p1 = 6  p2 = 7
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 9.0  p2 = 10.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 32  q1 = 32  q2 = 32
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 10.5
+r0 = 0  r1 = 0  r2 = 0
+
+time =  32
+PD_other_price_0 = [8 8 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  8  8  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 6  p2 = 6
+user0 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user1 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+user2 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 9.0  p1 = 9.0  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 33  q1 = 33  q2 = 33
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 0  r1 = 36.0  r2 = 36.0
+
+time =  33
+PD_other_price_0 = [8 8 9]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  8  8  9] s1 = [ 0 10 11 11 11] s2 = [ 0 10 11 11 11]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user1 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user2 utility = 75  overflow = 5  new task = 7  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 34  q1 = 34  q2 = 34
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 0  r1 = 0  r2 = 0
+
+time =  34
+PD_other_price_0 = [8 8 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  8  8  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 6  p2 = 6
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user2 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 9.0  p1 = 9.0  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 35  q1 = 35  q2 = 35
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 0  r1 = 0  r2 = 21.0
+
+time =  35
+PD_other_price_0 = [8 8 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  8  8  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10 11 11 11]
+p0 = 6  p1 = 6  p2 = 6
+user0 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+user1 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 9.0  p1 = 9.0  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 36  q1 = 36  q2 = 36
+edge0: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 36.0  r1 = 6.0  r2 = 36.0
+
+time =  36
+PD_other_price_0 = [10 11 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [12 12 11]
+s0 = [ 0 10 10 11 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 12 12 11]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 37  q1 = 37  q2 = 37
+edge0: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 6.0  r1 = 0  r2 = 0
+
+time =  37
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 6  p2 = 6
+user0 utility = 75  overflow = 5  new task = 7  transfer task = {0: 0}
+user1 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user2 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 9.0  p1 = 9.0  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 38  q1 = 38  q2 = 38
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 0  r1 = 0  r2 = 21.0
+
+time =  38
+PD_other_price_0 = [8 8 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  8  8  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10 11 11 11]
+p0 = 6  p1 = 6  p2 = 6
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+user2 utility = 90  overflow = 6  new task = 8  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 9.0  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 3.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 39  q1 = 39  q2 = 39
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 0  r1 = 36.0  r2 = 0
+
+time =  39
+PD_other_price_0 = [8 8 9]  PD_other_price_1 = [11 12 11]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  8  8  9] s1 = [ 0 10 11 12 11] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 40  q1 = 40  q2 = 40
+edge0: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 21.0  r1 = 22.5  r2 = 0
+
+time =  40
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 11 11 11] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 41  q1 = 41  q2 = 41
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 0  r1 = 0  r2 = 21.0
+
+time =  41
+PD_other_price_0 = [8 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  8  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10 11 11 11]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 42  q1 = 42  q2 = 42
+edge0: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 6.0  r1 = 0  r2 = 0
+
+time =  42
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 43  q1 = 43  q2 = 43
+edge0: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 21.0  r1 = 0  r2 = 6.0
+
+time =  43
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10  9  9  9] s2 = [ 0 10 10 10 10]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user2 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 44  q1 = 44  q2 = 44
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 0  r1 = 0  r2 = 36.0
+
+time =  44
+PD_other_price_0 = [8 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10  8  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10 12 12 12]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 6  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 45  q1 = 45  q2 = 45
+edge0: s_ = [ 0 10] work_ = 0 r = 6.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 6.0  r1 = 0  r2 = 21.0
+
+time =  45
+PD_other_price_0 = [ 9  9 10]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  9  9 10] s1 = [ 0 10  9  9  9] s2 = [ 0 10 11 11 11]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 46  q1 = 46  q2 = 46
+edge0: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 21.0  r1 = 22.5  r2 = 21.0
+
+time =  46
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 11 11 11] s2 = [ 0 10 11 11 11]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 47  q1 = 47  q2 = 47
+edge0: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 21.0  r1 = 0  r2 = 0
+
+time =  47
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 48  q1 = 48  q2 = 48
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 0  r1 = 0  r2 = 0
+
+time =  48
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 6  p1 = 5  p2 = 6
+user0 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 9.0  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 49  q1 = 49  q2 = 49
+edge0: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 21.0  r1 = 0  r2 = 21.0
+
+time =  49
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [12 11 11]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10  9  9  9] s2 = [ 0 10 12 11 11]
+p0 = 5  p1 = 5  p2 = 6
+user0 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 12  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 7.5  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 50  q1 = 50  q2 = 50
+edge0: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 21.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 7.5  r1 = 0  r2 = 21.0
+
+time =  50
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [12 12 11]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10  9  9  9] s2 = [ 0 10 12 12 11]
+p0 = 5  p1 = 5  p2 = 6
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 7.5  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 51  q1 = 51  q2 = 51
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 22.5  r1 = 22.5  r2 = 36.0
+
+time =  51
+PD_other_price_0 = [10 11 11]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10 10 11 11] s1 = [ 0 10 11 11 11] s2 = [ 0 10 12 12 12]
+p0 = 5  p1 = 5  p2 = 6
+user0 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 18  overflow = 1  new task = 3  transfer task = {0: 3}
+actual price p0 = 7.5  p1 = 7.5  p2 = 9.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 3.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 52  q1 = 52  q2 = 52
+edge0: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 36.0 d = 0 qd = 0 ad = 0.025 paid = 45.0 total_job = 1 overflow = 0 income = 9.0
+r0 = 7.5  r1 = 7.5  r2 = 36.0
+
+time =  52
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [13 12 12]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 13 12 12]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 53  q1 = 53  q2 = 53
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 0  r2 = 0
+
+time =  53
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 54  q1 = 54  q2 = 54
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 7.5  r2 = 22.5
+
+time =  54
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10 10 10] s2 = [ 0 10 12 12 12]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 55  q1 = 55  q2 = 55
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 0  r2 = 7.5
+
+time =  55
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10 11 11 11]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 56  q1 = 56  q2 = 56
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 22.5  r2 = 0
+
+time =  56
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 11 11 11] s2 = [ 0 10  9  9  9]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 57  q1 = 57  q2 = 57
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 22.5  r1 = 0  r2 = 7.5
+
+time =  57
+PD_other_price_0 = [10 11 11]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10 10 11 11] s1 = [ 0 10  9  9  9] s2 = [ 0 10 11 11 11]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 58  q1 = 58  q2 = 58
+edge0: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 7.5  r1 = 22.5  r2 = 0
+
+time =  58
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 11 11 11] s2 = [ 0 10  9  9  9]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 59  q1 = 59  q2 = 59
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 22.5  r1 = 0  r2 = 7.5
+
+time =  59
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10  9  9  9] s2 = [ 0 10 11 11 11]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 60  q1 = 60  q2 = 60
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 22.5  r1 = 0  r2 = 0
+
+time =  60
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10  9  9  9] s2 = [ 0 10  9  9  9]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 61  q1 = 61  q2 = 61
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 0  r2 = 22.5
+
+time =  61
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [9 9 9]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10  9  9  9] s2 = [ 0 10 12 12 12]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 62  q1 = 62  q2 = 62
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 22.5  r2 = 7.5
+
+time =  62
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [11 12 11]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 11 12 11] s2 = [ 0 10 11 11 11]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 90  overflow = 6  new task = 8  transfer task = {0: 0}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 63  q1 = 63  q2 = 63
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 22.5  r1 = 0  r2 = 0
+
+time =  63
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [10  9  9]  PD_other_price_2 = [9 9 9]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10 10  9  9] s2 = [ 0 10  9  9  9]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 64  q1 = 64  q2 = 64
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 7.5  r2 = 7.5
+
+time =  64
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 11 11 11] s2 = [ 0 10 11 11 11]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 65  q1 = 65  q2 = 65
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 22.5  r2 = 7.5
+
+time =  65
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [12 12 12]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 12 12 12] s2 = [ 0 10 11 11 11]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 66  q1 = 66  q2 = 66
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 22.5  r1 = 0  r2 = 0
+
+time =  66
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [10  9  9]  PD_other_price_2 = [10  9 10]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10 10  9  9] s2 = [ 0 10 10  9 10]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 67  q1 = 67  q2 = 67
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 22.5  r2 = 22.5
+
+time =  67
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [12 12 12]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 12 12 12] s2 = [ 0 10 12 12 12]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 68  q1 = 68  q2 = 68
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 0  r2 = 0
+
+time =  68
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10  9 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10  9 10] s2 = [ 0 10 10 10 10]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 69  q1 = 69  q2 = 69
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 22.5  r1 = 0  r2 = 0
+
+time =  69
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [10  9 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10 10  9 10] s2 = [ 0 10 10 10 10]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 70  q1 = 70  q2 = 70
+edge0: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 7.5  r1 = 7.5  r2 = 0
+
+time =  70
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 11 11 11] s2 = [ 0 10 10 10 10]
+p0 = 5  p1 = 4  p2 = 5
+user0 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 71  q1 = 71  q2 = 71
+edge0: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 7.5  r1 = 0  r2 = 0
+
+time =  71
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [10  9 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 10  9 10] s2 = [ 0 10 10 10 10]
+p0 = 5  p1 = 5  p2 = 5
+user0 utility = 75  overflow = 5  new task = 7  transfer task = {0: 0}
+user1 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 7.5  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 72  q1 = 72  q2 = 72
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 22.5  r2 = 0
+
+time =  72
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [12 12 12]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 12 12 12] s2 = [ 0 10 10 10 10]
+p0 = 5  p1 = 4  p2 = 5
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 73  q1 = 73  q2 = 73
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 0  r2 = 0
+
+time =  73
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 5  p1 = 4  p2 = 5
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 74  q1 = 74  q2 = 74
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 22.5  r1 = 24.0  r2 = 0
+
+time =  74
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [12 12 12]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10 12 12 12] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 5
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 75  overflow = 5  new task = 7  transfer task = {0: 0}
+user2 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 6.0  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 75  q1 = 75  q2 = 75
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 24.0  r1 = 0  r2 = 22.5
+
+time =  75
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10 10 10 10] s2 = [ 0 10 12 12 12]
+p0 = 4  p1 = 4  p2 = 5
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 5  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 6.0  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 76  q1 = 76  q2 = 76
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 7.5 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 0  r2 = 7.5
+
+time =  76
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [11 11 11]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10 10 10] s2 = [ 0 10 11 11 11]
+p0 = 5  p1 = 4  p2 = 5
+user0 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 77  q1 = 77  q2 = 77
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 0  r2 = 0
+
+time =  77
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 5  p1 = 4  p2 = 5
+user0 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 7.5  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 78  q1 = 78  q2 = 78
+edge0: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 22.5  r1 = 0  r2 = 0
+
+time =  78
+PD_other_price_0 = [11 12 11]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 11 12 11] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 5
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 6.0  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 79  q1 = 79  q2 = 79
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 24.0  r1 = 24.0  r2 = 22.5
+
+time =  79
+PD_other_price_0 = [11 12 12]  PD_other_price_1 = [12 12 12]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10 11 12 12] s1 = [ 0 10 12 12 12] s2 = [ 0 10 12 12 12]
+p0 = 4  p1 = 4  p2 = 5
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 80  q1 = 80  q2 = 80
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 24.0  r1 = 0  r2 = 0
+
+time =  80
+PD_other_price_0 = [11 12 12]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 11 12 12] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 5
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 6.0  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 81  q1 = 81  q2 = 81
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 0  r1 = 0  r2 = 22.5
+
+time =  81
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [13 12 12]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10 10 10] s2 = [ 0 10 13 12 12]
+p0 = 4  p1 = 4  p2 = 5
+user0 utility = 4  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user2 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 82  q1 = 82  q2 = 82
+edge0: s_ = [ 0 10] work_ = 0 r = 9.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 9.0  r1 = 0  r2 = 0
+
+time =  82
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 5
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 4  overflow = -1  new task = 1  transfer task = {0: 1}
+user2 utility = 10  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 6.0  p1 = 6.0  p2 = 7.5 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 83  q1 = 83  q2 = 83
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 9.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 22.5 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 7.5
+r0 = 24.0  r1 = 9.0  r2 = 22.5
+
+time =  83
+PD_other_price_0 = [12 12 12]  PD_other_price_1 = [11 11 11]  PD_other_price_2 = [13 13 12]
+s0 = [ 0 10 12 12 12] s1 = [ 0 10 11 11 11] s2 = [ 0 10 13 13 12]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 75  overflow = 5  new task = 7  transfer task = {0: 0}
+user1 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 84  q1 = 84  q2 = 84
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 24.0  r2 = 0
+
+time =  84
+PD_other_price_0 = [ 9  9 10]  PD_other_price_1 = [12 12 12]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  9  9 10] s1 = [ 0 10 12 12 12] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user1 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 85  q1 = 85  q2 = 85
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 0  r2 = 0
+
+time =  85
+PD_other_price_0 = [ 9  9 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  9  9 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user1 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 86  q1 = 86  q2 = 86
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 0  r2 = 0
+
+time =  86
+PD_other_price_0 = [ 9  9 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  9  9 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 87  q1 = 87  q2 = 87
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 0  r2 = 24.0
+
+time =  87
+PD_other_price_0 = [9 9 9]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [13 13 12]
+s0 = [ 0 10  9  9  9] s1 = [ 0 10 10 10 10] s2 = [ 0 10 13 13 12]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user2 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 88  q1 = 88  q2 = 88
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 24.0  r1 = 0  r2 = 0
+
+time =  88
+PD_other_price_0 = [12 12 12]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 12 12 12] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user2 utility = 4  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 89  q1 = 89  q2 = 89
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 9.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 24.0  r1 = 0  r2 = 9.0
+
+time =  89
+PD_other_price_0 = [12 12 12]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [12 12 11]
+s0 = [ 0 10 12 12 12] s1 = [ 0 10 10 10 10] s2 = [ 0 10 12 12 11]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 90  q1 = 90  q2 = 90
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 0  r2 = 0
+
+time =  90
+PD_other_price_0 = [ 9  9 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10  9  9 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 91  q1 = 91  q2 = 91
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 24.0  r1 = 24.0  r2 = 0
+
+time =  91
+PD_other_price_0 = [12 12 12]  PD_other_price_1 = [12 12 12]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 12 12 12] s1 = [ 0 10 12 12 12] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 4  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 92  q1 = 92  q2 = 92
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 9.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 24.0  r1 = 0  r2 = 9.0
+
+time =  92
+PD_other_price_0 = [12 12 12]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [12 12 11]
+s0 = [ 0 10 12 12 12] s1 = [ 0 10 10 10 10] s2 = [ 0 10 12 12 11]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 93  q1 = 93  q2 = 93
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 24.0  r1 = 24.0  r2 = 0
+
+time =  93
+PD_other_price_0 = [12 12 12]  PD_other_price_1 = [12 12 12]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 12 12 12] s1 = [ 0 10 12 12 12] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 94  q1 = 94  q2 = 94
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 0  r2 = 24.0
+
+time =  94
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [13 13 13]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 13 13 13]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 2.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 95  q1 = 95  q2 = 95
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 0  r2 = 24.0
+
+time =  95
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [13 13 13]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 13 13 13]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 60  overflow = 4  new task = 6  transfer task = {0: 0}
+user1 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 96  q1 = 96  q2 = 96
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 24.0  r2 = 0
+
+time =  96
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [12 13 13]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 12 13 13] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user1 utility = 0  overflow = -2  new task = 0  transfer task = {0: 0}
+user2 utility = 4  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 97  q1 = 97  q2 = 97
+edge0: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 9.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 24.0  r1 = 0  r2 = 9.0
+
+time =  97
+PD_other_price_0 = [12 12 12]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10 12 12 12] s1 = [ 0 10 10 10 10] s2 = [ 0 10 12 12 12]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user1 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+user2 utility = 4  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 98  q1 = 98  q2 = 98
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 9.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 0  r2 = 9.0
+
+time =  98
+PD_other_price_0 = [10 10 10]  PD_other_price_1 = [10 10 10]  PD_other_price_2 = [12 12 12]
+s0 = [ 0 10 10 10 10] s1 = [ 0 10 10 10 10] s2 = [ 0 10 12 12 12]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 4  overflow = -1  new task = 1  transfer task = {0: 1}
+user1 utility = 8  overflow = 0  new task = 2  transfer task = {0: 2}
+user2 utility = 15  overflow = 1  new task = 3  transfer task = {0: 0}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 1.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 2.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 0.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 99  q1 = 99  q2 = 99
+edge0: s_ = [ 0 10] work_ = 0 r = 9.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 24.0 d = 0 qd = 0 ad = 0.025 paid = 30.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 9.0  r1 = 24.0  r2 = 0
+
+time =  99
+PD_other_price_0 = [11 11 11]  PD_other_price_1 = [13 13 13]  PD_other_price_2 = [10 10 10]
+s0 = [ 0 10 11 11 11] s1 = [ 0 10 13 13 13] s2 = [ 0 10 10 10 10]
+p0 = 4  p1 = 4  p2 = 4
+user0 utility = 30  overflow = 2  new task = 4  transfer task = {0: 0}
+user1 utility = 45  overflow = 3  new task = 5  transfer task = {0: 0}
+user2 utility = 4  overflow = -1  new task = 1  transfer task = {0: 1}
+actual price p0 = 6.0  p1 = 6.0  p2 = 6.0 
+shared action: 
+{'edge0': {'self': 0.0, 'edge1': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge1': {'edge0': 0.0, 'self': 0.0, 'edge2': 0.0, 'cloud': 0.0}, 'edge2': {'edge0': 0.0, 'edge1': 0.0, 'self': 0.0, 'cloud': 1.0}}
+transfer task: 
+edge0: {'edge1': {0: 0.0}, 'edge2': {0: 0.0}}
+edge1: {'edge0': {0: 0.0}, 'edge2': {0: 0.0}} 
+edge2: {'edge0': {0: 0.0}, 'edge1': {0: 0.0}}
+work:
+{'edge0': {0: 1, 1: 0}, 'edge1': {0: 1, 1: 0}, 'edge2': {0: 1, 1: 0}}
+q0 = 100  q1 = 100  q2 = 100
+edge0: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge1: s_ = [ 0 10] work_ = 0 r = 0 d = 0 qd = 0 ad = 0.025 paid = 0.0 total_job = 1 overflow = 0 income = 6.0
+edge2: s_ = [ 0 10] work_ = 0 r = 9.0 d = 0 qd = 0 ad = 0.025 paid = 15.0 total_job = 1 overflow = 0 income = 6.0
+r0 = 0  r1 = 0  r2 = 9.0
+total_r0 = 1145.5 q_len0 = 100 la0 = 11.455
+total_r1 = 967.0 q_len1 = 100 la1 = 9.67
+total_r2 = 1090.5 q_len2 = 100 la2 = 10.905

@@ -143,9 +143,9 @@ def run(tr):
         # print(f'\nq0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
 
         # predict the other edge's price bace on the work distribution last time
-        PD_other_price_0 = edge_0.local_predictor.choose_action(shared_action['edge0']).flatten()
-        PD_other_price_1 = edge_1.local_predictor.choose_action(shared_action['edge1']).flatten()
-        PD_other_price_2 = edge_2.local_predictor.choose_action(shared_action['edge2']).flatten()
+        PD_other_price_0 = edge_0.local_predictor.choose_action(list(shared_action['edge0'].values())).flatten()
+        PD_other_price_1 = edge_1.local_predictor.choose_action(list(shared_action['edge1'].values())).flatten()
+        PD_other_price_2 = edge_2.local_predictor.choose_action(list(shared_action['edge2'].values())).flatten()
         print(f'PD_other_price_0 = {PD_other_price_0}  PD_other_price_1 = {PD_other_price_1}  PD_other_price_2 = {PD_other_price_2}', file=f)
 
         # merge the queue state and cpu
@@ -174,20 +174,23 @@ def run(tr):
         # user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay, u0_nt, u0_nt1, u0_nt2 = user_0.step(user_0_action, p0)
         # user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay, u1_nt, u1_nt1, u1_nt2 = user_1.step(user_1_action, p1)
         # user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay, u2_nt, u2_nt1, u2_nt2 = user_2.step(user_2_action, p2)
+        # print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}  new task  = {u0_nt}  new task 1 = {u0_nt1} new task 2 = {u0_nt2}', file=f)
+        # print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}  new task  = {u1_nt}  new task 1 = {u1_nt1} new task 2 = {u1_nt2}', file=f)
+        # print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}  new task  = {u2_nt}  new task 1 = {u2_nt1} new task 2 = {u2_nt2}', file=f)
 
-        user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay, u0_nt, u0_nt1, u0_nt2 = user_0.step(p0)
-        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay, u1_nt, u1_nt1, u1_nt2 = user_1.step(p1)
-        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay, u2_nt, u2_nt1, u2_nt2 = user_2.step(p2)
-        print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}  new task  = {u0_nt}  new task 1 = {u0_nt1} new task 2 = {u0_nt2}', file=f)
-        print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}  new task  = {u1_nt}  new task 1 = {u1_nt1} new task 2 = {u1_nt2}', file=f)
-        print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}  new task  = {u2_nt}  new task 1 = {u2_nt1} new task 2 = {u2_nt2}', file=f)
+        user_0_utility, u0_overflow, u0_nt, user_0_task = user_0.step(p0)
+        user_1_utility, u1_overflow, u1_nt, user_1_task = user_1.step(p1)
+        user_2_utility, u2_overflow, u2_nt, user_2_task = user_2.step(p2)
+        print(f'user0 utility = {user_0_utility}  overflow = {u0_overflow}  new task = {u0_nt}  transfer task = {user_0_task}', file=f)
+        print(f'user1 utility = {user_1_utility}  overflow = {u1_overflow}  new task = {u1_nt}  transfer task = {user_1_task}', file=f)
+        print(f'user2 utility = {user_2_utility}  overflow = {u2_overflow}  new task = {u2_nt}  transfer task = {user_2_task}', file=f)
 
-        user_total_r0 += u0_q_delay
-        user_total_r1 += u1_q_delay
-        user_total_r2 += u2_q_delay
-        user_q_len0 += user_0.q_state
-        user_q_len1 += user_1.q_state
-        user_q_len2 += user_2.q_state
+        # user_total_r0 += u0_q_delay
+        # user_total_r1 += u1_q_delay
+        # user_total_r2 += u2_q_delay
+        # user_q_len0 += user_0.q_state
+        # user_q_len1 += user_1.q_state
+        # user_q_len2 += user_2.q_state
 
         # user_td_error_0 = user_0.local_critic.learn(user_s_0, user_0_utility, user_s_0_)
         # user_td_error_1 = user_1.local_critic.learn(user_s_1, user_1_utility, user_s_1_)
@@ -217,6 +220,9 @@ def run(tr):
         print(f'actual price p0 = {actual_p0}  p1 = {actual_p1}  p2 = {actual_p2} \nshared action: ', file=f)
         print(shared_action, file=f)
         print(f'transfer task: \nedge0: {shared_0}\nedge1: {shared_1} \nedge2: {shared_2}', file=f)
+        PD_other_price_0[0] = 0
+        PD_other_price_1[1] = 0
+        PD_other_price_2[2] = 0
 
         # transfer task to other edges
         work['edge0'].update(Counter(shared_1['edge0']) + Counter(shared_2['edge0']))
@@ -226,6 +232,8 @@ def run(tr):
 
         # collect the actual price of all edge
         price = {'edge0': actual_p0, 'edge1': actual_p1, 'edge2': actual_p2}  # actual price
+        price_list = list(price.values())
+        price_list.append(COST_TO_CLOUD)
         ap0.append(actual_p0)
         ap1.append(actual_p1)
         ap2.append(actual_p2)
@@ -274,9 +282,9 @@ def run(tr):
         PD_other_price_0 = np.append(PD_other_price_0, COST_TO_CLOUD)
         PD_other_price_1 = np.append(PD_other_price_1, COST_TO_CLOUD)
         PD_other_price_2 = np.append(PD_other_price_2, COST_TO_CLOUD)
-        edge_0.local_predictor.learn(PD_other_price_0, r_0, price)  # actual price & predict price
-        edge_1.local_predictor.learn(PD_other_price_1, r_1, price)  # price -> dict PD -> list 要改
-        edge_2.local_predictor.learn(PD_other_price_2, r_2, price)
+        edge_0.local_predictor.learn(PD_other_price_0, r_0, price_list)  # actual price & predict price
+        edge_1.local_predictor.learn(PD_other_price_1, r_1, price_list)  # price -> dict PD -> list 要改
+        edge_2.local_predictor.learn(PD_other_price_2, r_2, price_list)
 
         s_0 = s_0_
         s_1 = s_1_
@@ -292,14 +300,14 @@ def run(tr):
         edge_2.local_actor.lr = min(1, edge_2.local_actor.lr * math.pow(1.000001, i))
         edge_2.local_critic.lr = min(1, edge_2.local_critic.lr * math.pow(1.000001, i))
 
-        user_0.local_actor.lr = min(1, user_0.local_actor.lr * math.pow(1.000001, i))
-        user_0.local_critic.lr = min(1, user_0.local_critic.lr * math.pow(1.000001, i))
-
-        user_1.local_actor.lr = min(1, user_1.local_actor.lr * math.pow(1.000001, i))
-        user_1.local_critic.lr = min(1, user_1.local_critic.lr * math.pow(1.000001, i))
-
-        user_2.local_actor.lr = min(1, user_2.local_actor.lr * math.pow(1.000001, i))
-        user_2.local_critic.lr = min(1, user_2.local_critic.lr * math.pow(1.000001, i))
+        # user_0.local_actor.lr = min(1, user_0.local_actor.lr * math.pow(1.000001, i))
+        # user_0.local_critic.lr = min(1, user_0.local_critic.lr * math.pow(1.000001, i))
+        #
+        # user_1.local_actor.lr = min(1, user_1.local_actor.lr * math.pow(1.000001, i))
+        # user_1.local_critic.lr = min(1, user_1.local_critic.lr * math.pow(1.000001, i))
+        #
+        # user_2.local_actor.lr = min(1, user_2.local_actor.lr * math.pow(1.000001, i))
+        # user_2.local_critic.lr = min(1, user_2.local_critic.lr * math.pow(1.000001, i))
         # for i in range(len(edges_g0)):
         #     edges_g0[i].local_actor.lr = min(1, edges_g0[i].local_actor.lr * math.pow(1.000001, i))
         #     edges_g0[i].local_critic.lr = min(1, edges_g0[i].local_critic.lr * math.pow(1.000001, i))
@@ -346,9 +354,9 @@ def run(tr):
         pp0.append(actual_p0)
         pp1.append(actual_p1)
         pp2.append(actual_p2)
-        user_la_0.append(u0_q_delay)
-        user_la_1.append(u1_q_delay)
-        user_la_2.append(u2_q_delay)
+        user_la_0.append(user_0_utility)
+        user_la_1.append(user_1_utility)
+        user_la_2.append(user_2_utility)
 
     tf.summary.FileWriter("logs/", SESS.graph)
     tf.reset_default_graph()
