@@ -39,7 +39,7 @@ class MEC_network:
         for n, v in work.items():
             income += v * price[f'edge{self.node_num}']
             if self.Q_SIZE - total_job - self.CRB < v * (n+1):
-                local_overflow += v
+                local_overflow += v * (n+1)
             else:
                 total_job += v * (n+1)
 
@@ -54,7 +54,7 @@ class MEC_network:
         self.q_state = self.q_state if self.q_state > 0 else 0
         self.q_state = self.q_state if self.q_state < self.Q_SIZE else self.Q_SIZE
 
-        local_overflow = total_job - self.Q_SIZE if total_job > self.Q_SIZE else 0
+        # local_overflow = total_job - self.Q_SIZE if total_job > self.Q_SIZE else 0
         d_delay = local_overflow * COST_TO_CLOUD + q_delay
         utility = d_delay + paid - income
 

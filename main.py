@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow.compat.v1 as tf
 from Work import MEC_network
 from Edge import Edge
-from User import User
+from User2 import User
 import gym
 import time
 import random
@@ -81,13 +81,19 @@ def run(tr):
     s_2 = mec_2.reset()
     edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
 
-    user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
-    user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRB]
-    user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
-    user_s_1 = np.hstack((user_1.q_state, user_1.CRB))  # s = [q_state, CRB]
-    user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
-    user_s_2 = np.hstack((user_2.q_state, user_2.CRB))  # s = [q_state, CRB]
+    # user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
+    # user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRB]
+    # user_1 = User(scope='u' + str(1), task_arrival_rate=tr, edge_num=1, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
+    # user_s_1 = np.hstack((user_1.q_state, user_1.CRB))  # s = [q_state, CRB]
+    # user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
+    # user_s_2 = np.hstack((user_2.q_state, user_2.CRB))  # s = [q_state, CRB]
 
+    user_0 = User(task_arrival_rate=tr,edge_num=0, q_size=0, sess=SESS)
+    user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRB]
+    user_1 = User(task_arrival_rate=tr, edge_num=1, q_size=0, sess=SESS)
+    user_s_1 = np.hstack((user_1.q_state, user_1.CRB))  # s = [q_state, CRB]
+    user_2 = User(task_arrival_rate=tr, edge_num=2, q_size=0, sess=SESS)
+    user_s_2 = np.hstack((user_2.q_state, user_2.CRB))  # s = [q_state, CRB]
     SESS.run(tf.global_variables_initializer())
 
     # store the distribution of the task to other edge
@@ -155,19 +161,23 @@ def run(tr):
         print(f'p0 = {p0}  p1 = {p1}  p2 = {p2}', file=f)
 
         # user
-        user_s_0 = np.hstack((user_s_0, p0))
-        user_s_1 = np.hstack((user_s_1, p1))
-        user_s_2 = np.hstack((user_s_2, p2))
-        print(f'\nuser_s0 = {user_s_0}  user_s1 = {user_s_1}  user_s2 = {user_s_2}', file=f)
+        # user_s_0 = np.hstack((user_s_0, p0))
+        # user_s_1 = np.hstack((user_s_1, p1))
+        # user_s_2 = np.hstack((user_s_2, p2))
+        # print(f'\nuser_s0 = {user_s_0}  user_s1 = {user_s_1}  user_s2 = {user_s_2}', file=f)
+        #
+        # user_0_action = user_0.local_actor.choose_action(user_s_0).flatten()[0]
+        # user_1_action = user_1.local_actor.choose_action(user_s_1).flatten()[0]
+        # user_2_action = user_2.local_actor.choose_action(user_s_2).flatten()[0]
+        # print(f'user0 action = {user_0_action}  user1 action = {user_1_action}  user2 action = {user_2_action}', file=f)
 
-        user_0_action = user_0.local_actor.choose_action(user_s_0).flatten()[0]
-        user_1_action = user_1.local_actor.choose_action(user_s_1).flatten()[0]
-        user_2_action = user_2.local_actor.choose_action(user_s_2).flatten()[0]
-        print(f'user0 action = {user_0_action}  user1 action = {user_1_action}  user2 action = {user_2_action}', file=f)
+        # user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay, u0_nt, u0_nt1, u0_nt2 = user_0.step(user_0_action, p0)
+        # user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay, u1_nt, u1_nt1, u1_nt2 = user_1.step(user_1_action, p1)
+        # user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay, u2_nt, u2_nt1, u2_nt2 = user_2.step(user_2_action, p2)
 
-        user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay, u0_nt, u0_nt1, u0_nt2 = user_0.step(user_0_action, p0)
-        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay, u1_nt, u1_nt1, u1_nt2 = user_1.step(user_1_action, p1)
-        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay, u2_nt, u2_nt1, u2_nt2 = user_2.step(user_2_action, p2)
+        user_0_task, user_0_utility, user_s_0_, u0_tr, u0_work, u0_overflow, u0_q_delay, u0_nt, u0_nt1, u0_nt2 = user_0.step(p0)
+        user_1_task, user_1_utility, user_s_1_, u1_tr, u1_work, u1_overflow, u1_q_delay, u1_nt, u1_nt1, u1_nt2 = user_1.step(p1)
+        user_2_task, user_2_utility, user_s_2_, u2_tr, u2_work, u2_overflow, u2_q_delay, u2_nt, u2_nt1, u2_nt2 = user_2.step(p2)
         print(f'user0 trans task = {user_0_task}  utility = {user_0_utility}  user_s_ = {user_s_0_}  tr = {u0_tr}  work = {u0_work}  overflow = {u0_overflow}  q_delay = {u0_q_delay}  new task  = {u0_nt}  new task 1 = {u0_nt1} new task 2 = {u0_nt2}', file=f)
         print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}  new task  = {u1_nt}  new task 1 = {u1_nt1} new task 2 = {u1_nt2}', file=f)
         print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}  new task  = {u2_nt}  new task 1 = {u2_nt1} new task 2 = {u2_nt2}', file=f)
@@ -179,17 +189,17 @@ def run(tr):
         user_q_len1 += user_1.q_state
         user_q_len2 += user_2.q_state
 
-        user_td_error_0 = user_0.local_critic.learn(user_s_0, user_0_utility, user_s_0_)
-        user_td_error_1 = user_1.local_critic.learn(user_s_1, user_1_utility, user_s_1_)
-        user_td_error_2 = user_2.local_critic.learn(user_s_2, user_2_utility, user_s_2_)
+        # user_td_error_0 = user_0.local_critic.learn(user_s_0, user_0_utility, user_s_0_)
+        # user_td_error_1 = user_1.local_critic.learn(user_s_1, user_1_utility, user_s_1_)
+        # user_td_error_2 = user_2.local_critic.learn(user_s_2, user_2_utility, user_s_2_)
+        #
+        # user_0.local_actor.learn(user_s_0, user_0_action, user_td_error_0)
+        # user_1.local_actor.learn(user_s_1, user_1_action, user_td_error_1)
+        # user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
 
-        user_0.local_actor.learn(user_s_0, user_0_action, user_td_error_0)
-        user_1.local_actor.learn(user_s_1, user_1_action, user_td_error_1)
-        user_2.local_actor.learn(user_s_2, user_2_action, user_td_error_2)
-
-        user_s_0 = user_s_0_[:len(user_s_0_)-1]
-        user_s_1 = user_s_1_[:len(user_s_1_)-1]
-        user_s_2 = user_s_2_[:len(user_s_2_)-1]
+        # user_s_0 = user_s_0_[:len(user_s_0_)-1]
+        # user_s_1 = user_s_1_[:len(user_s_1_)-1]
+        # user_s_2 = user_s_2_[:len(user_s_2_)-1]
 
         # user pass the work to edge user task {type: amount}
         # local_work_0[list(user_0_task.items())[0][0]] += list(user_0_task.items())[0][1]
