@@ -154,6 +154,9 @@ def run(tr):
         s_2 = np.hstack((s_2, PD_other_price_2))
         print(f's0 = {s_0} s1 = {s_1} s2 = {s_2}', file=f)
 
+        PD_other_price_0[0] = 0
+        PD_other_price_1[1] = 0
+        PD_other_price_2[2] = 0
         # actor determine the price for user of this state
         p0 = edge_0.local_actor.choose_action(s_0).flatten()[0]
         p1 = edge_1.local_actor.choose_action(s_1).flatten()[0]
@@ -178,12 +181,12 @@ def run(tr):
         # print(f'user1 trans task = {user_1_task}  utility = {user_1_utility}  user_s_ = {user_s_1_}  tr = {u1_tr}  work = {u1_work}  overflow = {u1_overflow}  q_delay = {u1_q_delay}  new task  = {u1_nt}  new task 1 = {u1_nt1} new task 2 = {u1_nt2}', file=f)
         # print(f'user2 trans task = {user_2_task}  utility = {user_2_utility}  user_s_ = {user_s_2_}  tr = {u2_tr}  work = {u2_work}  overflow = {u2_overflow}  q_delay = {u2_q_delay}  new task  = {u2_nt}  new task 1 = {u2_nt1} new task 2 = {u2_nt2}', file=f)
 
-        user_0_utility, u0_overflow, u0_nt, user_0_task = user_0.step(p0)
-        user_1_utility, u1_overflow, u1_nt, user_1_task = user_1.step(p1)
-        user_2_utility, u2_overflow, u2_nt, user_2_task = user_2.step(p2)
-        print(f'user0 utility = {user_0_utility}  overflow = {u0_overflow}  new task = {u0_nt}  transfer task = {user_0_task}', file=f)
-        print(f'user1 utility = {user_1_utility}  overflow = {u1_overflow}  new task = {u1_nt}  transfer task = {user_1_task}', file=f)
-        print(f'user2 utility = {user_2_utility}  overflow = {u2_overflow}  new task = {u2_nt}  transfer task = {user_2_task}', file=f)
+        user_0_utility, u0_overflow, u0_nt, user_0_trans, user_0_task = user_0.step(p0)
+        user_1_utility, u1_overflow, u1_nt, user_1_trans, user_1_task = user_1.step(p1)
+        user_2_utility, u2_overflow, u2_nt, user_2_trans, user_2_task = user_2.step(p2)
+        print(f'user0 utility = {user_0_utility}  overflow = {u0_overflow}  new task = {u0_nt}  transfer task = {user_0_trans}  local work = {user_0_task}', file=f)
+        print(f'user1 utility = {user_1_utility}  overflow = {u1_overflow}  new task = {u1_nt}  transfer task = {user_1_trans}  local work = {user_1_task}', file=f)
+        print(f'user2 utility = {user_2_utility}  overflow = {u2_overflow}  new task = {u2_nt}  transfer task = {user_2_trans}  local work = {user_2_task}', file=f)
 
         # user_total_r0 += u0_q_delay
         # user_total_r1 += u1_q_delay
@@ -214,9 +217,9 @@ def run(tr):
         PD_other_price_0[0] = mec_0.q_state if mec_0.q_state < mec_0.Q_SIZE else mec_0.Q_SIZE
         PD_other_price_1[1] = mec_1.q_state if mec_1.q_state < mec_1.Q_SIZE else mec_1.Q_SIZE
         PD_other_price_2[2] = mec_2.q_state if mec_2.q_state < mec_2.Q_SIZE else mec_2.Q_SIZE
-        shared_action['edge0'], actual_p0, shared_0, paid_0 = edge_0.distribute_work(PD_other_price_0, user_0_task, p0)
-        shared_action['edge1'], actual_p1, shared_1, paid_1 = edge_1.distribute_work(PD_other_price_1, user_1_task, p1)
-        shared_action['edge2'], actual_p2, shared_2, paid_2 = edge_2.distribute_work(PD_other_price_2, user_2_task, p2)
+        shared_action['edge0'], actual_p0, shared_0, paid_0 = edge_0.distribute_work(PD_other_price_0, user_0_trans, p0)
+        shared_action['edge1'], actual_p1, shared_1, paid_1 = edge_1.distribute_work(PD_other_price_1, user_1_trans, p1)
+        shared_action['edge2'], actual_p2, shared_2, paid_2 = edge_2.distribute_work(PD_other_price_2, user_2_trans, p2)
         print(f'actual price p0 = {actual_p0}  p1 = {actual_p1}  p2 = {actual_p2} \nshared action: ', file=f)
         print(shared_action, file=f)
         print(f'transfer task: \nedge0: {shared_0}\nedge1: {shared_1} \nedge2: {shared_2}', file=f)
@@ -282,6 +285,10 @@ def run(tr):
         PD_other_price_0 = np.append(PD_other_price_0, COST_TO_CLOUD)
         PD_other_price_1 = np.append(PD_other_price_1, COST_TO_CLOUD)
         PD_other_price_2 = np.append(PD_other_price_2, COST_TO_CLOUD)
+        price_list_0, price_list_1, price_list_2 = price_list, price_list, price_list
+        price_list_0[0] = 0
+        price_list_1[1] = 0
+        price_list_2[2] = 0
         edge_0.local_predictor.learn(PD_other_price_0, r_0, price_list)  # actual price & predict price
         edge_1.local_predictor.learn(PD_other_price_1, r_1, price_list)  # price -> dict PD -> list 要改
         edge_2.local_predictor.learn(PD_other_price_2, r_2, price_list)
@@ -386,13 +393,14 @@ def run(tr):
     plt.figure(3)
     plt.title('user')
     plt.xlabel('time', fontsize=13)
-    plt.ylabel('q_delay', fontsize=13)
+    plt.ylabel('utility', fontsize=13)
     plt.plot(x, user_la_0, color='#ff0000', marker='o', label='user 0', linewidth=3.0)
     plt.plot(x, user_la_1, color='#00ff00', marker='o', label='user 1', linewidth=3.0)
     plt.plot(x, user_la_2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
 
-    return total_r0/q_len0, total_r1/q_len1, total_r2/q_len2, ap0, ap1, ap2, user_total_r0/user_q_len0, user_total_r1/user_q_len1, user_total_r2/user_q_len2
+    # return total_r0/q_len0, total_r1/q_len1, total_r2/q_len2, ap0, ap1, ap2, user_total_r0/user_q_len0, user_total_r1/user_q_len1, user_total_r2/user_q_len2
     # return sum(total_delay)/total_jobs, sum(total_drop)
+    return total_r0 / q_len0, total_r1 / q_len1, total_r2 / q_len2, ap0, ap1, ap2, user_total_r0, user_total_r1, user_total_r2
 
 
 if __name__ == "__main__":

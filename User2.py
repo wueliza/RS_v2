@@ -33,7 +33,7 @@ class User(object):  # contain a local actor, critic, global critic
         trans_utility = new_task * edge_price
 
         # allocate work
-        model1 = pulp.LpProblem("value min", sense=LpMaximize)
+        model1 = pulp.LpProblem("value min", sense=LpMinimize)
         t0 = pulp.LpVariable('t0', lowBound=0, cat='Integer')
         t1 = pulp.LpVariable('t1', lowBound=0, cat='Integer')
         tcloud = pulp.LpVariable('tcloud', lowBound=0, cat='Integer')
@@ -45,12 +45,19 @@ class User(object):  # contain a local actor, critic, global critic
         allo_utility = pulp.value(model1.objective)
 
         trans_work = 0
+        work = 0
         utility = max(do_self_utility, trans_utility, allo_utility)
         if utility == do_self_utility:
             trans_work = 0
+            overflow = new_task * (self.work_type + 1) - self.CRB
+            work = new_task
         elif utility == trans_utility:
             trans_work = new_task
+            overflow, work = 0, 0
         elif utility == allo_utility:
             trans_work = value(t1)
+            work = new_task - trans_work
+            overflow = work * (self.work_type + 1) - self.CRB
 
-        return utility, overflow, new_task, {self.work_type: trans_work}
+        overflow = overflow if overflow > 0 else 0
+        return utility, overflow, new_task, {self.work_type: trans_work}, work

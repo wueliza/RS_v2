@@ -214,7 +214,7 @@ class Edge(object):  # contain a local actor, critic, global critic
         price = np.append(price, COST_TO_CLOUD)    # add cloud price
 
         trans_utility = 0
-        model1 = pulp.LpProblem("value min", sense=LpMaximize)
+        model1 = pulp.LpProblem("value min", sense=LpMinimize)
         t0 = pulp.LpVariable('t0', lowBound=0, cat='Integer')
         t1 = pulp.LpVariable('t1', lowBound=0, cat='Integer')
         t2 = pulp.LpVariable('t2', lowBound=0, cat='Integer')
