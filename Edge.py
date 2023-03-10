@@ -93,7 +93,7 @@ class Actor(object):
             self.acts_prob = tf.layers.dense(  # output layer
                 inputs=l1,
                 units=1,  # output units
-                activation=tf.nn.sigmoid,  ###############
+                activation=tf.nn.sigmoid,
                 kernel_initializer=tf.random_normal_initializer(0., .1),  # weights
                 bias_initializer=tf.constant_initializer(0.1),  # biases
                 name='acts_prob'
@@ -204,6 +204,7 @@ class Edge(object):  # contain a local actor, critic, global critic
         self.local_actor = Actor(scope, self.sess, 2, self.la_r, self.q_size)
         self.local_critic = Critic(scope, self.sess, 2, self.lc_r)
         self.local_predictor = Predictor(scope, self.sess, 2, self.lc_r)
+        self.CRB = 10
 
     def distribute_work(self, price, work, p_user):     # (predict price [], form user {type: amount}, price for user)
         new_task_type = list(work.keys())[0]
@@ -214,7 +215,7 @@ class Edge(object):  # contain a local actor, critic, global critic
         price = np.append(price, COST_TO_CLOUD)    # add cloud price
 
         trans_utility = 0
-        model1 = pulp.LpProblem("value min", sense=LpMinimize)
+        model1 = pulp.LpProblem("value min", sense=LpMaximize)
         t0 = pulp.LpVariable('t0', lowBound=0, cat='Integer')
         t1 = pulp.LpVariable('t1', lowBound=0, cat='Integer')
         t2 = pulp.LpVariable('t2', lowBound=0, cat='Integer')

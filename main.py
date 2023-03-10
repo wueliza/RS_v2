@@ -4,7 +4,7 @@ import numpy as np
 # import tensorflow as tf
 import tensorflow.compat.v1 as tf
 from Work import MEC_network
-from Edge import Edge
+from Edge2 import Edge
 from User2 import User
 import gym
 import time
@@ -69,17 +69,21 @@ def run(tr):
     SESS = tf.Session()
     # Three edge networks plus a cloud
     # create networks
-    mec_0 = MEC_network(num_nodes=1, Q_SIZE=50, node_num=0)
+    mec_0 = MEC_network(num_nodes=1, Q_SIZE=15, node_num=0)
     s_0 = mec_0.reset()  # s = [q_state, CRB]
-    edge_0 = Edge(scope='e' + str(0), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=0)
+    # edge_0 = Edge(scope='e' + str(0), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=0)
 
-    mec_1 = MEC_network(num_nodes=2, Q_SIZE=50, node_num=1)
+    mec_1 = MEC_network(num_nodes=2, Q_SIZE=15, node_num=1)
     s_1 = mec_1.reset()
-    edge_1 = Edge(scope='e' + str(1), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=1)
+    # edge_1 = Edge(scope='e' + str(1), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=1)
 
-    mec_2 = MEC_network(num_nodes=3, Q_SIZE=50, node_num=2)
+    mec_2 = MEC_network(num_nodes=3, Q_SIZE=15, node_num=2)
     s_2 = mec_2.reset()
-    edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
+    # edge_2 = Edge(scope='e' + str(2), lar=0.001, lcr=0.01, q_size=50, sess=SESS, node_num=2)
+
+    edge_0 = Edge(q_size=15, node_num=0, task_arrival_rate=tr)
+    edge_1 = Edge(q_size=15, node_num=1, task_arrival_rate=tr)
+    edge_2 = Edge(q_size=15, node_num=2, task_arrival_rate=tr)
 
     # user_0 = User(scope='u' + str(0), task_arrival_rate=tr, edge_num=0, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
     # user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRB]
@@ -88,7 +92,7 @@ def run(tr):
     # user_2 = User(scope='u' + str(2), task_arrival_rate=tr, edge_num=2, lar=0.001, lcr=0.01, q_size=0, sess=SESS)
     # user_s_2 = np.hstack((user_2.q_state, user_2.CRB))  # s = [q_state, CRB]
 
-    user_0 = User(task_arrival_rate=tr,edge_num=0, q_size=0, sess=SESS)
+    user_0 = User(task_arrival_rate=tr, edge_num=0, q_size=0, sess=SESS)
     user_s_0 = np.hstack((user_0.q_state, user_0.CRB))  # s = [q_state, CRB]
     user_1 = User(task_arrival_rate=tr, edge_num=1, q_size=0, sess=SESS)
     user_s_1 = np.hstack((user_1.q_state, user_1.CRB))  # s = [q_state, CRB]
@@ -114,7 +118,7 @@ def run(tr):
     # local_work_2 = [0, 0]
     work = {}
     for k in range(N_mec_edge):
-        work[f'edge{k}'] = {0: 1, 1: 0}
+        work[f'edge{k}'] = {0: 0, 1: 0}
 
     ap0 = []
     ap1 = []
@@ -134,6 +138,9 @@ def run(tr):
     pp0 = []
     pp1 = []
     pp2 = []
+    p0 = 0
+    p1 = 0
+    p2 = 0
     for i in range(total_time):
         print("time = ", i)
         print("\ntime = ", i, file=f)
@@ -143,10 +150,16 @@ def run(tr):
         # print(f'\nq0 = {q_len0}  q1 = {q_len1}  q2 = {q_len2}', file=f)
 
         # predict the other edge's price bace on the work distribution last time
-        PD_other_price_0 = edge_0.local_predictor.choose_action(list(shared_action['edge0'].values())).flatten()
-        PD_other_price_1 = edge_1.local_predictor.choose_action(list(shared_action['edge1'].values())).flatten()
-        PD_other_price_2 = edge_2.local_predictor.choose_action(list(shared_action['edge2'].values())).flatten()
+        # PD_other_price_0 = edge_0.local_predictor.choose_action(list(shared_action['edge0'].values())).flatten()
+        # PD_other_price_1 = edge_1.local_predictor.choose_action(list(shared_action['edge1'].values())).flatten()
+        # PD_other_price_2 = edge_2.local_predictor.choose_action(list(shared_action['edge2'].values())).flatten()
+        PD_other_price_0 = edge_0.local_predictor.choose_action(shared_action['edge0'])
+        PD_other_price_1 = edge_1.local_predictor.choose_action(shared_action['edge1'])
+        PD_other_price_2 = edge_2.local_predictor.choose_action(shared_action['edge2'])
         print(f'PD_other_price_0 = {PD_other_price_0}  PD_other_price_1 = {PD_other_price_1}  PD_other_price_2 = {PD_other_price_2}', file=f)
+        # PD_other_price_0[0] = 0
+        # PD_other_price_1[1] = 0
+        # PD_other_price_2[2] = 0
 
         # merge the queue state and cpu
         s_0 = np.hstack((s_0, PD_other_price_0))
@@ -154,13 +167,13 @@ def run(tr):
         s_2 = np.hstack((s_2, PD_other_price_2))
         print(f's0 = {s_0} s1 = {s_1} s2 = {s_2}', file=f)
 
-        PD_other_price_0[0] = 0
-        PD_other_price_1[1] = 0
-        PD_other_price_2[2] = 0
         # actor determine the price for user of this state
-        p0 = edge_0.local_actor.choose_action(s_0).flatten()[0]
-        p1 = edge_1.local_actor.choose_action(s_1).flatten()[0]
-        p2 = edge_2.local_actor.choose_action(s_2).flatten()[0]
+        # p0 = edge_0.local_actor.choose_action(s_0).flatten()[0]
+        # p1 = edge_1.local_actor.choose_action(s_1).flatten()[0]
+        # p2 = edge_2.local_actor.choose_action(s_2).flatten()[0]
+        p0 = edge_0.local_actor.choose_action(s_0, p0)
+        p1 = edge_1.local_actor.choose_action(s_1, p1)
+        p2 = edge_2.local_actor.choose_action(s_2, p2)
         print(f'p0 = {p0}  p1 = {p1}  p2 = {p2}', file=f)
 
         # user
@@ -188,12 +201,12 @@ def run(tr):
         print(f'user1 utility = {user_1_utility}  overflow = {u1_overflow}  new task = {u1_nt}  transfer task = {user_1_trans}  local work = {user_1_task}', file=f)
         print(f'user2 utility = {user_2_utility}  overflow = {u2_overflow}  new task = {u2_nt}  transfer task = {user_2_trans}  local work = {user_2_task}', file=f)
 
-        # user_total_r0 += u0_q_delay
-        # user_total_r1 += u1_q_delay
-        # user_total_r2 += u2_q_delay
-        # user_q_len0 += user_0.q_state
-        # user_q_len1 += user_1.q_state
-        # user_q_len2 += user_2.q_state
+        user_total_r0 += user_0_utility
+        user_total_r1 += user_1_utility
+        user_total_r2 += user_2_utility
+        user_q_len0 += u0_nt
+        user_q_len1 += u1_nt
+        user_q_len2 += u2_nt
 
         # user_td_error_0 = user_0.local_critic.learn(user_s_0, user_0_utility, user_s_0_)
         # user_td_error_1 = user_1.local_critic.learn(user_s_1, user_1_utility, user_s_1_)
@@ -223,6 +236,7 @@ def run(tr):
         print(f'actual price p0 = {actual_p0}  p1 = {actual_p1}  p2 = {actual_p2} \nshared action: ', file=f)
         print(shared_action, file=f)
         print(f'transfer task: \nedge0: {shared_0}\nedge1: {shared_1} \nedge2: {shared_2}', file=f)
+        print(f'paid 0 = {paid_0}  1 = {paid_1}  2 = {paid_2}', file=f)
         PD_other_price_0[0] = 0
         PD_other_price_1[1] = 0
         PD_other_price_2[2] = 0
@@ -274,38 +288,38 @@ def run(tr):
         # total_edge_q_len[1][0] += local_work_0[1] + local_work_1[1] + local_work_2[1]
         # total_edge_q_len[2][0] += local_work_0[2] + local_work_1[2] + local_work_2[2]
 
-        td_error_0, v_0, _, v_0_ = edge_0.local_critic.learn(p0, r_0, actual_p0)  # td_error = the actual price - the predict price
-        td_error_1, v_1, _, v_1_ = edge_1.local_critic.learn(p1, r_1, actual_p1)
-        td_error_2, v_2, _, v_2_ = edge_1.local_critic.learn(p2, r_2, actual_p2)
-
-        edge_0.local_actor.learn(s_0, p0, td_error_0)
-        edge_1.local_actor.learn(s_1, p1, td_error_1)
-        edge_2.local_actor.learn(s_2, p2, td_error_2)
-
-        PD_other_price_0 = np.append(PD_other_price_0, COST_TO_CLOUD)
-        PD_other_price_1 = np.append(PD_other_price_1, COST_TO_CLOUD)
-        PD_other_price_2 = np.append(PD_other_price_2, COST_TO_CLOUD)
-        price_list_0, price_list_1, price_list_2 = price_list, price_list, price_list
-        price_list_0[0] = 0
-        price_list_1[1] = 0
-        price_list_2[2] = 0
-        edge_0.local_predictor.learn(PD_other_price_0, r_0, price_list)  # actual price & predict price
-        edge_1.local_predictor.learn(PD_other_price_1, r_1, price_list)  # price -> dict PD -> list 要改
-        edge_2.local_predictor.learn(PD_other_price_2, r_2, price_list)
+        # td_error_0, v_0, _, v_0_ = edge_0.local_critic.learn(p0, r_0, actual_p0)  # td_error = the actual price - the predict price
+        # td_error_1, v_1, _, v_1_ = edge_1.local_critic.learn(p1, r_1, actual_p1)
+        # td_error_2, v_2, _, v_2_ = edge_1.local_critic.learn(p2, r_2, actual_p2)
+        #
+        # edge_0.local_actor.learn(s_0, p0, td_error_0)
+        # edge_1.local_actor.learn(s_1, p1, td_error_1)
+        # edge_2.local_actor.learn(s_2, p2, td_error_2)
+        #
+        # PD_other_price_0 = np.append(PD_other_price_0, COST_TO_CLOUD)
+        # PD_other_price_1 = np.append(PD_other_price_1, COST_TO_CLOUD)
+        # PD_other_price_2 = np.append(PD_other_price_2, COST_TO_CLOUD)
+        # price_list_0, price_list_1, price_list_2 = price_list, price_list, price_list
+        # price_list_0[0] = 0
+        # price_list_1[1] = 0
+        # price_list_2[2] = 0
+        # edge_0.local_predictor.learn(PD_other_price_0, r_0, price_list)  # actual price & predict price
+        # edge_1.local_predictor.learn(PD_other_price_1, r_1, price_list)  # price -> dict PD -> list 要改
+        # edge_2.local_predictor.learn(PD_other_price_2, r_2, price_list)
 
         s_0 = s_0_
         s_1 = s_1_
         s_2 = s_2_
 
         ###########################
-        edge_0.local_actor.lr = min(1, edge_0.local_actor.lr * math.pow(1.000001, i))  # learning rate
-        edge_0.local_critic.lr = min(1, edge_0.local_critic.lr * math.pow(1.000001, i))
-
-        edge_1.local_actor.lr = min(1, edge_1.local_actor.lr * math.pow(1.000001, i))
-        edge_1.local_critic.lr = min(1, edge_1.local_critic.lr * math.pow(1.000001, i))
-
-        edge_2.local_actor.lr = min(1, edge_2.local_actor.lr * math.pow(1.000001, i))
-        edge_2.local_critic.lr = min(1, edge_2.local_critic.lr * math.pow(1.000001, i))
+        # edge_0.local_actor.lr = min(1, edge_0.local_actor.lr * math.pow(1.000001, i))  # learning rate
+        # edge_0.local_critic.lr = min(1, edge_0.local_critic.lr * math.pow(1.000001, i))
+        #
+        # edge_1.local_actor.lr = min(1, edge_1.local_actor.lr * math.pow(1.000001, i))
+        # edge_1.local_critic.lr = min(1, edge_1.local_critic.lr * math.pow(1.000001, i))
+        #
+        # edge_2.local_actor.lr = min(1, edge_2.local_actor.lr * math.pow(1.000001, i))
+        # edge_2.local_critic.lr = min(1, edge_2.local_critic.lr * math.pow(1.000001, i))
 
         # user_0.local_actor.lr = min(1, user_0.local_actor.lr * math.pow(1.000001, i))
         # user_0.local_critic.lr = min(1, user_0.local_critic.lr * math.pow(1.000001, i))
@@ -364,43 +378,44 @@ def run(tr):
         user_la_0.append(user_0_utility)
         user_la_1.append(user_1_utility)
         user_la_2.append(user_2_utility)
+        for k in range(N_mec_edge):
+            work[f'edge{k}'] = {0: 0, 1: 0}
 
     tf.summary.FileWriter("logs/", SESS.graph)
     tf.reset_default_graph()
-    print(f"total_r0 = {total_r0} q_len0 = {q_len0} la0 = {total_r0/q_len0}", file=f)
-    print(f"total_r1 = {total_r1} q_len1 = {q_len1} la1 = {total_r1/q_len1}", file=f)
-    print(f"total_r2 = {total_r2} q_len2 = {q_len2} la2 = {total_r2/q_len2}", file=f)
+    print(f"total_r0 = {total_r0} q_len0 = {q_len0} la0 = {total_r0/q_len0 if q_len0 != 0 else 0}", file=f)
+    print(f"total_r1 = {total_r1} q_len1 = {q_len1} la1 = {total_r1/q_len1 if q_len1 != 0 else 0}", file=f)
+    print(f"total_r2 = {total_r2} q_len2 = {q_len2} la2 = {total_r2/q_len2 if q_len2 != 0 else 0}", file=f)
 
 
+    # x = range(0, 100)
+    # plt.figure(1)
+    # plt.title('edge')
+    # plt.plot(x, latency0, color='#ff0000', marker='o', label='edge 0', linewidth=3.0)
+    # plt.plot(x, latency1, color='#00ff00', marker='o', label='edge 1', linewidth=3.0)
+    # plt.plot(x, latency2, color='#0000ff', marker='o', label='edge 2', linewidth=3.0)
+    # plt.xlabel('time', fontsize=13)
+    # plt.ylabel('q_delay', fontsize=13)
+    #
+    # plt.figure(2)
+    # plt.title('edge price')
+    # plt.plot(x, pp0, color='#FF9999', marker='o', label='p0', linewidth=3.0)
+    # plt.plot(x, pp1, color='#99FF99', marker='o', label='p1', linewidth=3.0)
+    # plt.plot(x, pp2, color='#9999FF', marker='o', label='p2', linewidth=3.0)
+    # plt.xlabel('time', fontsize=13)
+    # plt.ylabel('price', fontsize=13)
+    #
+    # plt.figure(3)
+    # plt.title('user')
+    # plt.xlabel('time', fontsize=13)
+    # plt.ylabel('utility', fontsize=13)
+    # plt.plot(x, user_la_0, color='#ff0000', marker='o', label='user 0', linewidth=3.0)
+    # plt.plot(x, user_la_1, color='#00ff00', marker='o', label='user 1', linewidth=3.0)
+    # plt.plot(x, user_la_2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
 
-    x = range(0, 100)
-    plt.figure(1)
-    plt.title('edge')
-    plt.plot(x, latency0, color='#ff0000', marker='o', label='edge 0', linewidth=3.0)
-    plt.plot(x, latency1, color='#00ff00', marker='o', label='edge 1', linewidth=3.0)
-    plt.plot(x, latency2, color='#0000ff', marker='o', label='edge 2', linewidth=3.0)
-    plt.xlabel('time', fontsize=13)
-    plt.ylabel('q_delay', fontsize=13)
-
-    plt.figure(2)
-    plt.title('edge price')
-    plt.plot(x, pp0, color='#FF9999', marker='o', label='p0', linewidth=3.0)
-    plt.plot(x, pp1, color='#99FF99', marker='o', label='p1', linewidth=3.0)
-    plt.plot(x, pp2, color='#9999FF', marker='o', label='p2', linewidth=3.0)
-    plt.xlabel('time', fontsize=13)
-    plt.ylabel('price', fontsize=13)
-
-    plt.figure(3)
-    plt.title('user')
-    plt.xlabel('time', fontsize=13)
-    plt.ylabel('utility', fontsize=13)
-    plt.plot(x, user_la_0, color='#ff0000', marker='o', label='user 0', linewidth=3.0)
-    plt.plot(x, user_la_1, color='#00ff00', marker='o', label='user 1', linewidth=3.0)
-    plt.plot(x, user_la_2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
-
-    # return total_r0/q_len0, total_r1/q_len1, total_r2/q_len2, ap0, ap1, ap2, user_total_r0/user_q_len0, user_total_r1/user_q_len1, user_total_r2/user_q_len2
+    return total_r0/q_len0 if q_len0 != 0 else 0, total_r1/q_len1 if q_len1 != 0 else 0, total_r2/q_len2 if q_len2 != 0 else 0, ap0, ap1, ap2, user_total_r0/user_q_len0 if user_q_len0 != 0 else 0, user_total_r1/user_q_len1 if user_q_len1 != 0 else 0, user_total_r2/user_q_len2 if user_q_len2 != 0 else 0
     # return sum(total_delay)/total_jobs, sum(total_drop)
-    return total_r0 / q_len0, total_r1 / q_len1, total_r2 / q_len2, ap0, ap1, ap2, user_total_r0, user_total_r1, user_total_r2
+    # return total_r0 / q_len0 if q_len0 != 0 else 0, total_r1 / q_len1 if q_len1 != 0 else 0, total_r2 / q_len2 if q_len2 != 0 else 0, ap0, ap1, ap2, user_total_r0, user_total_r1, user_total_r2
 
 
 if __name__ == "__main__":
@@ -419,35 +434,72 @@ if __name__ == "__main__":
     # p0 = []
     # p1 = []
     # p2 = []
+    lr = 20
+    for j in range(5):
+        tl0 = []
+        tl1 = []
+        tl2 = []
+        u0_la = []
+        u1_la = []
+        u2_la = []
+        for i in range(1, lr):
+            print(j, i)
+            print(j, i, file=f)
 
-    l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(3)
+            l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(i)
 
-    print(f'avg l0 = {l0}  l1 = {l1}  l2 = {l2}  u0 = {u0}  u1 = {u1}  u2 = {u2}', file=f)
+            tl0.append(l0)
+            tl1.append(l1)
+            tl2.append(l2)
+            print(tl0, file=f)
+            print(tl1, file=f)
+            print(tl2, file=f)
+            u0_la.append(u0)
+            u1_la.append(u1)
+            u2_la.append(u2)
+            print(u0_la, file=f)
+            print(u1_la, file=f)
+            print(u2_la, file=f)
 
-    # x = range(1, 40, 5)
-    # plt.figure(1)
-    # plt.plot(x, la0, color='#ff0000', marker='o', label='edge 0', linewidth=3.0)
-    # plt.plot(x, la1, color='#00ff00', marker='o', label='edge 1', linewidth=3.0)
-    # plt.plot(x, la2, color='#0000ff', marker='o', label='edge 2', linewidth=3.0)
+        la0.append(tl0)
+        la1.append(tl1)
+        la2.append(tl2)
+        ula0.append(u0_la)
+        ula1.append(u1_la)
+        ula2.append(u2_la)
+
+    la0 = np.mean(np.array(la0), axis=0)
+    la1 = np.mean(np.array(la1), axis=0)
+    la2 = np.mean(np.array(la2), axis=0)
+    ula0 = np.mean(np.array(ula0), axis=0)
+    ula1 = np.mean(np.array(ula1), axis=0)
+    ula2 = np.mean(np.array(ula2), axis=0)
+    print(f'avg l0 = {la0}  l1 = {la1}  l2 = {la2}  u0 = {ula0}  u1 = {ula1}  u2 = {ula2}', file=f)
+
+    x = range(1, lr)
+    plt.figure(1)
+    plt.plot(x, la0, color='#ff0000', marker='o', label='edge 0', linewidth=2.0)
+    plt.plot(x, la1, color='#00ff00', marker='o', label='edge 1', linewidth=2.0)
+    plt.plot(x, la2, color='#0000ff', marker='o', label='edge 2', linewidth=2.0)
     # plt.plot(x, p0, color='#FF9999', marker='o', label='p0', linewidth=3.0)
     # plt.plot(x, p1, color='#99FF99', marker='o', label='p1', linewidth=3.0)
     # plt.plot(x, p2, color='#9999FF', marker='o', label='p2', linewidth=3.0)
-    # # plt.xticks(range(35,60,5))
-    # plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
-    # plt.ylabel('Average Queuing Delay', fontsize=13)
-    # plt.tick_params(labelsize=11)
-    # plt.legend(fontsize=9)
-    # plt.savefig('edge.jpg')
-    #
-    # plt.figure(2)
-    # plt.plot(x, ula0, color='#ff0000', marker='o', label='user 0', linewidth=3.0)
-    # plt.plot(x, ula1, color='#00ff00', marker='o', label='user 1', linewidth=3.0)
-    # plt.plot(x, ula2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
-    # plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
-    # plt.ylabel('Average Queuing Delay', fontsize=13)
-    # plt.tick_params(labelsize=11)
-    # plt.legend(fontsize=9)
-    # plt.savefig('user.jpg')
+    # plt.xticks(range(35,60,5))
+    plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
+    plt.ylabel('Average Utility', fontsize=13)
+    plt.tick_params(labelsize=11)
+    plt.legend(fontsize=9)
+    plt.savefig('edge.jpg')
+
+    plt.figure(2)
+    plt.plot(x, ula0, color='#ff0000', marker='o', label='user 0', linewidth=2.0)
+    plt.plot(x, ula1, color='#00ff00', marker='o', label='user 1', linewidth=2.0)
+    plt.plot(x, ula2, color='#0000ff', marker='o', label='user 2', linewidth=2.0)
+    plt.xlabel('Average Task Arrivals per Slot', fontsize=13)
+    plt.ylabel('Average Utility', fontsize=13)
+    plt.tick_params(labelsize=11)
+    plt.legend(fontsize=9)
+    plt.savefig('user.jpg')
 
     plt.show()
     f.close()
