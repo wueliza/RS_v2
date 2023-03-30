@@ -99,11 +99,3 @@ class Edge(object):
         price_ = p_user if trans_utility < q_delay else p_user * 1.5
         paid = pulp.value(model1.objective)
         return shared_r, price_, shared, paid
-
-    def price_user(self, new_task, tr):
-        task_type = new_task.key()[0]
-        task = new_task[task_type]
-
-        price = math.pow(tr/(self.CRB * task - tr))
-
-        return price
