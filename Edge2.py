@@ -43,9 +43,7 @@ class Actor(object):
         pre_pr = state[2:total_edge+2]
         self.CRB = CRB
 
-        new_price = math.pow(q_state / (q_state - CRB), 2) if q_state != CRB else 0
-        # new_price *= 5
-        # new_price = pd.cut([new_price], bins, labels=False)[0]
+        new_price = math.pow(q_state / (1.0001 * CRB - q_state), 2)
         price = max(old_price, new_price)
         return price
 
