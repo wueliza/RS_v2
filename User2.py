@@ -17,29 +17,45 @@ class User(object):  # contain a local actor, critic, global critic
         self.sess = sess
         self.edge_num = edge_num
         self.task_arrival_rate = task_arrival_rate
-        self.CRB = 2  # computing resource block
+        self.CRB = 10  # computing resource block
         self.q_state = 0  # queueing state
         self.q_size = q_size
         self.work = [0, 0]  # [0] = task1 [1] = task2
         self.work_type = np.random.choice(2)
-
+        self.new_task = 0
 
     def need_CRB(self, edge_price):
         task_arrival_rate = self.task_arrival_rate
         new_task = np.random.poisson(task_arrival_rate)
+        self.new_task = new_task
+        work_type = self.work_type
+        #
+        # buy = task_arrival_rate*( 1/self.CRB + 1/(self.CRB - math.sqrt(edge_price)))
+        # trans = min(new_task*(work_type+1) - self.CRB, buy)
+        # trans = trans / (work_type+1)
+        task = new_task * (work_type + 1)
+        q_delay = task / (self.CRB - task/self.CRB)
+        d_delay = 1
+        total_delay = q_delay + d_delay
+        upper_delay = 15
+        min_b = (task * (upper_delay - d_delay)) / (self.CRB*(upper_delay - d_delay) - task)
+        buy = max(self.CRB-min_b, 0)
+
+        return buy
+
+    def step(self, buy_CRB, edge_price):
+        task_arrival_rate = self.task_arrival_rate
+        new_task = self.new_task
         work_type = self.work_type
 
-        buy = task_arrival_rate*( 1/self.CRB + 1/(self.CRB - math.sqrt(edge_price)))
-        trans = min(new_task*(work_type+1) - self.CRB, buy)
-        trans = trans / (work_type+1)
+        task = new_task * (work_type + 1)
+        q_delay = task / (self.CRB - task / self.CRB)
+        d_delay = 1
+        total_delay = q_delay + d_delay
 
-        return {work_type:trans}
-
-
-
-    def step(self, trans_task, edge_price):
-
-
+        utility = task - total_delay - buy_CRB * edge_price
+        # utility = total_delay + buy_CRB * edge_price + overflow * COST_TO_CLOUD
+        return utility, new_task
 
     # def step(self, edge_price):
     #     task_arrival_rate = self.task_arrival_rate

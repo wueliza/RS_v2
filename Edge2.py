@@ -23,7 +23,7 @@ class Predictor(object):
         for name, task in share_actions.items():
             if name == 'cloud':
                 break
-            p = math.pow(task / (task - self.CRB), 2) if task != self.CRB else 0
+            p = math.pow(task / (1.0001 * self.CRB - task), 2)
             p *= 5
             price.append(p)
 
@@ -98,10 +98,7 @@ class Edge(object):
         paid = pulp.value(model1.objective)
         return shared_r, price_, shared, paid
 
-    def price_user(self, new_task, tr):
-        task_type = new_task.key()[0]
-        task = new_task[task_type]
-
-        price = math.pow(tr/(self.CRB * task - tr))
+    def price_user(self, user_need_crb, tr):
+        price = 1/user_need_crb if user_need_crb != 0 else 0
 
         return price
