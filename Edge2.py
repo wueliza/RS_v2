@@ -37,14 +37,9 @@ class Actor(object):
         self.q_size = q_size
         self.CRB = 10
 
-    def choose_action(self, state, old_price):
-        q_state = state[0]
-        CRB = state[1]
-        pre_pr = state[2:total_edge+2]
-        self.CRB = CRB
+    def choose_action(self, user_buy, tr):
+        price = math.pow(tr/(self.CRB*user_buy - tr), 2)
 
-        new_price = math.pow(q_state / (1.0001 * CRB - q_state), 2)
-        price = max(old_price, new_price)
         return price
 
     def reset(self):
@@ -98,7 +93,7 @@ class Edge(object):
         paid = pulp.value(model1.objective)
         return shared_r, price_, shared, paid
 
-    def price_user(self, user_need_crb, tr):
-        price = 1/user_need_crb if user_need_crb != 0 else 0
+    def price_user(self, u0_buy, tr):
+        price = math.pow(tr/(self.CRB*u0_buy - tr), 2)
 
         return price

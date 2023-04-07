@@ -45,7 +45,7 @@ def run(tr):
     total_delay = []
     total_jobs = []
     total_drop = []
-    total_time = 100
+    total_time = 1
     q_len0 = 0
     q_len1 = 0
     q_len2 = 0
@@ -141,6 +141,7 @@ def run(tr):
     p0 = 0
     p1 = 0
     p2 = 0
+    u0_buy = 0
     for i in range(total_time):
         print("time = ", i)
         print("\ntime = ", i, file=f)
@@ -171,10 +172,10 @@ def run(tr):
         # p0 = edge_0.local_actor.choose_action(s_0).flatten()[0]
         # p1 = edge_1.local_actor.choose_action(s_1).flatten()[0]
         # p2 = edge_2.local_actor.choose_action(s_2).flatten()[0]
-        p0 = edge_0.local_actor.choose_action(s_0, p0)
-        p1 = edge_1.local_actor.choose_action(s_1, p1)
-        p2 = edge_2.local_actor.choose_action(s_2, p2)
-        print(f'p0 = {p0}  p1 = {p1}  p2 = {p2}', file=f)
+        p0 = edge_0.local_actor.choose_action(u0_buy, user_0.task_arrival_rate)
+        # p1 = edge_1.local_actor.choose_action(s_1, p1)
+        # p2 = edge_2.local_actor.choose_action(s_2, p2)
+        # print(f'p0 = {p0}  p1 = {p1}  p2 = {p2}', file=f)
         print(f'def p0 = {p0}')
 
         # user
@@ -201,8 +202,8 @@ def run(tr):
         p0 = edge_0.price_user(u0_buy, user_0.task_arrival_rate)
         print(f'real p0 = {p0}')
 
-        user_0_utility, u0_nt = user_0.step(u0_buy, p0)
-        print(f'u0 utility = {user_0_utility}  overflow = {u0_overflow}  new task = {u0_nt}')
+        user_0_utility, u0_buy = user_0.step(u0_buy, p0)
+        print(f'u0 utility = {user_0_utility}  buy = {u0_buy}')
 
         # user_1_utility, u1_overflow, u1_nt, user_1_trans, user_1_task = user_1.step(p1)
         # user_2_utility, u2_overflow, u2_nt, user_2_trans, user_2_task = user_2.step(p2)
@@ -210,10 +211,10 @@ def run(tr):
         # print(f'user1 utility = {user_1_utility}  overflow = {u1_overflow}  new task = {u1_nt}  transfer task = {user_1_trans}  local work = {user_1_task}', file=f)
         # print(f'user2 utility = {user_2_utility}  overflow = {u2_overflow}  new task = {u2_nt}  transfer task = {user_2_trans}  local work = {user_2_task}', file=f)
 
-        user_total_r0 += user_0_utility
+        # user_total_r0 += user_0_utility
         # user_total_r1 += user_1_utility
         # user_total_r2 += user_2_utility
-        user_q_len0 += u0_nt
+        # user_q_len0 += u0_nt
         # user_q_len1 += u1_nt
         # user_q_len2 += u2_nt
 
@@ -424,10 +425,10 @@ def run(tr):
     # plt.plot(x, user_la_2, color='#0000ff', marker='o', label='user 2', linewidth=3.0)
 
     # return total_r0/q_len0 if q_len0 != 0 else 0, total_r1/q_len1 if q_len1 != 0 else 0, total_r2/q_len2 if q_len2 != 0 else 0, ap0, ap1, ap2, user_total_r0/user_q_len0 if user_q_len0 != 0 else 0, user_total_r1/user_q_len1 if user_q_len1 != 0 else 0, user_total_r2/user_q_len2 if user_q_len2 != 0 else 0
-    return total_r0 / q_len0 if q_len0 != 0 else 0, total_r1 / q_len1 if q_len1 != 0 else 0, total_r2 / q_len2 if q_len2 != 0 else 0, ap0, ap1, ap2, user_total_r0 / user_q_len0 if user_q_len0 != 0 else 0, 0, 0
+    # return total_r0 / q_len0 if q_len0 != 0 else 0, total_r1 / q_len1 if q_len1 != 0 else 0, total_r2 / q_len2 if q_len2 != 0 else 0, ap0, ap1, ap2, user_total_r0 / user_q_len0 if user_q_len0 != 0 else 0, 0, 0
     # return sum(total_delay)/total_jobs, sum(total_drop)
     # return total_r0 / q_len0 if q_len0 != 0 else 0, total_r1 / q_len1 if q_len1 != 0 else 0, total_r2 / q_len2 if q_len2 != 0 else 0, ap0, ap1, ap2, user_total_r0, user_total_r1, user_total_r2
-
+    return user_0_utility
 
 if __name__ == "__main__":
     latency = []
@@ -457,20 +458,20 @@ if __name__ == "__main__":
             print(j, i)
             print(j, i, file=f)
 
-            l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(i)
-
-            tl0.append(l0)
-            tl1.append(l1)
-            tl2.append(l2)
-            print(tl0, file=f)
-            print(tl1, file=f)
-            print(tl2, file=f)
+            # l0, l1, l2, ap0, ap1, ap2, u0, u1, u2 = run(i)
+            u0 = run(i)
+            # tl0.append(l0)
+            # tl1.append(l1)
+            # tl2.append(l2)
+            # print(tl0, file=f)
+            # print(tl1, file=f)
+            # print(tl2, file=f)
             u0_la.append(u0)
-            u1_la.append(u1)
-            u2_la.append(u2)
-            print(u0_la, file=f)
-            print(u1_la, file=f)
-            print(u2_la, file=f)
+            # u1_la.append(u1)
+            # u2_la.append(u2)
+            # print(u0_la, file=f)
+            # print(u1_la, file=f)
+            # print(u2_la, file=f)
 
         la0.append(tl0)
         la1.append(tl1)

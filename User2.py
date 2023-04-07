@@ -29,17 +29,8 @@ class User(object):  # contain a local actor, critic, global critic
         new_task = np.random.poisson(task_arrival_rate)
         self.new_task = new_task
         work_type = self.work_type
-        #
-        # buy = task_arrival_rate*( 1/self.CRB + 1/(self.CRB - math.sqrt(edge_price)))
-        # trans = min(new_task*(work_type+1) - self.CRB, buy)
-        # trans = trans / (work_type+1)
-        task = new_task * (work_type + 1)
-        q_delay = task / (self.CRB - task/self.CRB)
-        d_delay = 1
-        total_delay = q_delay + d_delay
-        upper_delay = 15
-        min_b = (task * (upper_delay - d_delay)) / (self.CRB*(upper_delay - d_delay) - task)
-        buy = max(self.CRB-min_b, 0)
+
+        buy = task_arrival_rate/self.CRB * (1/math.sqrt(edge_price) + 1)
 
         return buy
 
@@ -48,14 +39,18 @@ class User(object):  # contain a local actor, critic, global critic
         new_task = self.new_task
         work_type = self.work_type
 
+        buy = task_arrival_rate / self.CRB * (1 / math.sqrt(edge_price) + 1)
         task = new_task * (work_type + 1)
-        q_delay = task / (self.CRB - task / self.CRB)
+        if buy_CRB == 0:
+            q_delay = task_arrival_rate / self.CRB
+        else:
+            q_delay = task_arrival_rate / (self.CRB - task_arrival_rate / buy)
         d_delay = 1
         total_delay = q_delay + d_delay
 
-        utility = task - total_delay - buy_CRB * edge_price
-        # utility = total_delay + buy_CRB * edge_price + overflow * COST_TO_CLOUD
-        return utility, new_task
+        utility = task_arrival_rate - total_delay - buy * edge_price
+        utility = utility if utility > 0 else 0
+        return utility, buy
 
     # def step(self, edge_price):
     #     task_arrival_rate = self.task_arrival_rate
